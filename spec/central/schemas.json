@@ -1,0 +1,43 @@
+{
+  "CentralExecuteRequest": {
+    "type": "object", "properties": {"requester_signature": {"$ref": "#/components/schemas/Signature"}}, "additionalProperties": false
+  },
+  "CentralActionRecord": {
+    "type": "object",
+    "required": ["record_type", "group", "action_id", "task_id", "tool_name", "risk", "central_state", "policy_verdict", "policy_error_code", "policy_enforced", "intent", "typed_data", "approval_count", "result", "chain_state", "chain_evidence", "execution_receipt"],
+    "additionalProperties": false,
+    "properties": {
+      "record_type": {"const": "CentralActionRecord"}, "group": {"enum": ["A", "B"]},
+      "action_id": {"$ref": "#/components/schemas/Bytes32"}, "task_id": {"$ref": "#/components/schemas/Bytes32"},
+      "tool_name": {"$ref": "#/components/schemas/ToolName"}, "risk": {"$ref": "#/components/schemas/Risk"},
+      "central_state": {"enum": ["READY", "AWAITING_APPROVAL", "DENIED", "CENTRAL_OK", "CENTRAL_REJECTED", "UNKNOWN"]},
+      "policy_verdict": {"enum": ["ALLOW", "REQUIRE_APPROVAL", "DENY"]},
+      "policy_error_code": {"type": ["string", "null"]}, "policy_enforced": {"type": "boolean"},
+      "intent": {"oneOf": [{"$ref": "#/components/schemas/ActionIntent"}, {"type": "null"}]},
+      "typed_data": {"type": ["object", "null"]}, "approval_count": {"type": "integer", "minimum": 0},
+      "result": {"type": ["object", "null"]}, "chain_state": {"const": "NONE"},
+      "chain_evidence": {"type": "null"}, "execution_receipt": {"type": "null"}
+    }
+  },
+  "ActionTrace": {
+    "type": "object", "additionalProperties": false,
+    "required": ["schema_version", "sequence", "trace_id", "deployment_id", "group", "policy_fingerprint", "action_id", "task_id", "subject_hash", "event", "tool_name", "policy_verdict", "error_code", "risk", "params_commit", "policy_epoch", "tool_state", "tool_executed", "observed_at", "elapsed_ms", "approval_count", "independent_org_count"],
+    "properties": {
+      "schema_version": {"const": 1}, "sequence": {"$ref": "#/components/schemas/UInt64"},
+      "trace_id": {"$ref": "#/components/schemas/Bytes32"}, "deployment_id": {"$ref": "#/components/schemas/Bytes32"},
+      "group": {"enum": ["A", "B", "C"]}, "policy_fingerprint": {"$ref": "#/components/schemas/Bytes32"},
+      "action_id": {"oneOf": [{"$ref": "#/components/schemas/Bytes32"}, {"type": "null"}]},
+      "task_id": {"oneOf": [{"$ref": "#/components/schemas/Bytes32"}, {"type": "null"}]},
+      "subject_hash": {"$ref": "#/components/schemas/Bytes32"},
+      "event": {"enum": ["TASK_CREATED", "PROPOSED", "DENIED", "APPROVED", "DISPATCH", "TOOL_RESULT", "REQUEST_DENIED"]},
+      "tool_name": {"oneOf": [{"$ref": "#/components/schemas/ToolName"}, {"type": "null"}]},
+      "policy_verdict": {"enum": ["ALLOW", "REQUIRE_APPROVAL", "DENY"]}, "error_code": {"type": ["string", "null"]},
+      "risk": {"oneOf": [{"$ref": "#/components/schemas/Risk"}, {"type": "null"}]},
+      "params_commit": {"oneOf": [{"$ref": "#/components/schemas/Bytes32"}, {"type": "null"}]},
+      "policy_epoch": {"$ref": "#/components/schemas/UInt64"}, "tool_state": {"enum": [null, "COMPLETED", "REJECTED", "UNKNOWN"]},
+      "tool_executed": {"type": ["boolean", "null"]}, "observed_at": {"$ref": "#/components/schemas/UInt64"},
+      "elapsed_ms": {"type": "integer", "minimum": 0}, "approval_count": {"type": "integer", "minimum": 0},
+      "independent_org_count": {"type": "integer", "minimum": 0}
+    }
+  }
+}

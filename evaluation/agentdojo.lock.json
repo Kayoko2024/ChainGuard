@@ -1,0 +1,19 @@
+{
+  "distribution": "agentdojo",
+  "version": "0.1.35",
+  "benchmark_version": "v1.2.2",
+  "suite": "workspace",
+  "repository": "https://github.com/ethz-spylab/agentdojo",
+  "git_commit": null,
+  "lock_method": "official PyPI release version + wheel SHA-256 + original per-file SHA-256",
+  "artifact": "evaluation/vendor/agentdojo-0.1.35-py3-none-any.whl",
+  "url": "https://files.pythonhosted.org/packages/ca/a0/371be72fdd08bbae0c3c5cd22e6b35390f35c9cbe189d14b72e49058bd4b/agentdojo-0.1.35-py3-none-any.whl",
+  "sha256": "364bea4219716b716bf639f504d195943f7f6a5535d312ca41d7098704a2affd",
+  "license": "MIT",
+  "license_file": "evaluation/vendor/AgentDojo-LICENSE",
+  "original_files": "evaluation/agentdojo-upstream-files.json",
+  "runtime_lock": "evaluation/requirements-agentdojo-windows-py314.lock",
+  "runtime_scope": "Windows x86_64 CPython 3.14; independent venv, no gateway dependency changes",
+  "official_judges_modified": false,
+  "real_llm_attack_test_completed": false
+}

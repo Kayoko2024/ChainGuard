@@ -1,0 +1,17 @@
+{
+  "version": "chainguard-deepseek-preflight-1",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "protocol": "OpenAI-compatible chat/completions",
+  "temperature": 0,
+  "top_p": 1,
+  "thinking": {"type": "disabled"},
+  "max_tokens": 256,
+  "parallel_tool_calls": false,
+  "tool_choice": "required",
+  "seed": null,
+  "dataset": "synthetic-connectivity-and-diagnostic-echo-v1",
+  "scope": "API and real model diagnostic Tool Calling only; no gateway/AgentDojo/ASR samples",
+  "model_fallback": false
+}

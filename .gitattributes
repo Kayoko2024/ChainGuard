@@ -1,0 +1,2 @@
+# Preserve byte-level frozen protocol hashes across Windows/Linux checkouts.
+* -text

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "algorithm": "keccak256(UTF8(namespace + '/' + label))",
+  "tools": { "doc.read": "ChainGuard/tool", "mail.send": "ChainGuard/tool", "doc.delete": "ChainGuard/tool" },
+  "scopes": { "PUBLIC_DOCS": "ChainGuard/scope", "ORG_A_DOCS": "ChainGuard/scope", "ORG_A_INTERNAL_MAIL": "ChainGuard/scope", "ORG_A_DISPOSABLE_DOCS": "ChainGuard/scope" },
+  "policies": { "POLICY_R0_READ": "ChainGuard/policy", "POLICY_R1_READ": "ChainGuard/policy", "POLICY_R2_MAIL": "ChainGuard/policy", "POLICY_R3_DELETE": "ChainGuard/policy" },
+  "organizations": { "OrgA_Business": "ChainGuard/org", "OrgB_Security": "ChainGuard/org", "OrgC_Audit": "ChainGuard/org" },
+  "risk": { "R0": 0, "R1": 1, "R2": 2, "R3": 3 },
+  "outcome": { "OK": 0, "ERROR": 1, "REJECTED": 2, "UNKNOWN": 3 },
+  "roles": ["REQUESTER", "AGENT", "BUSINESS_APPROVER", "SECURITY_APPROVER", "HUMAN_APPROVER", "TOOL_SIGNER", "AUDITOR", "RECONCILER", "GOVERNANCE_ADMIN"]
+}

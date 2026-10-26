@@ -1,0 +1,35 @@
+[
+  {
+    "reason": "Reject invalid curve points with explicit protocol errors before stage 3 acceptance",
+    "before": {
+      "version": 1,
+      "policy_epoch": "1",
+      "purpose": "Identical deterministic B/C policy and approval validation",
+      "files": {
+        "spec/risk-rules.json": "cde1b7709e7f352549ac2f589dd878ffa438dfba2aef4027f3efcd078872623c",
+        "spec/identifiers.json": "d867f1d4ddf2cb0eed91d55057e1ca118fcfb077db253246d0e9265fb39d192c",
+        "spec/eip712.json": "ab862534220c9e2c397b062739365e55799e041eb843b3e782d60414bda2b024",
+        "spec/schemas/protocol.schema.json": "20446add1d9c6fd13e82ee84ac14649219c3cfd21aa16cff33213e1630867733",
+        "gateway/src/chainguard_gateway/policy.py": "2114e50f8fc2e62a0ff7d0635b04c405c6cce6129289c251079b2370dde40f82",
+        "gateway/src/chainguard_gateway/approvals.py": "01c97b12a2a786b5d97e0237bf7ba31ac7cfa8ba390090b87578b560fbb17012",
+        "gateway/src/chainguard_gateway/canonical.py": "e3670a16f3039b41d3a175e4b1b31381d4500a1cc72763d917f25555176cbc8a",
+        "gateway/src/chainguard_gateway/crypto.py": "06e2ceb43f0b00b254a2190b777d08925b0da5689e2be94dcf0e5976edf97737"
+      }
+    },
+    "after": {
+      "version": 1,
+      "policy_epoch": "1",
+      "purpose": "Identical deterministic B/C policy and approval validation",
+      "files": {
+        "spec/risk-rules.json": "cde1b7709e7f352549ac2f589dd878ffa438dfba2aef4027f3efcd078872623c",
+        "spec/identifiers.json": "d867f1d4ddf2cb0eed91d55057e1ca118fcfb077db253246d0e9265fb39d192c",
+        "spec/eip712.json": "ab862534220c9e2c397b062739365e55799e041eb843b3e782d60414bda2b024",
+        "spec/schemas/protocol.schema.json": "20446add1d9c6fd13e82ee84ac14649219c3cfd21aa16cff33213e1630867733",
+        "gateway/src/chainguard_gateway/policy.py": "2114e50f8fc2e62a0ff7d0635b04c405c6cce6129289c251079b2370dde40f82",
+        "gateway/src/chainguard_gateway/approvals.py": "01c97b12a2a786b5d97e0237bf7ba31ac7cfa8ba390090b87578b560fbb17012",
+        "gateway/src/chainguard_gateway/canonical.py": "e3670a16f3039b41d3a175e4b1b31381d4500a1cc72763d917f25555176cbc8a",
+        "gateway/src/chainguard_gateway/crypto.py": "f21d7e191692dc5793e0c9200ef75b3d0a907929da9d9858b10eba2754508ab6"
+      }
+    }
+  }
+]

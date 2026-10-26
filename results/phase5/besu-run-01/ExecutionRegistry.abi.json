@@ -1,0 +1,575 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract PolicyRegistry",
+        "name": "policy",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "audit",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AlreadyReserved",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "AuditOnly",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ECDSAInvalidSignature",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ECDSAInvalidSignatureLength",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "s",
+        "type": "bytes32"
+      }
+    ],
+    "name": "ECDSAInvalidSignatureS",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidApproval",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidAuthorization",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidIntent",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidShortString",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidState",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "str",
+        "type": "string"
+      }
+    ],
+    "name": "StringTooLong",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "actionId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "taskId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "toolId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "paramsCommit",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "policyEpoch",
+        "type": "uint64"
+      }
+    ],
+    "name": "ActionReserved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "EIP712DomainChanged",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "ACTION_TYPEHASH",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "auditRegistry",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "eip712Domain",
+    "outputs": [
+      {
+        "internalType": "bytes1",
+        "name": "fields",
+        "type": "bytes1"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "salt",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "extensions",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "id",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getReservation",
+    "outputs": [
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "internalType": "uint16",
+                "name": "schemaVersion",
+                "type": "uint16"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "actionId",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "taskId",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "requester",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "agent",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "toolId",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "resourceScope",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "paramsCommit",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "bytes32",
+                "name": "policyId",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "uint64",
+                "name": "policyEpoch",
+                "type": "uint64"
+              },
+              {
+                "internalType": "uint64",
+                "name": "nonce",
+                "type": "uint64"
+              },
+              {
+                "internalType": "uint64",
+                "name": "issuedAt",
+                "type": "uint64"
+              },
+              {
+                "internalType": "uint64",
+                "name": "expiresAt",
+                "type": "uint64"
+              },
+              {
+                "internalType": "uint8",
+                "name": "risk",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct ProtocolTypes.ActionIntent",
+            "name": "intent",
+            "type": "tuple"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "intentHash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "enum ProtocolTypes.ReservationStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint64",
+            "name": "reservedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address[]",
+            "name": "approvers",
+            "type": "address[]"
+          }
+        ],
+        "internalType": "struct ProtocolTypes.Reservation",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint16",
+            "name": "schemaVersion",
+            "type": "uint16"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "actionId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "taskId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "requester",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "agent",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "toolId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "resourceScope",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "paramsCommit",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "policyId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint64",
+            "name": "policyEpoch",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "nonce",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "issuedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "expiresAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint8",
+            "name": "risk",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct ProtocolTypes.ActionIntent",
+        "name": "intent",
+        "type": "tuple"
+      }
+    ],
+    "name": "intentDigest",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "policyRegistry",
+    "outputs": [
+      {
+        "internalType": "contract PolicyRegistry",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "enum ProtocolTypes.Outcome",
+        "name": "outcome",
+        "type": "uint8"
+      }
+    ],
+    "name": "recordAuditOutcome",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint16",
+            "name": "schemaVersion",
+            "type": "uint16"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "actionId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "taskId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "requester",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "agent",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "toolId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "resourceScope",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "paramsCommit",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "policyId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint64",
+            "name": "policyEpoch",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "nonce",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "issuedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "expiresAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint8",
+            "name": "risk",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct ProtocolTypes.ActionIntent",
+        "name": "intent",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "requesterSignature",
+        "type": "bytes"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes",
+            "name": "signature",
+            "type": "bytes"
+          }
+        ],
+        "internalType": "struct ProtocolTypes.Approval[]",
+        "name": "approvals",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "reserve",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "name": "usedNonce",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "@chainguard/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frozen interfaces and protocol tests only; business contracts TODO",
+  "scripts": {
+    "test": "hardhat test --config ../hardhat.config.cjs",
+    "compile": "hardhat compile --config ../hardhat.config.cjs"
+  }
+}

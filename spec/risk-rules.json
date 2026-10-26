@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "rules": [
+    {"risk":0,"tool":"doc.read","scope":"PUBLIC_DOCS","policy":"POLICY_R0_READ","reservation_required":false,"max_lifetime_seconds":null,"approval_roles":[],"min_approver_organizations":0,"default":"ALLOW_IF_GRANTED"},
+    {"risk":1,"tool":"doc.read","scope":"ORG_A_DOCS","policy":"POLICY_R1_READ","reservation_required":false,"max_lifetime_seconds":null,"approval_roles":[],"min_approver_organizations":0,"default":"ALLOW_IF_GRANTED"},
+    {"risk":2,"tool":"mail.send","scope":"ORG_A_INTERNAL_MAIL","policy":"POLICY_R2_MAIL","reservation_required":true,"max_lifetime_seconds":120,"approval_roles":["BUSINESS_APPROVER","SECURITY_APPROVER"],"min_approver_organizations":2,"default":"REQUIRE_APPROVAL_IF_GRANTED"},
+    {"risk":3,"tool":"doc.delete","scope":"ORG_A_DISPOSABLE_DOCS","policy":"POLICY_R3_DELETE","reservation_required":true,"max_lifetime_seconds":60,"approval_roles":["BUSINESS_APPROVER","SECURITY_APPROVER","HUMAN_APPROVER"],"min_approver_organizations":2,"default":"DENY_UNLESS_EXPLICIT_SANDBOX_DELETE_GRANT"}
+  ],
+  "distinct_approver_addresses":true,
+  "exclude_requester_agent_tool_signer_from_approvers":true,
+  "current_revocation_check_at_tool":true,
+  "unknown_must_not_redispatch":true
+}

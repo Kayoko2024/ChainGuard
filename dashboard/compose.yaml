@@ -1,0 +1,32 @@
+name: ${CHAINGUARD_AUDIT_PROJECT:-chainguard-audit}
+services:
+  audit:
+    image: ${CHAINGUARD_AUDIT_IMAGE:-chainguard/audit-console:0.9.0}
+    pull_policy: never
+    user: "10001:10001"
+    command: ["python", "-m", "chainguard_gateway.audit_console", "--host", "0.0.0.0"]
+    ports: ["127.0.0.1:${CHAINGUARD_AUDIT_PORT:-8080}:8080"]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m,uid=10001,gid=10001"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    cpus: 2
+    restart: "no"
+    volumes: ["public_evidence:/audit:ro"]
+    networks: [qbft]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health/ready',timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+networks:
+  qbft:
+    name: chainguard_qbft
+    external: true
+volumes:
+  public_evidence:
+    name: ${CHAINGUARD_AUDIT_VOLUME:?Use scripts/deploy_phase9.py}
+    external: true

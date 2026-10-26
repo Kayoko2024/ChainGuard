@@ -1,0 +1,919 @@
+{
+  "status": "PASS",
+  "recorded_at_utc": "2026-10-25T18:53:51.256221+00:00",
+  "containers": {
+    "gateway": "chainguard-p6-dd02674773-gateway",
+    "tool": "chainguard-p6-dd02674773-tool",
+    "qa": "chainguard-p6-dd02674773-qa"
+  },
+  "volumes": {
+    "gateway": "chainguard-p6-dd02674773-gateway",
+    "tool": "chainguard-p6-dd02674773-tool",
+    "qa": "chainguard-p6-dd02674773-qa"
+  },
+  "network": "chainguard-p6-dd02674773",
+  "scope": "real R2 local mailbox; no R3/Agent/front-end",
+  "before": {
+    "nodes": [
+      {
+        "node": "node1",
+        "rpc": "http://127.0.0.1:8545",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3556,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://b870319338f818264b2182b5fee6dd87ca9353fe81f4ea3d49ec401ca4d8c58cfd895836c09a95ecd379a6440873d90eebf76f0634d77c333090954b3673d700@172.30.44.11:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node2",
+        "rpc": "http://127.0.0.1:8546",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3556,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://93195cfc13c6396f5804285dec1fc9b8dcac8fead3b1bca48f03248562a3ea3bc563eeb54c11e614ecbe03f2c07c755ff5e378450fb33b27ea7bd1a751bef478@172.30.44.12:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node3",
+        "rpc": "http://127.0.0.1:8547",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3556,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://690659a1ae08edddae6dcf1b16c3d9c8902fb667419858ba73125be1e10a28ab13bb7aa5c64f9270dd506e1683578e01762b67a6c1e7f7fb30b16d7206c44f4a@172.30.44.13:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node4",
+        "rpc": "http://127.0.0.1:8548",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3556,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://d3c9a0b51ccd4ccc7879162d587f35eeff49e474640ab66a44a3fc38a14dd2bdf124b7cac18ce6dac1bebf9715b6d6c7383eea97fd57d64536e821d9bc2b9742@172.30.44.14:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      }
+    ],
+    "common_height": 3556,
+    "common_hash": "0x3b081096648125666731bf8886148abe0397f0c5043e745866a2fdd9a0664716"
+  },
+  "cases": {
+    "normal": {
+      "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+      "checks": [
+        "real_mail",
+        "task_scope_denied",
+        "external_domain_denied",
+        "reserve_idempotent",
+        "approval_idempotent_after_final",
+        "tool_idempotent",
+        "params_mismatch",
+        "no_reservation",
+        "wrong_mtls_peer",
+        "wrong_bearer",
+        "agent_cannot_reserve"
+      ],
+      "record": {
+        "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+        "anchor_status": "CONFIRMED",
+        "chain_state": "FINALIZED_OK",
+        "error": null,
+        "finalization_evidence": {
+          "block_hash": "0x4bda393cd6dc0cee5f1d91840495b51a08fe0cb067b1677103315a5c69d2c85d",
+          "block_number": "3568",
+          "chain_id": "20261026",
+          "registry": "0x5d505b4ad2c4596b3ba3742ca5b338eb4d05f2ee",
+          "tx_hash": "0xaaa2befc5b713bea34d6e514c28b6b2004d5512ef0045281ad3865182754697a"
+        },
+        "intent": {
+          "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954579",
+          "issued_at": "1792954459",
+          "nonce": "8002342506079415825",
+          "params_commit": "0x5383de6a724665376f308d7f4d443fa1d351f9b3307911552b0322cec3b8f7a8",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x9f9f52f279f6cc69f391bc382fa286e0d934c58d9363a6f48d001dd92979a020",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+          "evidence_index_commit": "0x8317745141bf81552f41011798cb5e00b515e45c6d481bf16de9cf2ad5adbf88",
+          "executed_at": "1792954461",
+          "outcome": 0,
+          "params_commit": "0x5383de6a724665376f308d7f4d443fa1d351f9b3307911552b0322cec3b8f7a8",
+          "result_commit": "0x433344a69bc6892bcc43b687adad7868b580199a2dabb61f0fcb6ecb392d9c12",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0x272d21e7fc400c3a02cb550c0bde7247d8ba6904946972e4c8a405a3eaec1b15",
+          "block_number": "3567",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0xd981973e4ed994a4f50606e92442803d3919314aa2b9f6dd02a1bfbce8e4a499"
+        },
+        "risk": 2,
+        "state": "FINALIZED_OK",
+        "task_id": "0x9f9f52f279f6cc69f391bc382fa286e0d934c58d9363a6f48d001dd92979a020"
+      },
+      "tool_signature": "0xd7266768981f435a021ea41f27b08aa3e8ea20682460b8582a6dd7aa88f78b811474967ce3eead848c2a79cc88d8af32674c36dd5fb27f28adf88d8d9ba1e8151b",
+      "receipt_digest": "0x51b9c4348ca4240d0b914fd45d37715792dcaa6dd9e303e316ead85c4ef3f1b5"
+    },
+    "pending": {
+      "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+      "checks": [
+        "audit_send_response_lost",
+        "chain_outage_pending",
+        "restart_preserves_receipt",
+        "same_tx_hash_recovered",
+        "no_second_dispatch"
+      ],
+      "pending_record": {
+        "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+        "anchor_status": "PENDING",
+        "chain_state": "RESERVED",
+        "error": null,
+        "finalization_evidence": null,
+        "intent": {
+          "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954600",
+          "issued_at": "1792954480",
+          "nonce": "8002342506079415827",
+          "params_commit": "0x20593bcb8fc095afe307b4be3fa1684a90d52f4472db3e8c50c00bac4a2434c7",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x292a4a47a67bc09532a1b93f638e1dfa3abc4898f111c03610ae025dede746a3",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+          "evidence_index_commit": "0x916e2b790f52d5d9a1c60b9540e28ece96aed90b0e82ef8b5df7d923126ed98a",
+          "executed_at": "1792954482",
+          "outcome": 0,
+          "params_commit": "0x20593bcb8fc095afe307b4be3fa1684a90d52f4472db3e8c50c00bac4a2434c7",
+          "result_commit": "0xbc15d54b9b9d3577452c97f5aab8b83665707e4576b929ed21840e03607a8bf2",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0xb5b058f060a3ef99d2a1403d586ae9c6cc17d10e1d0c708d8137def30fb80fd7",
+          "block_number": "3576",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0x93f975b04b5af01767d5544728774d3435d54daa349c3796657736a719d49dc6"
+        },
+        "risk": 2,
+        "state": "EXECUTION_RECORDED",
+        "task_id": "0x292a4a47a67bc09532a1b93f638e1dfa3abc4898f111c03610ae025dede746a3"
+      },
+      "recovered_record": {
+        "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+        "anchor_status": "CONFIRMED",
+        "chain_state": "FINALIZED_OK",
+        "error": null,
+        "finalization_evidence": {
+          "block_hash": "0x4a7068f662d3c01087a791cecec424188908c98358e7867592a9a57d2372f2eb",
+          "block_number": "3577",
+          "chain_id": "20261026",
+          "registry": "0x5d505b4ad2c4596b3ba3742ca5b338eb4d05f2ee",
+          "tx_hash": "0x9051326066606e8aacd738255dae2a472470dc024deb09f10e6727daa9682e07"
+        },
+        "intent": {
+          "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954600",
+          "issued_at": "1792954480",
+          "nonce": "8002342506079415827",
+          "params_commit": "0x20593bcb8fc095afe307b4be3fa1684a90d52f4472db3e8c50c00bac4a2434c7",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x292a4a47a67bc09532a1b93f638e1dfa3abc4898f111c03610ae025dede746a3",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+          "evidence_index_commit": "0x916e2b790f52d5d9a1c60b9540e28ece96aed90b0e82ef8b5df7d923126ed98a",
+          "executed_at": "1792954482",
+          "outcome": 0,
+          "params_commit": "0x20593bcb8fc095afe307b4be3fa1684a90d52f4472db3e8c50c00bac4a2434c7",
+          "result_commit": "0xbc15d54b9b9d3577452c97f5aab8b83665707e4576b929ed21840e03607a8bf2",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0xb5b058f060a3ef99d2a1403d586ae9c6cc17d10e1d0c708d8137def30fb80fd7",
+          "block_number": "3576",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0x93f975b04b5af01767d5544728774d3435d54daa349c3796657736a719d49dc6"
+        },
+        "risk": 2,
+        "state": "FINALIZED_OK",
+        "task_id": "0x292a4a47a67bc09532a1b93f638e1dfa3abc4898f111c03610ae025dede746a3"
+      },
+      "tool_signature": "0xfe9a008bf39bff821388eacb45c8fceaf937b071f1989b58af689450c0e70b354f9425efc80fefa0ea172de7af33a6726fbb9907d7878d887334327924fbfac21c",
+      "receipt_digest": "0xa80afe0d0d83990c4aac9e5129fddb4bd393c08118a3622c18a243aabc291c96"
+    },
+    "prebroadcast": {
+      "absent_on_node_before_recovery": true,
+      "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+      "checks": [
+        "tx_absent_on_real_node",
+        "durable_signed_outbox_restart",
+        "identical_tx_resubmitted",
+        "original_receipt_only",
+        "no_second_dispatch"
+      ],
+      "original_tx_hash": "0x380f96df566da9e20319ce5af9dcf91fdc89f4db0a1226cccd9d14a1a3aa4cb1",
+      "pending_record": {
+        "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+        "anchor_status": "PENDING",
+        "chain_state": "RESERVED",
+        "error": null,
+        "finalization_evidence": null,
+        "intent": {
+          "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954610",
+          "issued_at": "1792954490",
+          "nonce": "8002342506079415828",
+          "params_commit": "0xdb6f977d913426b731ce9e7b0c4ab35a0d76070c2413e7c62c51d06ca1a6d4a7",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x7c2057898a390a73e764445fb8bb239dbe2e4df8cf3351ff2bf5ca9e0f2849ba",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+          "evidence_index_commit": "0x619b1d1c9e3276239c7f0a1e07e9ec5ce76c2afa58fe39ee20bfeb4f251699f3",
+          "executed_at": "1792954492",
+          "outcome": 0,
+          "params_commit": "0xdb6f977d913426b731ce9e7b0c4ab35a0d76070c2413e7c62c51d06ca1a6d4a7",
+          "result_commit": "0x6bcff75a5a14000fc4e3a27126cdb0078e4327e4fc08d61bc434cea2644e1042",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0xd3cc9ad2bc1c138e0d8798c3901689f8468711733bac0ab111acfda61ab5a70d",
+          "block_number": "3581",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0xf5aed285c0a0aa88b040f933cd98ef6a9293b5ca5932df25ecff0bea75442af4"
+        },
+        "risk": 2,
+        "state": "EXECUTION_RECORDED",
+        "task_id": "0x7c2057898a390a73e764445fb8bb239dbe2e4df8cf3351ff2bf5ca9e0f2849ba"
+      },
+      "recovered_record": {
+        "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+        "anchor_status": "CONFIRMED",
+        "chain_state": "FINALIZED_OK",
+        "error": null,
+        "finalization_evidence": {
+          "block_hash": "0xfb4be7c2bd1f05cf8c61b6ec08910ec2e884d529bc8ececde6b7c580dc1c7a1b",
+          "block_number": "3585",
+          "chain_id": "20261026",
+          "registry": "0x5d505b4ad2c4596b3ba3742ca5b338eb4d05f2ee",
+          "tx_hash": "0x380f96df566da9e20319ce5af9dcf91fdc89f4db0a1226cccd9d14a1a3aa4cb1"
+        },
+        "intent": {
+          "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954610",
+          "issued_at": "1792954490",
+          "nonce": "8002342506079415828",
+          "params_commit": "0xdb6f977d913426b731ce9e7b0c4ab35a0d76070c2413e7c62c51d06ca1a6d4a7",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x7c2057898a390a73e764445fb8bb239dbe2e4df8cf3351ff2bf5ca9e0f2849ba",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+          "evidence_index_commit": "0x619b1d1c9e3276239c7f0a1e07e9ec5ce76c2afa58fe39ee20bfeb4f251699f3",
+          "executed_at": "1792954492",
+          "outcome": 0,
+          "params_commit": "0xdb6f977d913426b731ce9e7b0c4ab35a0d76070c2413e7c62c51d06ca1a6d4a7",
+          "result_commit": "0x6bcff75a5a14000fc4e3a27126cdb0078e4327e4fc08d61bc434cea2644e1042",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0xd3cc9ad2bc1c138e0d8798c3901689f8468711733bac0ab111acfda61ab5a70d",
+          "block_number": "3581",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0xf5aed285c0a0aa88b040f933cd98ef6a9293b5ca5932df25ecff0bea75442af4"
+        },
+        "risk": 2,
+        "state": "FINALIZED_OK",
+        "task_id": "0x7c2057898a390a73e764445fb8bb239dbe2e4df8cf3351ff2bf5ca9e0f2849ba"
+      },
+      "tool_signature": "0xf8b8ac3997a49abe0f61db6545cb30bf552710fc743a4a4fed2318e52997fde653941292afd607dbf945701df5288179e22e5edab1baae92d24ad5f0db799a181c",
+      "receipt_digest": "0x321c33072e80ab02a2e797216d3155050f90a8dbdcef3fb10df95d1459572faa"
+    },
+    "tool-outage": {
+      "action_id": "0x719fa9092817ad42cc486c80bb63b4123aa71c6ef6bdb50c9a5ea7eee3d58bf9",
+      "checks": [
+        "independent_tool_chain_unavailable_denied",
+        "no_mail",
+        "no_blind_redispatch"
+      ],
+      "record": {
+        "action_id": "0x719fa9092817ad42cc486c80bb63b4123aa71c6ef6bdb50c9a5ea7eee3d58bf9",
+        "anchor_status": "PENDING",
+        "chain_state": "RESERVED",
+        "error": {
+          "code": "CHAIN_UNAVAILABLE",
+          "message": "CHAIN_UNAVAILABLE",
+          "retryable": false,
+          "trace_id": "0x863e1bf21c744c05c7f77a7449cfdb03f6016d8aa18edfccba84198d462de75d"
+        },
+        "finalization_evidence": null,
+        "intent": {
+          "action_id": "0x719fa9092817ad42cc486c80bb63b4123aa71c6ef6bdb50c9a5ea7eee3d58bf9",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954622",
+          "issued_at": "1792954502",
+          "nonce": "8002342506079415829",
+          "params_commit": "0xd855c7bedf75cc874f144bbf958f9a69b9379073d19ce2636faff1c297b4f512",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x534500e308894d4db2898fc02a5ae046731bd55dd43a77bf21bfc0f8842da1d1",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": null,
+        "reservation_evidence": {
+          "block_hash": "0xe59188677de066eba19e5dc38e3338ae442d72f102bc3803237a118a961a1e78",
+          "block_number": "3587",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0x9fff7af5ed84cf93fee88789f88d5cf47a9fa8dd7319051b755d21c8edf5e11c"
+        },
+        "risk": 2,
+        "state": "UNKNOWN",
+        "task_id": "0x534500e308894d4db2898fc02a5ae046731bd55dd43a77bf21bfc0f8842da1d1"
+      }
+    },
+    "unknown": {
+      "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+      "checks": [
+        "corrupt_receipt_rejected",
+        "unknown_durable_restart",
+        "chain_unknown_reconcile",
+        "original_receipt_only",
+        "no_second_dispatch"
+      ],
+      "recovered_record": {
+        "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+        "anchor_status": "CONFIRMED",
+        "chain_state": "FINALIZED_OK",
+        "error": null,
+        "finalization_evidence": {
+          "block_hash": "0x1b21d690df7edcc3e6614052b804f47cbc1387f193dce1a9d9c6179616bea5c1",
+          "block_number": "3574",
+          "chain_id": "20261026",
+          "registry": "0x5d505b4ad2c4596b3ba3742ca5b338eb4d05f2ee",
+          "tx_hash": "0x3ae8c5e04ac9fd55e1a82bd3b83f5bee12443809713bd877003c8b53c049c797"
+        },
+        "intent": {
+          "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954585",
+          "issued_at": "1792954465",
+          "nonce": "8002342506079415826",
+          "params_commit": "0x00c0f67805b1de099755b3142c5219db860b2f1cb4b29ce38632cd6c41334e15",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x125c19fe666dca0c1517ec1c39393dcdcc622d7d52df98db364190c69726dacf",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": {
+          "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+          "evidence_index_commit": "0x3ad9f29f2e67113fcc6ee688bca2b9b2588967cd6b1604868984c818cb75010b",
+          "executed_at": "1792954467",
+          "outcome": 0,
+          "params_commit": "0x00c0f67805b1de099755b3142c5219db860b2f1cb4b29ce38632cd6c41334e15",
+          "result_commit": "0xe5fe495a722e27e418ef85743ff7ade484be5c87cad41a800fcdca29f870f73b",
+          "schema_version": 1
+        },
+        "reservation_evidence": {
+          "block_hash": "0xf029b5ffe2704da37b3d7bc668530141561523679c96ac7bed088a8610edcbd3",
+          "block_number": "3570",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0xd275b11e97ff4d3f98aebbca61419396c98fde5f24e924fcb8834466e77b36d6"
+        },
+        "risk": 2,
+        "state": "FINALIZED_OK",
+        "task_id": "0x125c19fe666dca0c1517ec1c39393dcdcc622d7d52df98db364190c69726dacf"
+      },
+      "unknown_record": {
+        "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+        "anchor_status": "PENDING",
+        "chain_state": "RESERVED",
+        "error": {
+          "code": "RECEIPT_INVALID",
+          "message": "RECEIPT_INVALID",
+          "retryable": false,
+          "trace_id": "0x71ad225e9aecb8f2982d4117546829a232dbafe64891f707b88b2309e43e2121"
+        },
+        "finalization_evidence": null,
+        "intent": {
+          "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+          "agent": "0x383a0b6204c7a4dc6bdf28ccb6651cc1cf54a791",
+          "expires_at": "1792954585",
+          "issued_at": "1792954465",
+          "nonce": "8002342506079415826",
+          "params_commit": "0x00c0f67805b1de099755b3142c5219db860b2f1cb4b29ce38632cd6c41334e15",
+          "policy_epoch": "1",
+          "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "requester": "0x594d8c7149b25729f899deb99b673b94fddf5c55",
+          "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "risk": 2,
+          "schema_version": 1,
+          "task_id": "0x125c19fe666dca0c1517ec1c39393dcdcc622d7d52df98db364190c69726dacf",
+          "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+        },
+        "receipt": null,
+        "reservation_evidence": {
+          "block_hash": "0xf029b5ffe2704da37b3d7bc668530141561523679c96ac7bed088a8610edcbd3",
+          "block_number": "3570",
+          "chain_id": "20261026",
+          "registry": "0x5effbc396c8532801c2a5e7a4d903b7c8702878a",
+          "tx_hash": "0xd275b11e97ff4d3f98aebbca61419396c98fde5f24e924fcb8834466e77b36d6"
+        },
+        "risk": 2,
+        "state": "UNKNOWN",
+        "task_id": "0x125c19fe666dca0c1517ec1c39393dcdcc622d7d52df98db364190c69726dacf"
+      },
+      "tool_signature": "0xb5cf5891d0e223d23cad7236bb88ae03665300894d5a67eacaef566cb8ba6bbf4ed4941df745ddcb49a6b14fe4f78f329e432fe1c53f060c968691472860cb811b",
+      "receipt_digest": "0x896518e2a6093e383a72421f092cd9d42c8f73ca906964d3f5e01041f1687ed2"
+    }
+  },
+  "fault_events": [
+    {
+      "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+      "at": "1792954461",
+      "event": "tool_execute_http"
+    },
+    {
+      "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+      "at": "1792954467",
+      "event": "tool_execute_http"
+    },
+    {
+      "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+      "at": "1792954467",
+      "event": "tool_receipt_corrupted"
+    },
+    {
+      "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+      "at": "1792954482",
+      "event": "tool_execute_http"
+    },
+    {
+      "at": "1792954483",
+      "event": "audit_broadcast_response_lost",
+      "tx_hash": "0x9051326066606e8aacd738255dae2a472470dc024deb09f10e6727daa9682e07"
+    },
+    {
+      "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+      "at": "1792954492",
+      "event": "tool_execute_http"
+    },
+    {
+      "at": "1792954493",
+      "event": "audit_not_delivered_to_node",
+      "tx_hash": "0x380f96df566da9e20319ce5af9dcf91fdc89f4db0a1226cccd9d14a1a3aa4cb1"
+    },
+    {
+      "action_id": "0x719fa9092817ad42cc486c80bb63b4123aa71c6ef6bdb50c9a5ea7eee3d58bf9",
+      "at": "1792954504",
+      "event": "tool_execute_http"
+    }
+  ],
+  "mailbox": {
+    "mailbox": [
+      {
+        "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+        "recipient": "alice@inbox.chainguard.invalid",
+        "mime_sha256": "f52261662c34e7ac6c11a79e07534a4015f9d53a101cead70f70f007614c7312",
+        "mime_file": "mail-1.eml"
+      },
+      {
+        "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+        "recipient": "alice@inbox.chainguard.invalid",
+        "mime_sha256": "3196c29db4756137057eda227f775ec919510f9057c937629258ec49dd7f1000",
+        "mime_file": "mail-2.eml"
+      },
+      {
+        "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+        "recipient": "alice@inbox.chainguard.invalid",
+        "mime_sha256": "c764e2bde36be373d23898a4182f3fb2ce3207708980c3677fdf45a075153ed7",
+        "mime_file": "mail-3.eml"
+      },
+      {
+        "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+        "recipient": "alice@inbox.chainguard.invalid",
+        "mime_sha256": "69d9271b33d15f5b1369c68f20cdfb5b40f87312c9f5f725d74de6074b59165c",
+        "mime_file": "mail-4.eml"
+      }
+    ],
+    "claims": 4,
+    "commitment_checks": [
+      {
+        "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+        "result_commit_matches": true,
+        "evidence_commit_matches": true,
+        "mailbox_result_matches": true
+      },
+      {
+        "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+        "result_commit_matches": true,
+        "evidence_commit_matches": true,
+        "mailbox_result_matches": true
+      },
+      {
+        "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+        "result_commit_matches": true,
+        "evidence_commit_matches": true,
+        "mailbox_result_matches": true
+      },
+      {
+        "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+        "result_commit_matches": true,
+        "evidence_commit_matches": true,
+        "mailbox_result_matches": true
+      }
+    ]
+  },
+  "transactions": [
+    {
+      "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+      "kind": "reserve",
+      "nonce": 59,
+      "tx_hash": "0xd981973e4ed994a4f50606e92442803d3919314aa2b9f6dd02a1bfbce8e4a499",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-01-reserve.json"
+    },
+    {
+      "action_id": "0xdce90cef5dbf3cbd75cb1639b6b8800b16a0807fde79e293bdb733194c3e9fd6",
+      "kind": "audit",
+      "nonce": 60,
+      "tx_hash": "0xaaa2befc5b713bea34d6e514c28b6b2004d5512ef0045281ad3865182754697a",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-02-audit.json"
+    },
+    {
+      "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+      "kind": "reserve",
+      "nonce": 61,
+      "tx_hash": "0xd275b11e97ff4d3f98aebbca61419396c98fde5f24e924fcb8834466e77b36d6",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-03-reserve.json"
+    },
+    {
+      "action_id": "0xf10564861463e91e1511fd41ace0bc5a6d7b87452d72111d3c5fc0dc6a15fdb0",
+      "kind": "audit",
+      "nonce": 62,
+      "tx_hash": "0x3ae8c5e04ac9fd55e1a82bd3b83f5bee12443809713bd877003c8b53c049c797",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-04-audit.json"
+    },
+    {
+      "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+      "kind": "reserve",
+      "nonce": 63,
+      "tx_hash": "0x93f975b04b5af01767d5544728774d3435d54daa349c3796657736a719d49dc6",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-05-reserve.json"
+    },
+    {
+      "action_id": "0x0e8cd55f82b7c10be7ef8ca5d59e730715274a8d15d51c2ca61bb9d804cf46a1",
+      "kind": "audit",
+      "nonce": 64,
+      "tx_hash": "0x9051326066606e8aacd738255dae2a472470dc024deb09f10e6727daa9682e07",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-06-audit.json"
+    },
+    {
+      "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+      "kind": "reserve",
+      "nonce": 65,
+      "tx_hash": "0xf5aed285c0a0aa88b040f933cd98ef6a9293b5ca5932df25ecff0bea75442af4",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-07-reserve.json"
+    },
+    {
+      "action_id": "0xcaf6ac0eab22642171c79526bd9c916314d69d2628701fd62a591e6196fcef43",
+      "kind": "audit",
+      "nonce": 66,
+      "tx_hash": "0x380f96df566da9e20319ce5af9dcf91fdc89f4db0a1226cccd9d14a1a3aa4cb1",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-08-audit.json"
+    },
+    {
+      "action_id": "0x719fa9092817ad42cc486c80bb63b4123aa71c6ef6bdb50c9a5ea7eee3d58bf9",
+      "kind": "reserve",
+      "nonce": 67,
+      "tx_hash": "0x9fff7af5ed84cf93fee88789f88d5cf47a9fa8dd7319051b755d21c8edf5e11c",
+      "state": "CONFIRMED",
+      "receipt_file": "tx-09-reserve.json"
+    }
+  ],
+  "replay_transactions": [
+    {
+      "kind": "action",
+      "tx_hash": "0xc86c00d8e57fe7877380da08239e5ffa3320a2b4e91c49d0f78798fe3bfafef4",
+      "receipt_file": "replay-action-receipt.json",
+      "status": "REVERTED",
+      "error": "AlreadyReserved()"
+    },
+    {
+      "kind": "nonce",
+      "tx_hash": "0xfc65b0cae1f7c938fb573e97e14b3b5a31d5059a8ddc1d8dccc91f22873437e2",
+      "receipt_file": "replay-nonce-receipt.json",
+      "status": "REVERTED",
+      "error": "AlreadyReserved()"
+    }
+  ],
+  "after": {
+    "nodes": [
+      {
+        "node": "node1",
+        "rpc": "http://127.0.0.1:8545",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3600,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://b870319338f818264b2182b5fee6dd87ca9353fe81f4ea3d49ec401ca4d8c58cfd895836c09a95ecd379a6440873d90eebf76f0634d77c333090954b3673d700@172.30.44.11:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node2",
+        "rpc": "http://127.0.0.1:8546",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3600,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://93195cfc13c6396f5804285dec1fc9b8dcac8fead3b1bca48f03248562a3ea3bc563eeb54c11e614ecbe03f2c07c755ff5e378450fb33b27ea7bd1a751bef478@172.30.44.12:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node3",
+        "rpc": "http://127.0.0.1:8547",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3600,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://690659a1ae08edddae6dcf1b16c3d9c8902fb667419858ba73125be1e10a28ab13bb7aa5c64f9270dd506e1683578e01762b67a6c1e7f7fb30b16d7206c44f4a@172.30.44.13:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      },
+      {
+        "node": "node4",
+        "rpc": "http://127.0.0.1:8548",
+        "chain_id": 20261026,
+        "client_version": "besu/v25.10.0/linux-x86_64/openjdk-java-21",
+        "height": 3600,
+        "peer_count": 3,
+        "validators": [
+          "0x017055439600a355dfc7d2e1b263f320914c68a5",
+          "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+          "0x34469f4f27e61bed15416eba9aff871a39614953",
+          "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+        ],
+        "enode": "enode://d3c9a0b51ccd4ccc7879162d587f35eeff49e474640ab66a44a3fc38a14dd2bdf124b7cac18ce6dac1bebf9715b6d6c7383eea97fd57d64536e821d9bc2b9742@172.30.44.14:30303?discport=0",
+        "genesis_hash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+        "syncing": false
+      }
+    ],
+    "common_height": 3600,
+    "common_hash": "0x28e9bf45ca9c615a405eab735d89f2f896270958872d0f3aa44ee43b8eb0444a"
+  },
+  "isolation": [
+    {
+      "name": "/chainguard-p6-dd02674773-qa",
+      "id": "250a52b75e284cde6efb6d4b03bb343241ccd920a1ea6970b0f5c28b276d4d30",
+      "readonly": true,
+      "user": "10001:10001",
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "chainguard-p6-dd02674773-qa",
+          "destination": "/sandbox"
+        }
+      ]
+    },
+    {
+      "name": "/chainguard-p6-dd02674773-tool",
+      "id": "1f3e83daecc4b28b175389f68431746dd12d4af97c1c7785fe19fc45d5245b05",
+      "readonly": true,
+      "user": "10001:10001",
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "chainguard-p6-dd02674773-tool",
+          "destination": "/sandbox"
+        }
+      ]
+    },
+    {
+      "name": "/chainguard-p6-dd02674773-gateway",
+      "id": "ac05b09092ec77049aa947fcb0e122048aa802cbb8b849b544bc697835d4808a",
+      "readonly": true,
+      "user": "10001:10001",
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "ports": {},
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "chainguard-p6-dd02674773-gateway",
+          "destination": "/sandbox"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "BlockIO": "0B / 147kB",
+      "CPUPerc": "1.45%",
+      "Container": "chainguard-p6-dd02674773-qa",
+      "ID": "250a52b75e28",
+      "MemPerc": "5.70%",
+      "MemUsage": "58.35MiB / 1GiB",
+      "Name": "chainguard-p6-dd02674773-qa",
+      "NetIO": "13.5MB / 13.5MB",
+      "PIDs": "5"
+    },
+    {
+      "BlockIO": "0B / 20.5kB",
+      "CPUPerc": "1.40%",
+      "Container": "chainguard-p6-dd02674773-tool",
+      "ID": "1f3e83daecc4",
+      "MemPerc": "10.70%",
+      "MemUsage": "54.77MiB / 512MiB",
+      "Name": "chainguard-p6-dd02674773-tool",
+      "NetIO": "307kB / 464kB",
+      "PIDs": "2"
+    },
+    {
+      "BlockIO": "0B / 2.62MB",
+      "CPUPerc": "1.77%",
+      "Container": "chainguard-p6-dd02674773-gateway",
+      "ID": "ac05b09092ec",
+      "MemPerc": "11.30%",
+      "MemUsage": "57.84MiB / 512MiB",
+      "Name": "chainguard-p6-dd02674773-gateway",
+      "NetIO": "2.96MB / 937kB",
+      "PIDs": "3"
+    }
+  ],
+  "container_states": [
+    {
+      "name": "/chainguard-p6-dd02674773-qa",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 155426,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-25T18:54:09.418689794Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    {
+      "name": "/chainguard-p6-dd02674773-tool",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 160170,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-25T18:55:07.176511843Z",
+        "FinishedAt": "2026-10-25T18:55:07.036649775Z"
+      }
+    },
+    {
+      "name": "/chainguard-p6-dd02674773-gateway",
+      "state": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 159106,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-25T18:54:54.386853647Z",
+        "FinishedAt": "2026-10-25T18:54:54.257686751Z"
+      }
+    }
+  ],
+  "completed_at_utc": "2026-10-25T18:55:33.319038+00:00"
+}

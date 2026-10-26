@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "action": {
+    "initial": "PROPOSED",
+    "states": ["PROPOSED", "DENIED", "AWAITING_APPROVAL", "RESERVING", "RESERVED", "EXECUTING", "EXECUTION_RECORDED", "UNKNOWN", "EXPIRED", "FINALIZED_OK", "FINALIZED_ERROR", "FINALIZED_REJECTED"],
+    "terminal": ["DENIED", "EXPIRED", "FINALIZED_OK", "FINALIZED_ERROR", "FINALIZED_REJECTED"],
+    "transitions": [
+      {"from":"PROPOSED","to":"DENIED","guard":"deterministic policy denies; no dispatch"},
+      {"from":"PROPOSED","to":"AWAITING_APPROVAL","guard":"R2/R3 policy allows proposal; requester and approval signatures still required"},
+      {"from":"AWAITING_APPROVAL","to":"DENIED","guard":"explicit refusal or time expiry; no reservation broadcast"},
+      {"from":"AWAITING_APPROVAL","to":"RESERVING","guard":"all exact-intent signatures valid; current policy; live intent; persist before broadcast"},
+      {"from":"RESERVING","to":"RESERVED","guard":"successful committed QBFT transaction AND matching reservation read; healthy chain"},
+      {"from":"RESERVING","to":"DENIED","guard":"definitive revert and confirmed absence of reservation; no tool dispatch"},
+      {"from":"RESERVING","to":"EXPIRED","guard":"expiry reached AND confirmed absence of reservation AND tool not dispatched"},
+      {"from":"RESERVED","to":"EXECUTING","guard":"tool independently rechecks reservation, signatures/revocation, policy, params, grant and expiry; durable unique claim before side effect"},
+      {"from":"RESERVED","to":"DENIED","guard":"current policy revoked or authorization invalid AND authoritative durable proof tool NOT_STARTED"},
+      {"from":"RESERVED","to":"EXPIRED","guard":"expiry reached AND authoritative durable proof tool NOT_STARTED"},
+      {"from":"RESERVED","to":"UNKNOWN","guard":"dispatch outcome uncertain; authoritative tool status unavailable"},
+      {"from":"EXECUTING","to":"EXECUTION_RECORDED","guard":"valid tool-signed OK/ERROR/REJECTED receipt durably stored"},
+      {"from":"EXECUTING","to":"UNKNOWN","guard":"execution or receipt uncertain; timeout is not proof of failure"},
+      {"from":"UNKNOWN","to":"EXECUTION_RECORDED","guard":"reconciliation retrieves valid original OK/ERROR/REJECTED receipt; no new side effect"},
+      {"from":"EXECUTION_RECORDED","to":"FINALIZED_OK","guard":"OK receipt finalized in confirmed AuditRegistry transaction"},
+      {"from":"EXECUTION_RECORDED","to":"FINALIZED_ERROR","guard":"ERROR receipt finalized in confirmed AuditRegistry transaction"},
+      {"from":"EXECUTION_RECORDED","to":"FINALIZED_REJECTED","guard":"REJECTED receipt finalized in confirmed AuditRegistry transaction"}
+    ],
+    "retry_without_transition": ["RESERVING: RPC/transaction outcome unknown -> query same action_id", "RESERVED: chain unavailable before dispatch -> wait without execute", "EXECUTION_RECORDED: audit unavailable -> retain receipt and retry anchoring", "UNKNOWN: query tool journal; never blindly dispatch"]
+  },
+  "read": {
+    "initial":"PROPOSED",
+    "states":["PROPOSED","DENIED","READ_EXECUTING","READ_OK","READ_ERROR","READ_UNKNOWN"],
+    "terminal":["DENIED","READ_OK","READ_ERROR"],
+    "transitions":[
+      {"from":"PROPOSED","to":"DENIED","guard":"R0/R1 authorization or resource scope fails"},
+      {"from":"PROPOSED","to":"READ_EXECUTING","guard":"R0/R1 current task grant and local policy pass; sandbox document only"},
+      {"from":"READ_EXECUTING","to":"READ_OK","guard":"actual read result and signed local log durably stored"},
+      {"from":"READ_EXECUTING","to":"READ_ERROR","guard":"definite read error recorded"},
+      {"from":"READ_EXECUTING","to":"READ_UNKNOWN","guard":"read outcome unknown"},
+      {"from":"READ_UNKNOWN","to":"READ_OK","guard":"original result retrieved"},
+      {"from":"READ_UNKNOWN","to":"READ_ERROR","guard":"definite original error retrieved"}
+    ]
+  },
+  "chain": {
+    "initial":"NONE",
+    "states":["NONE","RESERVED","UNKNOWN","FINALIZED_OK","FINALIZED_ERROR","FINALIZED_REJECTED"],
+    "terminal":["FINALIZED_OK","FINALIZED_ERROR","FINALIZED_REJECTED"],
+    "transitions":[
+      {"from":"NONE","to":"RESERVED","guard":"ExecutionRegistry.reserve succeeds"},
+      {"from":"RESERVED","to":"UNKNOWN","guard":"registered RECONCILER submits uncertainty reason commitment"},
+      {"from":"RESERVED","to":"FINALIZED_OK","guard":"AuditRegistry.finalize validates bound tool OK receipt"},
+      {"from":"RESERVED","to":"FINALIZED_ERROR","guard":"AuditRegistry.finalize validates bound tool ERROR receipt"},
+      {"from":"RESERVED","to":"FINALIZED_REJECTED","guard":"AuditRegistry.finalize validates bound tool REJECTED receipt"},
+      {"from":"UNKNOWN","to":"FINALIZED_OK","guard":"AuditRegistry.reconcile appends valid late OK receipt"},
+      {"from":"UNKNOWN","to":"FINALIZED_ERROR","guard":"AuditRegistry.reconcile appends valid late ERROR receipt"},
+      {"from":"UNKNOWN","to":"FINALIZED_REJECTED","guard":"AuditRegistry.reconcile appends valid late REJECTED receipt"}
+    ]
+  }
+}

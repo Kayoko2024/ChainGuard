@@ -1,0 +1,11 @@
+fastapi==0.119.1
+starlette==0.48.0
+# Starlette 0.48 TestClient uses the pre-4.15 BlockingPortal API.
+anyio==4.11.0
+pydantic==2.14.1
+uvicorn==0.38.0
+eth-account==0.13.7
+eth-utils==5.3.1
+jsonschema==4.25.1
+rfc8785==0.1.4
+pycryptodome==3.24.1

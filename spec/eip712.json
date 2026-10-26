@@ -1,0 +1,54 @@
+{
+  "protocol_version": "1.0.0",
+  "schema_version": 1,
+  "domains": {
+    "ActionIntent": { "name": "ChainGuard ExecutionRegistry", "version": "1", "verifying_contract": "ExecutionRegistry" },
+    "ExecutionReceipt": { "name": "ChainGuard AuditRegistry", "version": "1", "verifying_contract": "AuditRegistry" }
+  },
+  "types": {
+    "EIP712Domain": [
+      { "name": "name", "type": "string" },
+      { "name": "version", "type": "string" },
+      { "name": "chainId", "type": "uint256" },
+      { "name": "verifyingContract", "type": "address" }
+    ],
+    "ActionIntent": [
+      { "name": "schemaVersion", "type": "uint16" },
+      { "name": "actionId", "type": "bytes32" },
+      { "name": "taskId", "type": "bytes32" },
+      { "name": "requester", "type": "address" },
+      { "name": "agent", "type": "address" },
+      { "name": "toolId", "type": "bytes32" },
+      { "name": "resourceScope", "type": "bytes32" },
+      { "name": "paramsCommit", "type": "bytes32" },
+      { "name": "policyId", "type": "bytes32" },
+      { "name": "policyEpoch", "type": "uint64" },
+      { "name": "nonce", "type": "uint64" },
+      { "name": "issuedAt", "type": "uint64" },
+      { "name": "expiresAt", "type": "uint64" },
+      { "name": "risk", "type": "uint8" }
+    ],
+    "ExecutionReceipt": [
+      { "name": "schemaVersion", "type": "uint16" },
+      { "name": "actionId", "type": "bytes32" },
+      { "name": "paramsCommit", "type": "bytes32" },
+      { "name": "resultCommit", "type": "bytes32" },
+      { "name": "evidenceIndexCommit", "type": "bytes32" },
+      { "name": "executedAt", "type": "uint64" },
+      { "name": "outcome", "type": "uint8" }
+    ]
+  },
+  "json_to_typed": {
+    "ActionIntent": {
+      "schema_version": "schemaVersion", "action_id": "actionId", "task_id": "taskId",
+      "requester": "requester", "agent": "agent", "tool_id": "toolId", "resource_scope": "resourceScope",
+      "params_commit": "paramsCommit", "policy_id": "policyId", "policy_epoch": "policyEpoch",
+      "nonce": "nonce", "issued_at": "issuedAt", "expires_at": "expiresAt", "risk": "risk"
+    },
+    "ExecutionReceipt": {
+      "schema_version": "schemaVersion", "action_id": "actionId", "params_commit": "paramsCommit",
+      "result_commit": "resultCommit", "evidence_index_commit": "evidenceIndexCommit",
+      "executed_at": "executedAt", "outcome": "outcome"
+    }
+  }
+}

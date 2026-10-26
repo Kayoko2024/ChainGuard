@@ -1,0 +1,24 @@
+# Local QBFT development network; no accounts unlocked or private keys in config.
+data-path="/var/lib/besu"
+node-private-key-file="/var/lib/besu/key"
+genesis-file="/config/genesis.json"
+network-id=20261026
+sync-mode="FULL"
+sync-min-peers=1
+data-storage-format="BONSAI"
+discovery-enabled=false
+bootnodes=[]
+static-nodes-file="/config/static-nodes.json"
+max-peers=3
+p2p-port=30303
+rpc-http-enabled=true
+rpc-http-host="0.0.0.0"
+rpc-http-port=8545
+rpc-http-api=["ETH","NET","WEB3","QBFT"]
+host-allowlist=["localhost","127.0.0.1"]
+rpc-ws-enabled=false
+graphql-http-enabled=false
+metrics-enabled=false
+min-gas-price=0
+target-gas-limit=30000000
+logging="INFO"

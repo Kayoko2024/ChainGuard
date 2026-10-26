@@ -1,0 +1,292 @@
+{
+  "fixture_version": 1,
+  "purpose": "Cryptographic test data only. No business operation, deployment or transaction is asserted.",
+  "chain_id": "31337",
+  "observation_time": "1792929610",
+  "commitments": {
+    "params": {
+      "value": {
+        "to": [
+          "report@inbox.chainguard.invalid"
+        ],
+        "subject": "ChainGuard 测试摘要",
+        "body": "仅用于本地沙箱；Café 不做 Unicode 归一化。"
+      },
+      "salt": "0x0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+      "canonical_utf8": "{\"body\":\"仅用于本地沙箱；Café 不做 Unicode 归一化。\",\"subject\":\"ChainGuard 测试摘要\",\"to\":[\"report@inbox.chainguard.invalid\"]}",
+      "canonical_utf8_hex": "0x7b22626f6479223a22e4bb85e794a8e4ba8ee69cace59cb0e6b299e7aeb1efbc9b43616665cc8120e4b88de5819a20556e69636f646520e5bd92e4b880e58c96e38082222c227375626a656374223a22436861696e477561726420e6b58be8af95e69198e8a681222c22746f223a5b227265706f727440696e626f782e636861696e67756172642e696e76616c6964225d7d",
+      "preimage_hex": "0x436861696e47756172642f706172616d732f7631000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f207b22626f6479223a22e4bb85e794a8e4ba8ee69cace59cb0e6b299e7aeb1efbc9b43616665cc8120e4b88de5819a20556e69636f646520e5bd92e4b880e58c96e38082222c227375626a656374223a22436861696e477561726420e6b58be8af95e69198e8a681222c22746f223a5b227265706f727440696e626f782e636861696e67756172642e696e76616c6964225d7d",
+      "commitment": "0xac861f21f9357cee3887eca03367332d907c47ffdc3bd1c325d75af6d9d7a09c"
+    },
+    "result": {
+      "value": {
+        "mailbox_id": "local-message-0001",
+        "accepted": true
+      },
+      "salt": "0x2122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40",
+      "canonical_utf8": "{\"accepted\":true,\"mailbox_id\":\"local-message-0001\"}",
+      "canonical_utf8_hex": "0x7b226163636570746564223a747275652c226d61696c626f785f6964223a226c6f63616c2d6d6573736167652d30303031227d",
+      "preimage_hex": "0x436861696e47756172642f726573756c742f7631002122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f407b226163636570746564223a747275652c226d61696c626f785f6964223a226c6f63616c2d6d6573736167652d30303031227d",
+      "commitment": "0xa2c0d8c590826d6fb10cc90ddc80499626983ab8096e7fdc3c436d03d128d85b"
+    },
+    "evidence": {
+      "value": {
+        "record_id": "local-evidence-0001",
+        "schema_version": 1
+      },
+      "salt": "0x4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60",
+      "canonical_utf8": "{\"record_id\":\"local-evidence-0001\",\"schema_version\":1}",
+      "canonical_utf8_hex": "0x7b227265636f72645f6964223a226c6f63616c2d65766964656e63652d30303031222c22736368656d615f76657273696f6e223a317d",
+      "preimage_hex": "0x436861696e47756172642f65766964656e63652f7631004142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f607b227265636f72645f6964223a226c6f63616c2d65766964656e63652d30303031222c22736368656d615f76657273696f6e223a317d",
+      "commitment": "0x44924cf7c98fe7c82884b21f09a4e7b2ac66d88ec9dc0cc803cffecf8ad55246"
+    }
+  },
+  "intent_json": {
+    "schema_version": 1,
+    "action_id": "0x6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80",
+    "task_id": "0x8182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0",
+    "requester": "0x038fe22e7701443613b5c3704e56450fec61c193",
+    "agent": "0xecc38f7873c345f8341f43cb667b7f4046276dc9",
+    "tool_id": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c",
+    "resource_scope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+    "params_commit": "0xac861f21f9357cee3887eca03367332d907c47ffdc3bd1c325d75af6d9d7a09c",
+    "policy_id": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+    "policy_epoch": "3",
+    "nonce": "9007199254740993",
+    "issued_at": "1792929600",
+    "expires_at": "1792929720",
+    "risk": 2
+  },
+  "receipt_json": {
+    "schema_version": 1,
+    "action_id": "0x6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80",
+    "params_commit": "0xac861f21f9357cee3887eca03367332d907c47ffdc3bd1c325d75af6d9d7a09c",
+    "result_commit": "0xa2c0d8c590826d6fb10cc90ddc80499626983ab8096e7fdc3c436d03d128d85b",
+    "evidence_index_commit": "0x44924cf7c98fe7c82884b21f09a4e7b2ac66d88ec9dc0cc803cffecf8ad55246",
+    "executed_at": "1792929612",
+    "outcome": 0
+  },
+  "vectors": {
+    "ActionIntent": {
+      "typed_data": {
+        "types": {
+          "EIP712Domain": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "version",
+              "type": "string"
+            },
+            {
+              "name": "chainId",
+              "type": "uint256"
+            },
+            {
+              "name": "verifyingContract",
+              "type": "address"
+            }
+          ],
+          "ActionIntent": [
+            {
+              "name": "schemaVersion",
+              "type": "uint16"
+            },
+            {
+              "name": "actionId",
+              "type": "bytes32"
+            },
+            {
+              "name": "taskId",
+              "type": "bytes32"
+            },
+            {
+              "name": "requester",
+              "type": "address"
+            },
+            {
+              "name": "agent",
+              "type": "address"
+            },
+            {
+              "name": "toolId",
+              "type": "bytes32"
+            },
+            {
+              "name": "resourceScope",
+              "type": "bytes32"
+            },
+            {
+              "name": "paramsCommit",
+              "type": "bytes32"
+            },
+            {
+              "name": "policyId",
+              "type": "bytes32"
+            },
+            {
+              "name": "policyEpoch",
+              "type": "uint64"
+            },
+            {
+              "name": "nonce",
+              "type": "uint64"
+            },
+            {
+              "name": "issuedAt",
+              "type": "uint64"
+            },
+            {
+              "name": "expiresAt",
+              "type": "uint64"
+            },
+            {
+              "name": "risk",
+              "type": "uint8"
+            }
+          ]
+        },
+        "primaryType": "ActionIntent",
+        "domain": {
+          "name": "ChainGuard ExecutionRegistry",
+          "version": "1",
+          "chainId": "31337",
+          "verifyingContract": "0x1111111111111111111111111111111111111111"
+        },
+        "message": {
+          "schemaVersion": 1,
+          "actionId": "0x6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80",
+          "taskId": "0x8182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0",
+          "requester": "0x038fe22e7701443613b5c3704e56450fec61c193",
+          "agent": "0xecc38f7873c345f8341f43cb667b7f4046276dc9",
+          "toolId": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c",
+          "resourceScope": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f",
+          "paramsCommit": "0xac861f21f9357cee3887eca03367332d907c47ffdc3bd1c325d75af6d9d7a09c",
+          "policyId": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f",
+          "policyEpoch": "3",
+          "nonce": "9007199254740993",
+          "issuedAt": "1792929600",
+          "expiresAt": "1792929720",
+          "risk": 2
+        }
+      },
+      "expected": {
+        "type_string": "ActionIntent(uint16 schemaVersion,bytes32 actionId,bytes32 taskId,address requester,address agent,bytes32 toolId,bytes32 resourceScope,bytes32 paramsCommit,bytes32 policyId,uint64 policyEpoch,uint64 nonce,uint64 issuedAt,uint64 expiresAt,uint8 risk)",
+        "type_hash": "0x8deabc2e9e27596f6efa312ef81ae4ac20ed50b41b61f3a71eb204a9be1ae3d6",
+        "domain_separator": "0x61644ffa2343c48084397d0371dfc8d62af4a4aa35f3519f17108fcf779fec41",
+        "struct_hash": "0x298e4b6599d3cc7372f2ee617fecea5896d67982864db0c6c4c783e69e5ce4e0",
+        "digest": "0x68828362137de88671a80ac81ad8d6879d5a6446ca34f766eda26c8cdbfda4ed"
+      },
+      "signatures": [
+        {
+          "fixture_role": "requester",
+          "signer": "0x038fe22e7701443613b5c3704e56450fec61c193",
+          "signature": "0x44911a04476932673ce0b33efe97ad9887ede85df9f16ef82170a00197044bb878de5382e66a2b1ef0f0daba2eb4583353e0245e59aa759b2a4faa6440f04a531c"
+        },
+        {
+          "fixture_role": "business",
+          "signer": "0xf806d5916c0572d8df845b0f38e54fe5fdc07a12",
+          "signature": "0xca7e2ef6dc1f244a181249d4e16b44fa8e7119d893e8148fc2618b00de8e9df71683568424342df142b90b2ec45d4074b663874169028e7ed79205ed1e4379971c"
+        },
+        {
+          "fixture_role": "security",
+          "signer": "0xd4fa53bfc6f8600f9e6ea9729c5227647bf24314",
+          "signature": "0x0d713f10c82e8e6bf7097a73e31b97fbca637eaa6c075038ca31330c66cdf8e55e6b62176a36aeafcdee8286d24b39033a6632abedeab60188382a2b9b098b151b"
+        }
+      ]
+    },
+    "ExecutionReceipt": {
+      "typed_data": {
+        "types": {
+          "EIP712Domain": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "version",
+              "type": "string"
+            },
+            {
+              "name": "chainId",
+              "type": "uint256"
+            },
+            {
+              "name": "verifyingContract",
+              "type": "address"
+            }
+          ],
+          "ExecutionReceipt": [
+            {
+              "name": "schemaVersion",
+              "type": "uint16"
+            },
+            {
+              "name": "actionId",
+              "type": "bytes32"
+            },
+            {
+              "name": "paramsCommit",
+              "type": "bytes32"
+            },
+            {
+              "name": "resultCommit",
+              "type": "bytes32"
+            },
+            {
+              "name": "evidenceIndexCommit",
+              "type": "bytes32"
+            },
+            {
+              "name": "executedAt",
+              "type": "uint64"
+            },
+            {
+              "name": "outcome",
+              "type": "uint8"
+            }
+          ]
+        },
+        "primaryType": "ExecutionReceipt",
+        "domain": {
+          "name": "ChainGuard AuditRegistry",
+          "version": "1",
+          "chainId": "31337",
+          "verifyingContract": "0x2222222222222222222222222222222222222222"
+        },
+        "message": {
+          "schemaVersion": 1,
+          "actionId": "0x6162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f80",
+          "paramsCommit": "0xac861f21f9357cee3887eca03367332d907c47ffdc3bd1c325d75af6d9d7a09c",
+          "resultCommit": "0xa2c0d8c590826d6fb10cc90ddc80499626983ab8096e7fdc3c436d03d128d85b",
+          "evidenceIndexCommit": "0x44924cf7c98fe7c82884b21f09a4e7b2ac66d88ec9dc0cc803cffecf8ad55246",
+          "executedAt": "1792929612",
+          "outcome": 0
+        }
+      },
+      "expected": {
+        "type_string": "ExecutionReceipt(uint16 schemaVersion,bytes32 actionId,bytes32 paramsCommit,bytes32 resultCommit,bytes32 evidenceIndexCommit,uint64 executedAt,uint8 outcome)",
+        "type_hash": "0x74174190689cbcdee5d46aa69dd10ec86b60b162938b14754dabf8aac8852dce",
+        "domain_separator": "0xef716724fe1fffe51f43982e1f15d4e86ade950cf86244a8db3c08aad7821c28",
+        "struct_hash": "0x87e4da7db4bf55cf74b2956cd77d5b7d50afaef288c6b7ce2d669ea090febef5",
+        "digest": "0xf0abf5ad2c978cd937f80c489cfbf8c4f69d8c05a29450b1fb18c8faf57552b4"
+      },
+      "signatures": [
+        {
+          "fixture_role": "tool",
+          "signer": "0x07cd6aac05c9cd26aabb66c774512c27223287da",
+          "signature": "0x88f6f95ad5e6ccf01bf764db5e872d9e48b403ac4365acfe47d15a5de874cbff2d5e4f1b4b8ef0023ae0aacf518008069463faf345551e06aa812ca0995b49701c"
+        }
+      ]
+    }
+  },
+  "jcs_edge_case": {
+    "input": {
+      "": "BMP",
+      "😀": "astral",
+      "z": "é"
+    },
+    "canonical_utf8_hex": "0x7b227a223a2265cc81222c22f09f9880223a2261737472616c222c22ee8080223a22424d50227d"
+  }
+}

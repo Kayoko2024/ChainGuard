@@ -1,0 +1,69 @@
+name: chainguard-chain
+x-besu: &besu
+  image: ${CHG_BESU_IMAGE:?Run scripts/chain.py init first}
+  pull_policy: never
+  user: "1000:1000"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  # Besu/RocksDB extract native libraries into java.io.tmpdir.
+  tmpfs: ["/tmp:rw,exec,nosuid,nodev,size=128m,uid=1000,gid=1000"]
+  environment:
+    JAVA_OPTS: "-Xms256m -Xmx768m -XX:MaxDirectMemorySize=256m"
+  mem_limit: 1536m
+  pids_limit: 512
+  restart: unless-stopped
+  stop_grace_period: 40s
+  healthcheck:
+    test: ["CMD", "/bin/bash", "-ec", "exec 3<>/dev/tcp/127.0.0.1/8545; printf 'GET /liveness HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; head -n 1 <&3 | grep -q ' 200 '"]
+    interval: 5s
+    timeout: 4s
+    retries: 30
+    start_period: 45s
+  logging:
+    driver: json-file
+    options: {max-size: "10m", max-file: "3"}
+services:
+  node1:
+    <<: *besu
+    command: ["--config-file=/config/node.toml", "--p2p-host=172.30.44.11"]
+    ports: ["127.0.0.1:8545:8545"]
+    networks: {qbft: {ipv4_address: 172.30.44.11}}
+    volumes:
+      - node1_data:/var/lib/besu
+      - ../.local/phase4/network:/config:ro
+  node2:
+    <<: *besu
+    command: ["--config-file=/config/node.toml", "--p2p-host=172.30.44.12"]
+    ports: ["127.0.0.1:8546:8545"]
+    networks: {qbft: {ipv4_address: 172.30.44.12}}
+    volumes:
+      - node2_data:/var/lib/besu
+      - ../.local/phase4/network:/config:ro
+  node3:
+    <<: *besu
+    command: ["--config-file=/config/node.toml", "--p2p-host=172.30.44.13"]
+    ports: ["127.0.0.1:8547:8545"]
+    networks: {qbft: {ipv4_address: 172.30.44.13}}
+    volumes:
+      - node3_data:/var/lib/besu
+      - ../.local/phase4/network:/config:ro
+  node4:
+    <<: *besu
+    command: ["--config-file=/config/node.toml", "--p2p-host=172.30.44.14"]
+    ports: ["127.0.0.1:8548:8545"]
+    networks: {qbft: {ipv4_address: 172.30.44.14}}
+    volumes:
+      - node4_data:/var/lib/besu
+      - ../.local/phase4/network:/config:ro
+networks:
+  qbft:
+    name: chainguard_qbft
+    driver: bridge
+    ipam:
+      config: [{subnet: 172.30.44.0/24}]
+volumes:
+  node1_data: {name: chainguard_chain_node1, external: true}
+  node2_data: {name: chainguard_chain_node2, external: true}
+  node3_data: {name: chainguard_chain_node3, external: true}
+  node4_data: {name: chainguard_chain_node4, external: true}

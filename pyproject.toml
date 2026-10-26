@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chainguard-gateway"
+version = "0.1.0"
+description = "ChainGuard centralized A/B gateway with deterministic authorization and signed audit"
+requires-python = ">=3.11,<3.15"
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+package-dir = {"" = "gateway/src"}
+
+[tool.setuptools.packages.find]
+where = ["gateway/src"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["gateway/requirements.txt"]}
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python", "gateway/tests", "agent/tests", "evaluation/tests", "tests/environment", "sandbox_tools/tests/test_protocol.py"]
+pythonpath = ["gateway/src", "sandbox_tools/src", "agent/src"]
+addopts = "-ra -p no:cacheprovider"
+

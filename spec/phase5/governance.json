@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "domain": {"name": "ChainGuard PolicyRegistry", "version": "1", "chainId": "actual chain id", "verifyingContract": "deployed PolicyRegistry"},
+  "types": {"GovernanceChange": [
+    {"name":"changesHash","type":"bytes32"},
+    {"name":"nonce","type":"uint64"},
+    {"name":"governanceEpoch","type":"uint64"},
+    {"name":"issuedAt","type":"uint64"},
+    {"name":"expiresAt","type":"uint64"}
+  ]},
+  "change_abi": "tuple(uint8 kind,bytes data)[]",
+  "changes_hash": "keccak256(abi.encode(Change[] changes)) including the top-level dynamic offset; order is significant",
+  "payloads": {
+    "0": {"meaning":"identity current organization / global revocation", "abi":["address","bytes32","bool"], "fields":["account","organization","active"]},
+    "1": {"meaning":"current role grant/revoke", "abi":["address","bytes32","bool"], "fields":["account","role","enabled"]},
+    "2": {"meaning":"scope grant/revoke for requester or approver", "abi":["address","bytes32","bool"], "fields":["account","scope","enabled"]},
+    "3": {"meaning":"requester-agent binding", "abi":["address","address","bool"], "fields":["requester","agent","enabled"]},
+    "4": {"meaning":"tool signer binding", "abi":["bytes32","address","bool"], "fields":["toolId","signer","enabled"]},
+    "5": {"meaning":"frozen high-risk policy rule / revoke; epoch increments automatically", "abi":["bytes32","bytes32","bytes32","uint64","uint8","bool"], "fields":["policyId","toolId","resourceScope","maxLifetime","risk","enabled"]},
+    "6": {"meaning":"unpause", "abi":[], "data":"0x"}
+  },
+  "guards": [
+    "two or more current non-revoked GOVERNANCE_ADMIN accounts, at least two organizations, every supplied signature valid and unique",
+    "EOA ECDSA 65-byte signature, low-s, v=27/28 via OpenZeppelin; no personal_sign/1271/compact signatures",
+    "issuedAt <= block.timestamp < expiresAt; 0 < expiresAt-issuedAt <= 86400 seconds",
+    "current global governanceEpoch and unused uint64 nonce; successful batch increments epoch and consumes nonce atomically; revert consumes neither",
+    "1..128 ordered changes, 2..16 signatures; an unauthorized extra signature rejects the entire batch",
+    "no DEFAULT_ADMIN_ROLE or direct grant/revoke/renounce; constructor bootstraps exactly two independent admins",
+    "batch must leave governance with at least two active organizations",
+    "single current governance admin may emergencyPause; only two-organization governance can unpause",
+    "pause blocks new reservations; valid already-produced receipts and uncertainty/reconciliation can still be anchored",
+    "rules are the exact frozen R2/R3 tool/scope/risk combinations; governance may only tighten lifetime or disable; updates never reset policy epoch or action nonces"
+  ],
+  "audit_clock": {"maxFutureSkewSeconds":0,"allowed_constructor_range":[0,30],"meaning":"explicit allowance for receipt observation only; no execution expiry grace"},
+  "deployment": "non-upgradeable contracts; deploy Policy, then Execution with predicted next CREATE Audit address, then Audit; both counterpart references immutable and Audit constructor verifies pairing"
+}

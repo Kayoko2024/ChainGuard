@@ -1,0 +1,27 @@
+{
+  "protocol_version": "1.0.0",
+  "purpose": "Accidental drift guard for the accepted phase 0 inputs; not a cryptographic trust root",
+  "files": {
+    "contracts/interfaces/IAuditRegistry.sol": "fb7291e83a219faeb75c327282b413cf37074cb7ac649de5e648ed8e86914999",
+    "contracts/interfaces/IExecutionRegistry.sol": "40346a801cc10afe294592c3e01298e65b61eb11025417e3030cf242122168d8",
+    "contracts/interfaces/IPolicyRegistry.sol": "02e61fd7cbe0cd8ced81abbfbadf988a8e95e90aa6994fa9187c04a96a44344a",
+    "contracts/interfaces/ProtocolTypes.sol": "541e0af4eeb80690b02a321f21a1b03237bda68e4e7e4bb1e48c9977090ce06d",
+    "docs/http-api.md": "94135bb6154e8c115fc9f2f5434a74f3a63de0c47b9a094a52598ea819c7d953",
+    "docs/permissions.md": "bea8bbeeada841f7e17d8bbcb48bdd6164f610f094b47306ae15b3692fb29989",
+    "docs/phase0-acceptance.md": "72521ade02d84d513652c235f5c3a62c3efe15950adc4ffbe60acb5a1640e165",
+    "docs/protocol.md": "13b2e8e440869840b5f27dddf38dc3c8d7e6e667a31f46a9b4d2918946a6e8ed",
+    "docs/requirements-matrix.md": "fcb92fc3967fa0be1e676300fbb3fbf706c4685486173c64578b61542f7249b7",
+    "docs/state-machine.md": "06307363e6439e782ee9608f7f72ab3cc1803dc34b3695ad78cc0feb579e4c2f",
+    "docs/threat-model.md": "c40af1c6b0ca3d67f429d457083224880d82b234de8ba598e28d90a0abe7961f",
+    "scripts/build_specs.py": "c1f45ba5478d441b6a6c825312317d8d4d722c5c5c7a120adacfa6795c0b22af",
+    "spec/baseline.json": "29d44bc33a686658a76e5f2ec28f75c4c8f602bb407e7e838dcff71d05a7d1dd",
+    "spec/eip712.json": "ab862534220c9e2c397b062739365e55799e041eb843b3e782d60414bda2b024",
+    "spec/errors.json": "838bf81a943cc0e3b43991e83199bf9f320a813ee49c2804516ad929438c3007",
+    "spec/identifiers.json": "d867f1d4ddf2cb0eed91d55057e1ca118fcfb077db253246d0e9265fb39d192c",
+    "spec/openapi.json": "4adb203d6b1254d30b6b993f92dc3b3723cbf512251b7818286bfde207d65a45",
+    "spec/risk-rules.json": "cde1b7709e7f352549ac2f589dd878ffa438dfba2aef4027f3efcd078872623c",
+    "spec/schemas/protocol.schema.json": "20446add1d9c6fd13e82ee84ac14649219c3cfd21aa16cff33213e1630867733",
+    "spec/state-machines.json": "7ca2476d59c9c0c322a144b2e35960dd937c82f2c0c34df43dfa5eb7ccdcd828",
+    "spec/vectors/eip712-v1.json": "1b0135cadfd4983e3b75d0b8c62e74df9404f11ffcd50e94c3ed967cce05e242"
+  }
+}

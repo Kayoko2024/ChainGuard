@@ -1,0 +1,10 @@
+{
+  "stage": 0,
+  "protocol_version": "1.0.0",
+  "design_document": "ChainGuard_智能体区块链_完整设计方案与实施计划.md",
+  "design_version": "V1.0 (2026-10-25)",
+  "design_sha256": "A5016C9A302728D3B0BCCA50BA32992C1CF7AF5B04D26855DA49F6822EAAEA53",
+  "scope": "Design, interfaces and necessary protocol contract tests only",
+  "business_modules_status": "TODO",
+  "test_vector_status": "PUBLIC_CRYPTOGRAPHIC_FIXTURE_ONLY"
+}

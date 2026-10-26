@@ -1,0 +1,2669 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ChainGuard HTTP contract (unimplemented)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000",
+      "description": "Future local sandbox gateway; no service in phase 0"
+    }
+  ],
+  "paths": {
+    "/v1/tasks": {
+      "post": {
+        "operationId": "createTask",
+        "summary": "createTask",
+        "x-required-role": "user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskGrant"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            },
+            "description": "Scoped to authenticated principal + operation; same key/different canonical body => 409"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTaskRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agent/actions/propose": {
+      "post": {
+        "operationId": "proposeAction",
+        "summary": "proposeAction",
+        "x-required-role": "agent",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionRecord"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            },
+            "description": "Scoped to authenticated principal + operation; same key/different canonical body => 409"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProposeRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actions/{id}/approve": {
+      "post": {
+        "operationId": "approveAction",
+        "summary": "approveAction",
+        "x-required-role": "approver",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionRecord"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApproveRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actions/{id}/reserve": {
+      "post": {
+        "operationId": "reserveAction",
+        "summary": "reserveAction",
+        "x-required-role": "executor",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionRecord"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            },
+            "description": "Scoped to authenticated principal + operation; same key/different canonical body => 409"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReserveRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tools/execute": {
+      "post": {
+        "operationId": "executeTool",
+        "summary": "executeTool",
+        "x-required-role": "internal_gateway",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "MutualTLS": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolExecutionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            },
+            "description": "Scoped to authenticated principal + operation; same key/different canonical body => 409"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tools/actions/{id}": {
+      "get": {
+        "operationId": "getToolStatus",
+        "summary": "getToolStatus",
+        "x-required-role": "internal_gateway",
+        "security": [
+          {
+            "ServiceBearer": [],
+            "MutualTLS": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/actions/{id}": {
+      "get": {
+        "operationId": "getAction",
+        "summary": "getAction",
+        "x-required-role": "scoped_user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionRecord"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/actions/{id}/proof": {
+      "get": {
+        "operationId": "getProof",
+        "summary": "getProof",
+        "x-required-role": "auditor",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProofBundle"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/audit/verify": {
+      "post": {
+        "operationId": "verifyProof",
+        "summary": "verifyProof",
+        "x-required-role": "auditor",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actions/{id}/reconcile": {
+      "post": {
+        "operationId": "reconcileAction",
+        "summary": "reconcileAction",
+        "x-required-role": "reconciler",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionRecord"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Bytes32"
+            },
+            "description": "Scoped to authenticated principal + operation; same key/different canonical body => 409"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconcileRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/metrics/summary": {
+      "get": {
+        "operationId": "getMetrics",
+        "summary": "getMetrics",
+        "x-required-role": "local_evaluator",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Protocol response; phase 0 declares this endpoint only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsSummary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN, UNAUTHORIZED_SCOPE, POLICY_DENY, APPROVAL_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "APPROVAL_MISSING, POLICY_REVOKED, NONCE_REUSED, PARAMS_MISMATCH, RESERVATION_UNCONFIRMED, RESERVATION_EXPIRED, TOOL_ALREADY_EXECUTED, EXECUTION_UNKNOWN, IDEMPOTENCY_CONFLICT, STATE_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "SCHEMA_INVALID, UNKNOWN_TOOL, RECEIPT_INVALID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "CHAIN_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Bytes32": {
+        "type": "string",
+        "pattern": "^0x(?!0{64}$)[0-9a-f]{64}(?![\\s\\S])"
+      },
+      "Address": {
+        "type": "string",
+        "pattern": "^0x(?!0{40}$)[0-9a-f]{40}(?![\\s\\S])"
+      },
+      "UInt64": {
+        "type": "string",
+        "pattern": "^(?:0|[1-9][0-9]{0,18}|18446744073709551615|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4][0-9]{0})(?![\\s\\S])"
+      },
+      "UInt256": {
+        "type": "string",
+        "pattern": "^(?:0|[1-9][0-9]{0,76}|115792089237316195423570985008687907853269984665640564039457584007913129639935|10[0-9]{76}|11[0-4][0-9]{75}|115[0-6][0-9]{74}|1157[0-8][0-9]{73}|11579[0-1][0-9]{72}|1157920[0-7][0-9]{70}|11579208[0-8][0-9]{69}|115792089[0-1][0-9]{68}|1157920892[0-2][0-9]{67}|11579208923[0-6][0-9]{66}|115792089237[0-2][0-9]{65}|11579208923730[0-9]{64}|11579208923731[0-5][0-9]{63}|1157920892373160[0-9]{62}|1157920892373161[0-8][0-9]{61}|11579208923731619[0-4][0-9]{60}|115792089237316195[0-3][0-9]{59}|1157920892373161954[0-1][0-9]{58}|11579208923731619542[0-2][0-9]{57}|115792089237316195423[0-4][0-9]{56}|1157920892373161954235[0-6][0-9]{55}|115792089237316195423570[0-8][0-9]{53}|1157920892373161954235709[0-7][0-9]{52}|11579208923731619542357098[0-4][0-9]{51}|11579208923731619542357098500[0-7][0-9]{48}|115792089237316195423570985008[0-5][0-9]{47}|1157920892373161954235709850086[0-7][0-9]{46}|11579208923731619542357098500868[0-6][0-9]{45}|115792089237316195423570985008687[0-8][0-9]{44}|11579208923731619542357098500868790[0-6][0-9]{42}|115792089237316195423570985008687907[0-7][0-9]{41}|1157920892373161954235709850086879078[0-4][0-9]{40}|11579208923731619542357098500868790785[0-2][0-9]{39}|115792089237316195423570985008687907853[0-1][0-9]{38}|1157920892373161954235709850086879078532[0-5][0-9]{37}|11579208923731619542357098500868790785326[0-8][0-9]{36}|115792089237316195423570985008687907853269[0-8][0-9]{35}|1157920892373161954235709850086879078532699[0-7][0-9]{34}|11579208923731619542357098500868790785326998[0-3][0-9]{33}|115792089237316195423570985008687907853269984[0-5][0-9]{32}|1157920892373161954235709850086879078532699846[0-5][0-9]{31}|11579208923731619542357098500868790785326998466[0-4][0-9]{30}|115792089237316195423570985008687907853269984665[0-5][0-9]{29}|1157920892373161954235709850086879078532699846656[0-3][0-9]{28}|115792089237316195423570985008687907853269984665640[0-4][0-9]{26}|1157920892373161954235709850086879078532699846656405[0-5][0-9]{25}|11579208923731619542357098500868790785326998466564056[0-3][0-9]{24}|1157920892373161954235709850086879078532699846656405640[0-2][0-9]{22}|11579208923731619542357098500868790785326998466564056403[0-8][0-9]{21}|115792089237316195423570985008687907853269984665640564039[0-3][0-9]{20}|1157920892373161954235709850086879078532699846656405640394[0-4][0-9]{19}|11579208923731619542357098500868790785326998466564056403945[0-6][0-9]{18}|115792089237316195423570985008687907853269984665640564039457[0-4][0-9]{17}|1157920892373161954235709850086879078532699846656405640394575[0-7][0-9]{16}|11579208923731619542357098500868790785326998466564056403945758[0-3][0-9]{15}|11579208923731619542357098500868790785326998466564056403945758400[0-6][0-9]{12}|115792089237316195423570985008687907853269984665640564039457584007[0-8][0-9]{11}|11579208923731619542357098500868790785326998466564056403945758400790[0-9]{10}|11579208923731619542357098500868790785326998466564056403945758400791[0-2][0-9]{9}|1157920892373161954235709850086879078532699846656405640394575840079130[0-9]{8}|1157920892373161954235709850086879078532699846656405640394575840079131[0-1][0-9]{7}|11579208923731619542357098500868790785326998466564056403945758400791312[0-8][0-9]{6}|115792089237316195423570985008687907853269984665640564039457584007913129[0-5][0-9]{5}|1157920892373161954235709850086879078532699846656405640394575840079131296[0-2][0-9]{4}|11579208923731619542357098500868790785326998466564056403945758400791312963[0-8][0-9]{3}|115792089237316195423570985008687907853269984665640564039457584007913129639[0-8][0-9]{2}|1157920892373161954235709850086879078532699846656405640394575840079131296399[0-2][0-9]{1}|11579208923731619542357098500868790785326998466564056403945758400791312963993[0-4][0-9]{0})(?![\\s\\S])"
+      },
+      "Signature": {
+        "type": "string",
+        "pattern": "^0x[0-9a-f]{128}(?:1b|1c)(?![\\s\\S])"
+      },
+      "Risk": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "Outcome": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "ActionState": {
+        "type": "string",
+        "enum": [
+          "PROPOSED",
+          "DENIED",
+          "AWAITING_APPROVAL",
+          "RESERVING",
+          "RESERVED",
+          "EXECUTING",
+          "EXECUTION_RECORDED",
+          "UNKNOWN",
+          "EXPIRED",
+          "FINALIZED_OK",
+          "FINALIZED_ERROR",
+          "FINALIZED_REJECTED",
+          "READ_EXECUTING",
+          "READ_OK",
+          "READ_ERROR",
+          "READ_UNKNOWN"
+        ]
+      },
+      "ChainState": {
+        "type": "string",
+        "enum": [
+          "NONE",
+          "RESERVED",
+          "UNKNOWN",
+          "FINALIZED_OK",
+          "FINALIZED_ERROR",
+          "FINALIZED_REJECTED"
+        ]
+      },
+      "ToolName": {
+        "type": "string",
+        "enum": [
+          "doc.read",
+          "mail.send",
+          "doc.delete"
+        ]
+      },
+      "ScopeName": {
+        "type": "string",
+        "enum": [
+          "PUBLIC_DOCS",
+          "ORG_A_DOCS",
+          "ORG_A_INTERNAL_MAIL",
+          "ORG_A_DISPOSABLE_DOCS"
+        ]
+      },
+      "ActionIntent": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": 1,
+            "type": "integer"
+          },
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "task_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "requester": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "agent": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "tool_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "resource_scope": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "params_commit": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "policy_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "policy_epoch": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "nonce": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "issued_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "expires_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "risk": {
+            "type": "integer",
+            "enum": [
+              2,
+              3
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "action_id",
+          "task_id",
+          "requester",
+          "agent",
+          "tool_id",
+          "resource_scope",
+          "params_commit",
+          "policy_id",
+          "policy_epoch",
+          "nonce",
+          "issued_at",
+          "expires_at",
+          "risk"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "risk": {
+                "const": 2
+              },
+              "tool_id": {
+                "const": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+              },
+              "resource_scope": {
+                "const": "0x3dd72b930fa280c322e6a77e12116def0f0e444992794d33c9cb8ad47bb24b8f"
+              },
+              "policy_id": {
+                "const": "0x3af54c2005912c856a16e393cdb7c44363d4410a7a48a2c5165c8c7c62a99e0f"
+              },
+              "policy_epoch": {
+                "not": {
+                  "const": "0"
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "risk": {
+                "const": 3
+              },
+              "tool_id": {
+                "const": "0xd48ffc84c58293cef76794a6326b8e6b20a897c17c1d83bb5f3ee808ce8f87f1"
+              },
+              "resource_scope": {
+                "const": "0xae00ad21a1391fe1cc523aa9c00a602734e3c9657de30752b674b13302180c04"
+              },
+              "policy_id": {
+                "const": "0x3f1d08ea4dde7eb2f42f3bbba2fa10bc073b3644a6c0084bea5a5b3ca0c7d4f6"
+              },
+              "policy_epoch": {
+                "not": {
+                  "const": "0"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ExecutionReceipt": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "const": 1,
+            "type": "integer"
+          },
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "params_commit": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "result_commit": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "evidence_index_commit": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "executed_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          }
+        },
+        "required": [
+          "schema_version",
+          "action_id",
+          "params_commit",
+          "result_commit",
+          "evidence_index_commit",
+          "executed_at",
+          "outcome"
+        ],
+        "additionalProperties": false
+      },
+      "DocumentId": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_-]{0,63}(?![\\s\\S])"
+      },
+      "ReadParams": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "$ref": "#/components/schemas/DocumentId"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "additionalProperties": false
+      },
+      "DeleteParams": {
+        "type": "object",
+        "properties": {
+          "doc_id": {
+            "$ref": "#/components/schemas/DocumentId"
+          }
+        },
+        "required": [
+          "doc_id"
+        ],
+        "additionalProperties": false
+      },
+      "MailParams": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9._+-]+@inbox\\.chainguard\\.invalid(?![\\s\\S])"
+            },
+            "minItems": 1,
+            "maxItems": 10,
+            "uniqueItems": true
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[^\\r\\n]*(?![\\s\\S])"
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 20000
+          }
+        },
+        "required": [
+          "to",
+          "subject",
+          "body"
+        ],
+        "additionalProperties": false
+      },
+      "CreateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "task_text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000
+          },
+          "agent": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "allowed_tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolName"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "resource_scopes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeName"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "allowed_document_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentId"
+            },
+            "maxItems": 100,
+            "uniqueItems": true
+          },
+          "allowed_recipients": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9._+-]+@inbox\\.chainguard\\.invalid(?![\\s\\S])"
+            },
+            "maxItems": 10,
+            "uniqueItems": true
+          },
+          "expires_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "max_risk": {
+            "$ref": "#/components/schemas/Risk"
+          },
+          "allow_sandbox_delete": {
+            "type": "boolean"
+          },
+          "max_actions": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          }
+        },
+        "required": [
+          "task_text",
+          "agent",
+          "allowed_tools",
+          "resource_scopes",
+          "allowed_document_ids",
+          "allowed_recipients",
+          "expires_at",
+          "max_risk",
+          "allow_sandbox_delete",
+          "max_actions"
+        ],
+        "additionalProperties": false
+      },
+      "TaskGrant": {
+        "type": "object",
+        "properties": {
+          "task_text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000
+          },
+          "agent": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "allowed_tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolName"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "resource_scopes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeName"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "allowed_document_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DocumentId"
+            },
+            "maxItems": 100,
+            "uniqueItems": true
+          },
+          "allowed_recipients": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9._+-]+@inbox\\.chainguard\\.invalid(?![\\s\\S])"
+            },
+            "maxItems": 10,
+            "uniqueItems": true
+          },
+          "expires_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "max_risk": {
+            "$ref": "#/components/schemas/Risk"
+          },
+          "allow_sandbox_delete": {
+            "type": "boolean"
+          },
+          "max_actions": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "schema_version": {
+            "type": "integer",
+            "const": 1
+          },
+          "task_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "requester": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "required": [
+          "task_text",
+          "agent",
+          "allowed_tools",
+          "resource_scopes",
+          "allowed_document_ids",
+          "allowed_recipients",
+          "expires_at",
+          "max_risk",
+          "allow_sandbox_delete",
+          "max_actions",
+          "schema_version",
+          "task_id",
+          "requester"
+        ],
+        "additionalProperties": false
+      },
+      "ProposeRequest": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "$ref": "#/components/schemas/Bytes32"
+              },
+              "tool_name": {
+                "const": "doc.read",
+                "type": "string"
+              },
+              "params": {
+                "$ref": "#/components/schemas/ReadParams"
+              }
+            },
+            "required": [
+              "task_id",
+              "tool_name",
+              "params"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "$ref": "#/components/schemas/Bytes32"
+              },
+              "tool_name": {
+                "const": "mail.send",
+                "type": "string"
+              },
+              "params": {
+                "$ref": "#/components/schemas/MailParams"
+              }
+            },
+            "required": [
+              "task_id",
+              "tool_name",
+              "params"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "$ref": "#/components/schemas/Bytes32"
+              },
+              "tool_name": {
+                "const": "doc.delete",
+                "type": "string"
+              },
+              "params": {
+                "$ref": "#/components/schemas/DeleteParams"
+              }
+            },
+            "required": [
+              "task_id",
+              "tool_name",
+              "params"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "ApproveRequest": {
+        "type": "object",
+        "properties": {
+          "signature": {
+            "$ref": "#/components/schemas/Signature"
+          }
+        },
+        "required": [
+          "signature"
+        ],
+        "additionalProperties": false
+      },
+      "ReserveRequest": {
+        "type": "object",
+        "properties": {
+          "requester_signature": {
+            "$ref": "#/components/schemas/Signature"
+          }
+        },
+        "required": [
+          "requester_signature"
+        ],
+        "additionalProperties": false
+      },
+      "ChainEvidence": {
+        "type": "object",
+        "properties": {
+          "chain_id": {
+            "$ref": "#/components/schemas/UInt256"
+          },
+          "registry": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "tx_hash": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "block_hash": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "block_number": {
+            "$ref": "#/components/schemas/UInt64"
+          }
+        },
+        "required": [
+          "chain_id",
+          "registry",
+          "tx_hash",
+          "block_hash",
+          "block_number"
+        ],
+        "additionalProperties": false
+      },
+      "ErrorDetail": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "SCHEMA_INVALID",
+              "AUTH_REQUIRED",
+              "FORBIDDEN",
+              "NOT_FOUND",
+              "UNKNOWN_TOOL",
+              "UNAUTHORIZED_SCOPE",
+              "POLICY_DENY",
+              "APPROVAL_MISSING",
+              "APPROVAL_INVALID",
+              "POLICY_REVOKED",
+              "NONCE_REUSED",
+              "PARAMS_MISMATCH",
+              "RESERVATION_UNCONFIRMED",
+              "RESERVATION_EXPIRED",
+              "TOOL_ALREADY_EXECUTED",
+              "CHAIN_UNAVAILABLE",
+              "EXECUTION_UNKNOWN",
+              "RECEIPT_INVALID",
+              "IDEMPOTENCY_CONFLICT",
+              "STATE_CONFLICT"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "trace_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "retryable",
+          "trace_id"
+        ],
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "additionalProperties": false
+      },
+      "ActionRecord": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "task_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/Risk"
+          },
+          "state": {
+            "$ref": "#/components/schemas/ActionState"
+          },
+          "chain_state": {
+            "$ref": "#/components/schemas/ChainState"
+          },
+          "anchor_status": {
+            "type": "string",
+            "enum": [
+              "NOT_APPLICABLE",
+              "PENDING",
+              "CONFIRMED"
+            ]
+          },
+          "intent": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ActionIntent"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExecutionReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reservation_evidence": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChainEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "finalization_evidence": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChainEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "action_id",
+          "task_id",
+          "risk",
+          "state",
+          "chain_state",
+          "anchor_status",
+          "intent",
+          "receipt",
+          "reservation_evidence",
+          "finalization_evidence",
+          "error"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "risk": {
+                  "enum": [
+                    0,
+                    1
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "PROPOSED",
+                    "DENIED",
+                    "READ_EXECUTING",
+                    "READ_OK",
+                    "READ_ERROR",
+                    "READ_UNKNOWN"
+                  ]
+                },
+                "chain_state": {
+                  "const": "NONE"
+                },
+                "anchor_status": {
+                  "const": "NOT_APPLICABLE"
+                },
+                "intent": {
+                  "type": "null"
+                },
+                "receipt": {
+                  "type": "null"
+                },
+                "reservation_evidence": {
+                  "type": "null"
+                },
+                "finalization_evidence": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "PROPOSED",
+                    "DENIED",
+                    "AWAITING_APPROVAL",
+                    "RESERVING",
+                    "RESERVED",
+                    "EXECUTING",
+                    "EXECUTION_RECORDED",
+                    "UNKNOWN",
+                    "EXPIRED",
+                    "FINALIZED_OK",
+                    "FINALIZED_ERROR",
+                    "FINALIZED_REJECTED"
+                  ]
+                },
+                "intent": {
+                  "$ref": "#/components/schemas/ActionIntent"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "FINALIZED_OK"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "chain_state": {
+                  "const": "FINALIZED_OK"
+                },
+                "anchor_status": {
+                  "const": "CONFIRMED"
+                },
+                "receipt": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ExecutionReceipt"
+                    },
+                    {
+                      "properties": {
+                        "outcome": {
+                          "const": 0
+                        }
+                      }
+                    }
+                  ]
+                },
+                "reservation_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                },
+                "finalization_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "FINALIZED_ERROR"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "chain_state": {
+                  "const": "FINALIZED_ERROR"
+                },
+                "anchor_status": {
+                  "const": "CONFIRMED"
+                },
+                "receipt": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ExecutionReceipt"
+                    },
+                    {
+                      "properties": {
+                        "outcome": {
+                          "const": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "reservation_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                },
+                "finalization_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "FINALIZED_REJECTED"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "chain_state": {
+                  "const": "FINALIZED_REJECTED"
+                },
+                "anchor_status": {
+                  "const": "CONFIRMED"
+                },
+                "receipt": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ExecutionReceipt"
+                    },
+                    {
+                      "properties": {
+                        "outcome": {
+                          "const": 2
+                        }
+                      }
+                    }
+                  ]
+                },
+                "reservation_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                },
+                "finalization_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "EXECUTION_RECORDED"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "anchor_status": {
+                  "const": "PENDING"
+                },
+                "chain_state": {
+                  "enum": [
+                    "RESERVED",
+                    "UNKNOWN"
+                  ]
+                },
+                "receipt": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ExecutionReceipt"
+                    },
+                    {
+                      "properties": {
+                        "outcome": {
+                          "enum": [
+                            0,
+                            1,
+                            2
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "reservation_evidence": {
+                  "$ref": "#/components/schemas/ChainEvidence"
+                },
+                "finalization_evidence": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ExecuteRequest": {
+        "type": "object",
+        "properties": {
+          "intent": {
+            "$ref": "#/components/schemas/ActionIntent"
+          },
+          "params_salt": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "params": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MailParams"
+              },
+              {
+                "$ref": "#/components/schemas/DeleteParams"
+              }
+            ]
+          },
+          "reservation_evidence": {
+            "$ref": "#/components/schemas/ChainEvidence"
+          }
+        },
+        "required": [
+          "intent",
+          "params_salt",
+          "params",
+          "reservation_evidence"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "intent": {
+                "properties": {
+                  "tool_id": {
+                    "const": "0x3824a92d682a762f8642b45ddfd77d471e0f9b736c3eb687bb9661a845dc230c"
+                  },
+                  "risk": {
+                    "const": 2
+                  }
+                }
+              },
+              "params": {
+                "$ref": "#/components/schemas/MailParams"
+              }
+            }
+          },
+          {
+            "properties": {
+              "intent": {
+                "properties": {
+                  "tool_id": {
+                    "const": "0xd48ffc84c58293cef76794a6326b8e6b20a897c17c1d83bb5f3ee808ce8f87f1"
+                  },
+                  "risk": {
+                    "const": 3
+                  }
+                }
+              },
+              "params": {
+                "$ref": "#/components/schemas/DeleteParams"
+              }
+            }
+          }
+        ]
+      },
+      "ToolExecutionResponse": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "EXECUTION_RECORDED",
+              "UNKNOWN"
+            ]
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExecutionReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_signature": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Signature"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "action_id",
+          "state",
+          "receipt",
+          "tool_signature"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "state": {
+                "const": "EXECUTION_RECORDED"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "enum": [
+                          0,
+                          1,
+                          2
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          },
+          {
+            "properties": {
+              "state": {
+                "const": "UNKNOWN"
+              },
+              "receipt": {
+                "type": "null"
+              },
+              "tool_signature": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "state": {
+                "const": "UNKNOWN"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": 3
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          }
+        ]
+      },
+      "ToolStatusResponse": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "checked_at": {
+            "$ref": "#/components/schemas/UInt64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NOT_STARTED",
+              "CLAIMED",
+              "EXECUTED_OK",
+              "EXECUTED_ERROR",
+              "REJECTED",
+              "UNKNOWN"
+            ]
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExecutionReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_signature": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Signature"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "action_id",
+          "checked_at",
+          "status",
+          "receipt",
+          "tool_signature"
+        ],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "status": {
+                "enum": [
+                  "NOT_STARTED",
+                  "CLAIMED",
+                  "UNKNOWN"
+                ]
+              },
+              "receipt": {
+                "type": "null"
+              },
+              "tool_signature": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "EXECUTED_OK"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": 0
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "EXECUTED_ERROR"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "REJECTED"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": 2
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          },
+          {
+            "properties": {
+              "status": {
+                "const": "UNKNOWN"
+              },
+              "receipt": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ExecutionReceipt"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": 3
+                      }
+                    }
+                  }
+                ]
+              },
+              "tool_signature": {
+                "$ref": "#/components/schemas/Signature"
+              }
+            }
+          }
+        ]
+      },
+      "ReconcileRequest": {
+        "type": "object",
+        "properties": {
+          "receipt": {
+            "$ref": "#/components/schemas/ExecutionReceipt"
+          },
+          "tool_signature": {
+            "$ref": "#/components/schemas/Signature"
+          }
+        },
+        "required": [
+          "receipt",
+          "tool_signature"
+        ],
+        "additionalProperties": false
+      },
+      "ProofBundle": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "const": 1
+          },
+          "chain_id": {
+            "$ref": "#/components/schemas/UInt256"
+          },
+          "execution_registry": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "audit_registry": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "intent": {
+            "$ref": "#/components/schemas/ActionIntent"
+          },
+          "requester_signature": {
+            "$ref": "#/components/schemas/Signature"
+          },
+          "approval_signatures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Signature"
+            },
+            "minItems": 2,
+            "maxItems": 16,
+            "uniqueItems": true
+          },
+          "receipt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExecutionReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_signature": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Signature"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reservation_evidence": {
+            "$ref": "#/components/schemas/ChainEvidence"
+          },
+          "finalization_evidence": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChainEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_status": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "MISSING",
+              "NO_ACCESS"
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "chain_id",
+          "execution_registry",
+          "audit_registry",
+          "intent",
+          "requester_signature",
+          "approval_signatures",
+          "receipt",
+          "tool_signature",
+          "reservation_evidence",
+          "finalization_evidence",
+          "evidence_status"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "receipt": {
+                  "type": "null"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "tool_signature": {
+                  "type": "null"
+                },
+                "finalization_evidence": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "tool_signature": {
+                  "$ref": "#/components/schemas/Signature"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "intent": {
+                  "properties": {
+                    "risk": {
+                      "const": 3
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "approval_signatures": {
+                  "minItems": 3
+                }
+              }
+            }
+          }
+        ]
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "properties": {
+          "proof": {
+            "$ref": "#/components/schemas/ProofBundle"
+          }
+        },
+        "required": [
+          "proof"
+        ],
+        "additionalProperties": false
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "$ref": "#/components/schemas/Bytes32"
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "VALID",
+              "INVALID",
+              "PARTIAL"
+            ]
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        },
+        "required": [
+          "action_id",
+          "verdict",
+          "findings"
+        ],
+        "additionalProperties": false
+      },
+      "MetricsSummary": {
+        "type": "object",
+        "properties": {
+          "experiment_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sample_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unauthorized_attempts": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "unauthorized_executed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reserve_latency_p95_ms": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          }
+        },
+        "required": [
+          "experiment_version",
+          "sample_count",
+          "unauthorized_attempts",
+          "unauthorized_executed",
+          "reserve_latency_p95_ms"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "ServiceBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "MutualTLS": {
+        "type": "mutualTLS"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "besu_version": "25.10.0",
+  "official_repository": "docker.io/hyperledger/besu",
+  "source": "https://registry-1.docker.io/v2/hyperledger/besu/manifests/25.10.0",
+  "index_digest": "sha256:11dd3a2f44ad1cafb39cbe27d6ee57b053733c257812cc8a0264ade9e6cc0778",
+  "platform": "linux/amd64",
+  "manifest_digest": "sha256:59bf436426f46f6cc1727d0655222738308d110ce62163677ea9e5d8a088f297",
+  "image_id": "sha256:12c51ea22cb10be0a9c324770551caca284fb81b92355dcc3a449889a8a1edd3",
+  "compose_image": "sha256:12c51ea22cb10be0a9c324770551caca284fb81b92355dcc3a449889a8a1edd3",
+  "distribution": "official Docker Hub bytes; host download plus offline docker load",
+  "config_digest": "sha256:80bda7e59d27b476493f742d2b228d8fff5f167528006dd53de5659e6c7a2e99",
+  "runtime_image_id": "sha256:12c51ea22cb10be0a9c324770551caca284fb81b92355dcc3a449889a8a1edd3"
+}

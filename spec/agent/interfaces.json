@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stage": 7,
+  "status": "fixed trace and adapter; real LLM experiments pending",
+  "frozen_high_risk_api": "spec/openapi.json",
+  "high_risk_routes": ["POST /v1/agent/actions/propose", "GET /v1/actions/{id}"],
+  "forbidden_agent_capabilities": ["approval signing", "reserve", "tool execute", "tool receipt signing", "relayer key", "task creation"],
+  "extensions": {
+    "POST /agent/v1/reads": {
+      "auth": "Agent JWT + deployment client mTLS; tool rechecks a separate trusted task/agent/document/expiry read capability",
+      "idempotency_key": "bytes32 required; reads may be retried, no high-risk authorization",
+      "request_fields": ["task_id", "doc_id"],
+      "response_fields": ["doc_id", "source_kind", "trust", "content", "sha256", "read_execution_id"],
+      "source_kind": ["document", "email"],
+      "trust": "untrusted",
+      "effect": "actual local PUBLIC_DOCS read, never promoted to a system message"
+    },
+    "GET /operator/v1/pending": {"auth": "Pinned trusted reviewer mTLS + current reviewer JWT", "response_fields": ["actions"]},
+    "GET /operator/v1/actions/{id}/review": {"auth": "Pinned trusted reviewer mTLS + current scoped reviewer JWT", "response_fields": ["intent", "params", "params_salt"], "privacy": "trusted private channel only"},
+    "POST /internal/v1/reads": {"auth": "Pinned gateway mTLS AND independent service bearer", "request_fields": ["task_id", "agent", "doc_id"]}
+  },
+  "event_fields": {
+    "agent_attempted_tool": "boolean: an attempted call, not evidence of execution",
+    "policy_verdict": "null | READ_ALLOWED | REQUIRE_APPROVAL | ALLOW | DENY | UNKNOWN",
+    "tool_executed": "true only for verified read/OK receipt or independently observed effect; false for definite pre-execution rejection; null when unknown",
+    "attack_success": "null for all fixed traces; future real LLM evaluation must use the original applicable benchmark predicate",
+    "mode": "fixed_trace | real_llm"
+  },
+  "backend_protocol": "ModelBackend.next_turn(messages, tools) -> Turn(content, calls)",
+  "model_environment": ["CHAINGUARD_LLM_MODEL", "CHAINGUARD_LLM_BASE_URL", "CHAINGUARD_LLM_API_KEY", "CHAINGUARD_LLM_TIMEOUT_SECONDS"],
+  "phase7_required_followup": "Connect and actually run a configured real LLM, normal task + document/email injection, before stage8 formal A/B/C experiments; never count fixed traces as LLM samples."
+}
