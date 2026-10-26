@@ -1,0 +1,55 @@
+{
+  "status": "COMPLETED_WITH_DELIVERY_GAPS",
+  "checked_at_utc": "2026-10-26T07:39:42.788121+00:00",
+  "prototype": "LIMITED_ACCEPTANCE",
+  "full_research": "NOT_ACCEPTED",
+  "formal_submission": "NOT_ACCEPTED",
+  "full_tests": {
+    "python": 231,
+    "hardhat": 71,
+    "frontend": 3,
+    "failures": 0
+  },
+  "sandbox_tests": 34,
+  "controlled_rebuild": {
+    "steps": 17,
+    "exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "full_tests_again": [
+      231,
+      71,
+      3
+    ],
+    "blank_machine": "NOT_TESTED"
+  },
+  "old_full_authorization": "UNAVAILABLE",
+  "old_physical_and_receipts": "PASS",
+  "new_independent_evidence": "PASS",
+  "model_api_called_in_this_acceptance": false,
+  "fixed_trace_in_real_asr": false,
+  "license": "MISSING",
+  "anonymous_release_package": "MISSING",
+  "version_consistency": "FAIL",
+  "source_baseline_commit": "b4a57819215c971eda48e4c60ae60feb4c2fde7a",
+  "raw_originals_preserved": true,
+  "report": "FINAL_ACCEPTANCE_REPORT.md",
+  "evidence_index": "results/final_acceptance/v1-independent-01/evidence-index.json",
+  "stopped_after_acceptance": true
+}

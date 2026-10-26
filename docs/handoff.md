@@ -1,5 +1,19 @@
 # ChainGuard 新会话交接
 
+## V1.0.0 最终独立验收（2026-10-26，验收结论：原型有限签收，完整交付不通过）
+
+本轮用户要求独立验证，禁止继续新功能开发。实际重读规范／源码／Git并执行 Python 231、Hardhat 71、前端3测试，全部通过；受限容器8+26项通过（100并发邮件、50并发删除仅tmpfs沙箱）。新受控干净目录17步均0退出，重复231/71/3及真实HTTP/Edge冒烟通过。证据根results/final_acceptance/v1-independent-01，根FINAL_ACCEPTANCE_REPORT.md为最终判定入口；不是直接引用阶段9历史PASS。
+
+历史源b5b09af5ea协议59交易/236receipt、正式模型8交易/32receipt及原卷93/12 MIME真实复核；完整验证器只操作副本，旧授权区块eth_call不可用，原protocol-0000/0006及完整两轨复验仍UNAVAILABLE，不能升级为PASS。旧证据索引162份逐字节不变。新独立真实演示results/phase9/final-independent-deploy-01（8083），源results/phase8/phase9/7f6e0d69f7，隔离新卷138例/93MIME/59交易；独立只读再次复核全部236receipt/原卷，protocol-0000 VERIFIED、0043 NO_RESERVATION、0006 UNKNOWN/链RESERVED/PENDING_RECEIPT且不重发。新动作不能替代原actionId的历史证明。
+
+真实链20261026、四验证者各3peers，原合约代码一致，独立区块24546→24550；新合法reserve f160bb7b…e2f53f3d/24180，finalize 17bf3196…c7672c/24181。五种副本篡改INVALID、只断新审计容器网UNAVAILABLE、恢复VERIFIED。原27合约交易108receipt本轮重读17成功+10预期回滚（阶段5工具回执仍夹具）。模型不重调API，只复核真实历史请求/副作用/原判定器；两轨重算CSV/Wilson及独立150项Bootstrap/分位数一致。协议ASR未测，DeepSeek各ASR0/3、模型无越权尝试，不能算网关拦截。
+
+用户本轮明确授权建立无隐私可追溯版本：原无HEAD，已建立源码基线b4a57819215c971eda48e4c60ae60feb4c2fde7a（283审核文件，通用作者，原始数据保留、不推送、不打Release标签）；最终文档提交与HEAD见证据根git-final.json。不再以旧“无HEAD”描述当前仓库；此前开发历史仍不存在。Key仅本地忽略配置，模板空，源码blob扫描无当前Key/个人主目录路径。运行日志和原始证据未整体纳入Git，不可直接git add .或当匿名发布包。
+
+FAIL/未完成：根项目许可证、匿名发布包、软件版本0.1.0/0.9.0与协议1.0.0不统一；空白OS/新genesis重建未测；完整官方utility不兼容、小样本研究不充分；其他C工具/R3完整闭环/生产多机构隔离/HSM等仍原TODO。两PDF3+4页本轮只读提取/渲染检查且原字节不变。验收辅助首轮history字典路径TypeError、retry01混合编码、补充新证据首轮缺transactions字段等失败保留；没有修改业务/测试预期消除失败。收尾git diff空白检查因Windows写入CRLF且仓库*-text而退出2，已恢复原文档body字节并仅使新段落/报告使用LF；失败日志保留。普通沙箱helper启动失败，经工具提权流程执行，无自动审批拒绝遗留。
+
+结论：现有本地R2原型可有限范围签收；完整研究实验及正式V1.0.0竞赛交付不可无条件签收。本轮验收结束停止，不自动选许可证、改版本、补实验、推进新功能或重发UNKNOWN。原8080/新8083/四Besu保留，8081干净重建容器已停止、所有卷保留。完整命令/退出/失败/证据索引见最终报告与commands.jsonl，收尾状态见acceptance-summary.json。
+
 ## 最终阶段9接手点（2026-10-26，技术验收PASS，等待用户验收）
 
 所有阶段9部署/重建/回归进程已结束，8680、45950、28117、42012均实际退出0，无待轮询验收。先重读AGENTS/architecture/contracts/decisions/progress/本文件、phase9-contracts/acceptance和audit_*.py/dashboard源码/tests、Git和diff，再建立新基线，不依据本段替代验证。原116源码+25不同冻结文件摘要不变（results/phase9/integrity-final.json），不改原协议/合约/业务安全逻辑。
