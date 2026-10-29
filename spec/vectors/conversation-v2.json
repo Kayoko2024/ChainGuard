@@ -1,0 +1,99 @@
+{
+  "note": "Public fixture only; never a production credential",
+  "domain": {
+    "name": "ChainGuard ConversationSessionRegistry",
+    "version": "1",
+    "chainId": 31337,
+    "verifyingContract": "0x2424242424242424242424242424242424242424"
+  },
+  "types": {
+    "ConversationGrant": [
+      {
+        "name": "requester",
+        "type": "address"
+      },
+      {
+        "name": "agent",
+        "type": "address"
+      },
+      {
+        "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
+        "name": "toolsHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "nonce",
+        "type": "uint64"
+      },
+      {
+        "name": "issuedAt",
+        "type": "uint64"
+      },
+      {
+        "name": "expiresAt",
+        "type": "uint64"
+      },
+      {
+        "name": "maxCalls",
+        "type": "uint32"
+      }
+    ],
+    "ConversationBinding": [
+      {
+        "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
+        "name": "taskId",
+        "type": "bytes32"
+      },
+      {
+        "name": "grantDigest",
+        "type": "bytes32"
+      },
+      {
+        "name": "expiresAt",
+        "type": "uint64"
+      }
+    ],
+    "ConversationClose": [
+      {
+        "name": "sessionId",
+        "type": "bytes32"
+      },
+      {
+        "name": "grantDigest",
+        "type": "bytes32"
+      },
+      {
+        "name": "closedAt",
+        "type": "uint64"
+      }
+    ]
+  },
+  "scopes": [
+    {
+      "name": "custom.contacts",
+      "revision": "0x1616161616161616161616161616161616161616161616161616161616161616",
+      "allowed_keys": [
+        "CONTACT-001"
+      ],
+      "generation": 1
+    }
+  ],
+  "message": {
+    "requester": "0x19e7e376e7c213b7e7e7e46cc70a5dd086daff2a",
+    "agent": "0x1414141414141414141414141414141414141414",
+    "sessionId": "0x1515151515151515151515151515151515151515151515151515151515151515",
+    "toolsHash": "0x6410cf3483b08bbbc34b91f2e699c1247e785ae76c3d774ea1f116bad570bb60",
+    "nonce": 7,
+    "issuedAt": 2000000000,
+    "expiresAt": 2000003600,
+    "maxCalls": 50
+  },
+  "digest": "0x00b1441c436fa26da9fe1a1482b4d406b953a6f880fa77ac6424d964f6ebea28",
+  "signature": "0x72a9e2494862b4be9f106327572cc8572afe2836ca99c81855aa0b58f67f7ddb5c06e369285ccf34026adf954c4fc07332f495b58de9b9de5684010f215128b41c"
+}

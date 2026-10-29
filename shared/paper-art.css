@@ -1,0 +1,26 @@
+/* Original paper cutouts, drawn with CSS/SVG. All content is decorative. */
+.craft-collage{position:relative;width:340px;height:290px;flex-shrink:0;isolation:isolate;pointer-events:none}
+.craft-scrap{position:absolute;display:block;border-radius:10px;z-index:-2}
+.scrap-yellow{width:92px;height:115px;right:-10px;top:1px;transform:rotate(12deg);background:#f5c040;opacity:.3}
+.scrap-teal{width:87px;height:91px;right:25px;top:54px;transform:rotate(-7deg);background:#5cb8a5;opacity:.24}
+.scrap-pink{width:50px;height:50px;left:-22px;bottom:33px;transform:rotate(9deg);background:#e85d75;opacity:.18}
+.craft-orbit{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:#c2b7a6;stroke-width:1.8;stroke-dasharray:5 6;stroke-linecap:round;z-index:-1}
+.craft-orbit path:last-child{stroke-dasharray:none}
+.craft-sheet{position:absolute;left:52px;top:36px;width:218px;height:215px;border-radius:13px;box-shadow:4px 5px 0 rgba(45,45,45,.08)}
+.sheet-blue{background:#6b7fb5;transform:translate(9px,10px) rotate(8deg)}
+.sheet-yellow{background:#f5c040;transform:translate(-8px,4px) rotate(-9deg)}
+.sheet-white{background:#fff;border:2px solid #e0d8cc;transform:rotate(-3deg);padding:28px 22px 15px;z-index:1}
+.craft-tape{position:absolute;left:73px;top:-13px;width:68px;height:27px;background:#e85d75;opacity:.85;transform:rotate(6deg);clip-path:polygon(3% 0,97% 2%,100% 91%,96% 100%,0 97%,2% 84%)}
+.craft-sheet-heading{display:flex;align-items:center;gap:7px;color:#2d2d2d;font-size:11px;font-weight:600;margin-bottom:29px;white-space:nowrap}
+.craft-sheet-heading>.icon{color:#b84057;width:17px;height:17px}.craft-sheet-heading i{margin-left:auto;font-style:normal;color:#858079;font-size:10px}
+.craft-rule{display:block;width:75%;height:6px;border-radius:4px;background:#efece5;margin:13px 0}
+.craft-rule.rule-long{width:100%;background:#d8eae2}.craft-rule.rule-short{width:49%}
+.craft-sheet-footer{display:flex;align-items:center;justify-content:space-between;margin-top:26px;border-top:1px dashed #ddd6ca;padding-top:13px;font-size:9px;color:#777269}
+.craft-sheet-footer>.icon{width:13px;height:13px;color:#b84057}
+.craft-seal{position:absolute;right:6px;bottom:25px;z-index:2;width:91px;height:91px;background:#5cb8a5;color:#244f44;border-radius:50%;border:5px solid #e4f0e9;outline:1px dashed #5d917b;outline-offset:3px;box-shadow:4px 5px 0 rgba(45,45,45,.1);transform:rotate(10deg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px}
+.craft-seal>.icon{width:30px;height:30px}.craft-seal>span{font-size:10px;font-weight:700}
+.craft-note{position:absolute;left:3px;bottom:2px;z-index:3;background:#fff7df;color:#785b25;border:1px solid #eed59e;box-shadow:3px 3px 0 rgba(45,45,45,.09);border-radius:10px;transform:rotate(-8deg);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:10px;line-height:1.6}
+.craft-note>.icon{width:22px;height:22px}.craft-note b{font-size:13px;font-weight:700}
+.craft-spark{position:absolute;left:12px;top:12px;width:26px;height:26px;stroke:#e85d75;fill:none;stroke-width:2;stroke-linecap:round;transform:rotate(8deg)}
+.brand-accent{color:#b84057}
+@media(prefers-reduced-motion:reduce){.craft-collage *{animation:none!important;transition:none!important}}

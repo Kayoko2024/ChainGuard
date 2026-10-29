@@ -1,0 +1,31 @@
+{
+  "archive_sha256": "3d6b065077e734d56caaa18a2a3c3c2d62de148fc99a59841fe8ad56b7e1fafd",
+  "files": {
+    "docs/phase1-acceptance.md": "be7e83cf1b537bca327aff9f0d9fcdf660cf834f5a20fcbd228fb37f54c37a40",
+    "docs/phase2-acceptance.md": "bad5acfb7a719b3885234de237e9c728cd8165435fa8e5888dcfadb01785324e",
+    "docs/phase3-acceptance.md": "0986e64dc486cf424fc239ddce857df31c665940d4a65729853a7e0f26a34b55",
+    "docs/phase4-acceptance.md": "0741f26bc016a9d850d79f323127cdb02e65dfe207085ced7594b739c042677a",
+    "docs/phase5-acceptance.md": "ad58d8e8b61926665c566137c9de365a2b94d57702ce6efcb7a4a76d3160d78e",
+    "docs/phase6-acceptance.md": "4ae674f6ee809c4267116e62083b6cae9a591ce74cc18891fd83916d30dbc5ea",
+    "docs/phase7-acceptance.md": "dd6c293ef2ba56c27b4a832f05f260672a24232b6b2cb2b7af2cbcae1cefb190",
+    "docs/phase8-acceptance.md": "b24859492e3f8e1d87e0f3047df20533a961e911681afa28e735faf984e67c38",
+    "docs/phase9-acceptance.md": "6d91cc5a6b85dc8510793b68148152d7f5243005349fab0ba9989e256114148c",
+    "docs/phase10-acceptance.md": "db151f092ebc36324aef0db21eb65b359176f5c779380c0bc0a6393d0fe28852",
+    "docs/phase2-design.md": "bbbe685b846565b9a337efbbee7e8780fb5845bd487fb784d5cdea28703f5d9f",
+    "docs/phase3-design.md": "61ff7458e0e6c0bbe40c740fa410802e16abc00b9c9b5ff4cc71d89bcb07def8",
+    "docs/phase4-design.md": "54d54f714e3358ea54cfa40ce2458d8b1af644d9215a368874c9ed2b05e8f437",
+    "docs/phase5-design.md": "4d8ea02828cacc0c4a79cbb074f5cbfd2bf1d5b3d14c5fe4229d288214d91eea",
+    "docs/phase6-design.md": "fb9603c4be389ae621d26ff6ac6fe8fa15a85a295151bbda1ede30822f5a9cf3",
+    "docs/phase7-design.md": "951190cef1ade79b1180c6b8ee040d46440a6c1b19d22189616b09eec85f9d30",
+    "docs/phase8-design.md": "aebc5a1350fa860bbb570c3f2c21a7d98503e25dcd651f717bc81f2ef4671f66",
+    "docs/phase9-design.md": "9d34774c6c7c952bc4720ae4cf82763b5ceb3f88c05ef86ae6121cba50e499ea",
+    "docs/phase10-design.md": "1e1600907d9a30ca49e4c60381df09f560319e75e17559ae355db702baa028ff",
+    "docs/demo-phase9.md": "869a0fd16fb59ce2274c05cd201d2f7f4201e25ae6a7493afb61f9a399779af6",
+    "docs/demo-phase10.md": "78f9ab7d0b7416a4de2e143bc7927c5b10eda0383b327546a58621c6063a7efa",
+    "docs/deepseek-runbook.md": "1d0b1ee4adf79925ac807674dc1e8425b0c87454bd495d5f1060865729c7b6dd",
+    "docs/phase10-reservation-troubleshooting.md": "045cee00c9f275f16b368017aa90b5995f3b26078b956eb0d0373a9cb24d84a9",
+    "docs/progress.md": "a0cf0ba5d115c6447aaed890042bf931f990989b9693d269322540b41a35e8e4",
+    "docs/handoff.md": "6627c80fcc0330598d2f89b94650f2a34754bf58e45c9f4fdcc1c312bdc32355",
+    "README.md": "1c0a9ea150381200b512bce0bbba5c4b4e54260de63a39aabed006a36c883fef"
+  }
+}

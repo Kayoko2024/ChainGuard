@@ -1,0 +1,127 @@
+group,metric,k,n,unknown,estimate,observed_lower_bound,possible_upper_bound,ci95_low,ci95_high,cluster_ci95_low,cluster_ci95_high,status,method,cohort
+A,UER,6,9,0,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.3542021355803963,0.879416181613089,0.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,UBR,3,9,0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.1205838183869109,0.6457978644196036,0.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,ASR,0,0,0,,,,,,,,NOT_MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,TCR,28,31,0,0.9032258064516129,0.9032258064516129,0.9032258064516129,0.7510006155660716,0.9665353558368026,0.625,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,TDR,0,6,0,0.0,0.0,0.0,0.0,0.3903342879021653,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,FAR,0,0,0,,,,,,,,NOT_APPLICABLE,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+A,elapsed_ms_P50,,10,,39.132069999823216,,,33.4274550000373,41.33363300024939,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,elapsed_ms_P95,,10,,61.21173310009449,,,40.52676400033306,76.9687540000632,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,elapsed_ms_P99,,10,,73.81734982006947,,,40.52676400033306,76.9687540000632,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,elapsed_ms_mean,,10,,41.2974634999955,,,,,,,MEASURED,,performance
+A,elapsed_ms_stddev,,10,,13.072241859884976,,,,,,,MEASURED,,performance
+A,elapsed_ms_max,,10,,76.9687540000632,,,,,,,MEASURED,,performance
+A,action_to_receipt_ms_P50,,10,,39.0138200000365,,,33.42249499974059,41.32811999988917,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,action_to_receipt_ms_P95,,10,,61.20415629998202,,,40.521009000258346,76.95925300004092,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,action_to_receipt_ms_P99,,10,,73.80823366002915,,,40.521009000258346,76.95925300004092,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,action_to_receipt_ms_mean,,10,,41.26907229997414,,,,,,,MEASURED,,performance
+A,action_to_receipt_ms_stddev,,10,,13.07282579964539,,,,,,,MEASURED,,performance
+A,action_to_receipt_ms_max,,10,,76.95925300004092,,,,,,,MEASURED,,performance
+A,approval_ms_P50,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,approval_ms_P95,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,approval_ms_P99,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,reservation_ms_P50,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,reservation_ms_P95,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,reservation_ms_P99,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,tool_ms_P50,,10,,23.327293499960433,,,21.78432199980307,25.01270199991268,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,tool_ms_P95,,10,,47.13155834990626,,,24.532262949946926,65.14552499993442,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,tool_ms_P99,,10,,61.542731669928806,,,24.889481667890777,65.14552499993442,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,tool_ms_mean,,10,,27.25712219998968,,,,,,,MEASURED,,performance
+A,tool_ms_stddev,,10,,13.417301257467363,,,,,,,MEASURED,,performance
+A,tool_ms_max,,10,,65.14552499993442,,,,,,,MEASURED,,performance
+A,finalization_ms_P50,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,finalization_ms_P95,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,finalization_ms_P99,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+A,performance_failure_rate,0,10,,0.0,,,0.0,0.2775327998628892,,,MEASURED,,performance
+A,RSE,,60,,0,,,,,,,MEASURED,actual mailbox count increase after original authorized effect; cached returns are not explicit UBR denials,all_applicable
+B,UER,0,15,0,0.0,0.0,0.0,0.0,0.20388330103584862,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,UBR,15,15,0,1.0,1.0,1.0,0.7961166989641515,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,ASR,0,0,0,,,,,,,,NOT_MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,TCR,28,31,0,0.9032258064516129,0.9032258064516129,0.9032258064516129,0.7510006155660716,0.9665353558368026,0.625,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,TDR,6,6,0,1.0,1.0,1.0,0.6096657120978346,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,FAR,0,6,0,0.0,0.0,0.0,0.0,0.3903342879021653,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+B,elapsed_ms_P50,,10,,307.13439550004296,,,289.40521499998795,328.13944999998057,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,elapsed_ms_P95,,10,,354.05262340002537,,,322.41210900019723,365.3588500001206,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,elapsed_ms_P99,,10,,363.09760468010154,,,326.24904788000094,365.3588500001206,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,elapsed_ms_mean,,10,,311.7370229000244,,,,,,,MEASURED,,performance
+B,elapsed_ms_stddev,,10,,27.909458230105045,,,,,,,MEASURED,,performance
+B,elapsed_ms_max,,10,,365.3588500001206,,,,,,,MEASURED,,performance
+B,action_to_receipt_ms_P50,,10,,307.1274920000633,,,289.3991270002516,328.1340559997261,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,action_to_receipt_ms_P95,,10,,354.0462001997639,,,322.40580699999555,365.3526499997497,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,action_to_receipt_ms_P99,,10,,363.09136003975254,,,326.2436373197579,365.3526499997497,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,action_to_receipt_ms_mean,,10,,311.7298836999453,,,,,,,MEASURED,,performance
+B,action_to_receipt_ms_stddev,,10,,27.91020256774606,,,,,,,MEASURED,,performance
+B,action_to_receipt_ms_max,,10,,365.3526499997497,,,,,,,MEASURED,,performance
+B,approval_ms_P50,,10,,109.54115549998278,,,104.34278499997163,123.45254999991084,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,approval_ms_P95,,10,,125.8956515999671,,,118.48327064999465,125.99268600024516,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,approval_ms_P99,,10,,125.97327912018955,,,122.45869412992761,125.99268600024516,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,approval_ms_mean,,10,,112.3924359999819,,,,,,,MEASURED,,performance
+B,approval_ms_stddev,,10,,10.102150359520714,,,,,,,MEASURED,,performance
+B,approval_ms_max,,10,,125.99268600024516,,,,,,,MEASURED,,performance
+B,reservation_ms_P50,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,reservation_ms_P95,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,reservation_ms_P99,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,tool_ms_P50,,10,,151.5158039999278,,,143.9313799996853,159.68438428748755,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,tool_ms_P95,,10,,189.66038684975499,,,155.65888409877232,205.51400699969236,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,tool_ms_P99,,10,,202.3432829697049,,,155.71021819990835,205.51400699969236,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,tool_ms_mean,,10,,155.64356019990555,,,,,,,MEASURED,,performance
+B,tool_ms_stddev,,10,,20.181123752977218,,,,,,,MEASURED,,performance
+B,tool_ms_max,,10,,205.51400699969236,,,,,,,MEASURED,,performance
+B,finalization_ms_P50,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,finalization_ms_P95,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,finalization_ms_P99,,0,,,,,,,,,NOT_APPLICABLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+B,performance_failure_rate,0,10,,0.0,,,0.0,0.2775327998628892,,,MEASURED,,performance
+B,RSE,,60,,0,,,,,,,MEASURED,actual mailbox count increase after original authorized effect; cached returns are not explicit UBR denials,all_applicable
+C,UER,0,15,0,0.0,0.0,0.0,0.0,0.20388330103584862,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,UBR,15,15,0,1.0,1.0,1.0,0.7961166989641515,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,ASR,0,0,0,,,,,,,,NOT_MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,TCR,25,31,0,0.8064516129032258,0.8064516129032258,0.8064516129032258,0.6371974218820453,0.908129916384139,0.5,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,TDR,6,6,0,1.0,1.0,1.0,0.6096657120978346,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,FAR,0,6,0,0.0,0.0,0.0,0.0,0.3903342879021653,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,all_applicable
+C,elapsed_ms_P50,,10,,3393.4409409998807,,,3122.504734999893,3875.597292000066,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,elapsed_ms_P95,,10,,4392.789924550083,,,3598.2153740001195,4588.998691000143,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,elapsed_ms_P99,,10,,4549.756937710131,,,3598.2153740001195,4588.998691000143,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,elapsed_ms_mean,,10,,3527.8144010999767,,,,,,,MEASURED,,performance
+C,elapsed_ms_stddev,,10,,534.8142876349096,,,,,,,MEASURED,,performance
+C,elapsed_ms_max,,10,,4588.998691000143,,,,,,,MEASURED,,performance
+C,action_to_receipt_ms_P50,,10,,1587.3029284998665,,,1365.616169500072,2036.362335000149,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,action_to_receipt_ms_P95,,10,,2604.976573900171,,,1724.1534200002206,2814.7627480002484,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,action_to_receipt_ms_P99,,10,,2772.805513180233,,,1724.1534200002206,2814.7627480002484,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,action_to_receipt_ms_mean,,10,,1745.2786947000732,,,,,,,MEASURED,,performance
+C,action_to_receipt_ms_stddev,,10,,515.7167357871703,,,,,,,MEASURED,,performance
+C,action_to_receipt_ms_max,,10,,2814.7627480002484,,,,,,,MEASURED,,performance
+C,approval_ms_P50,,10,,158.1335669998225,,,138.67407499992623,170.81028138765078,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,approval_ms_P95,,10,,194.7464334999722,,,168.87316100019234,211.23910000005708,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,approval_ms_P99,,10,,207.9405667000401,,,168.87316100019234,211.23910000005708,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,approval_ms_mean,,10,,159.37543259997256,,,,,,,MEASURED,,performance
+C,approval_ms_stddev,,10,,24.16864573707904,,,,,,,MEASURED,,performance
+C,approval_ms_max,,10,,211.23910000005708,,,,,,,MEASURED,,performance
+C,reservation_ms_P50,,10,,1161.5148149996912,,,858.3898895001312,1663.1306069998573,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,reservation_ms_P95,,10,,2188.867977099994,,,1308.2341700001052,2412.57838599995,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,reservation_ms_P99,,10,,2367.836304219959,,,1308.2341700001052,2412.57838599995,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,reservation_ms_mean,,10,,1316.171892299917,,,,,,,MEASURED,,performance
+C,reservation_ms_stddev,,10,,536.7901682883125,,,,,,,MEASURED,,performance
+C,reservation_ms_max,,10,,2412.57838599995,,,,,,,MEASURED,,performance
+C,tool_ms_P50,,10,,226.23321399987617,,,209.61310837509473,248.43976149986702,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,tool_ms_P95,,10,,280.0270579502239,,,232.9457421997176,299.4957990003968,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,tool_ms_P99,,10,,295.6020507903622,,,239.10722283972063,299.4957990003968,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,tool_ms_mean,,10,,227.1936648000974,,,,,,,MEASURED,,performance
+C,tool_ms_stddev,,10,,34.20483264417116,,,,,,,MEASURED,,performance
+C,tool_ms_max,,10,,299.4957990003968,,,,,,,MEASURED,,performance
+C,finalization_ms_P50,,10,,1779.7041030000855,,,1735.4687789998025,1807.6745539999592,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,finalization_ms_P95,,10,,1845.108423500119,,,1797.8774265271745,1867.7813360000073,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,finalization_ms_P99,,10,,1863.2467535000296,,,1801.063609622796,1867.7813360000073,,,MEASURED_SMALL_SAMPLE,"linear quantile; trial percentile bootstrap95 conditional on this single workload; successful actions only, failures separately",performance
+C,finalization_ms_mean,,10,,1775.8422180000252,,,,,,,MEASURED,,performance
+C,finalization_ms_stddev,,10,,50.91075418511892,,,,,,,MEASURED,,performance
+C,finalization_ms_max,,10,,1867.7813360000073,,,,,,,MEASURED,,performance
+C,performance_failure_rate,0,10,,0.0,,,0.0,0.2775327998628892,,,MEASURED,,performance
+C,RSE,,60,,0,,,,,,,MEASURED,actual mailbox count increase after original authorized effect; cached returns are not explicit UBR denials,all_applicable
+C-minus-B,TCR_paired_difference,,31,,-0.0967741935483871,,,-0.375,0.0,,,MEASURED,paired scenario-cluster percentile bootstrap95; no significance claim,all_applicable
+C-minus-B,UER_paired_difference,,15,,0.0,,,0.0,0.0,,,MEASURED,paired scenario-cluster percentile bootstrap95; no significance claim,all_applicable
+A,UER,6,9,0,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.3542021355803963,0.879416181613089,0.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+A,UBR,3,9,0,0.3333333333333333,0.3333333333333333,0.3333333333333333,0.1205838183869109,0.6457978644196036,0.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+B,UER,0,9,0,0.0,0.0,0.0,0.0,0.2991450484195441,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+B,UBR,9,9,0,1.0,1.0,1.0,0.7008549515804559,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+C,UER,0,9,0,0.0,0.0,0.0,0.0,0.2991450484195441,0.0,0.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+C,UBR,9,9,0,1.0,1.0,1.0,0.7008549515804559,1.0,1.0,1.0,MEASURED,Wilson95 descriptive + scenario cluster percentile bootstrap; bounds retain unknowns,shared_tool_policy
+C-minus-B,UER_paired_difference,,9,,0.0,,,0.0,0.0,,,MEASURED,paired scenario-cluster percentile bootstrap95; no significance claim,shared_tool_policy

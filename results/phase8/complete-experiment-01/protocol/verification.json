@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "recorded_at_utc": "2026-10-26T01:25:49.773900+00:00",
+  "snapshot": {
+    "number": "14070",
+    "hash": "0xfd4b78a6aca99e798195a2ab361330eea2bba4eebd07330646a0e74245c14b4f",
+    "timestamp": "1792977925"
+  },
+  "cases": 138,
+  "transactions": 59,
+  "live_node_receipts": 236,
+  "mail_deliveries": 93,
+  "volume": {
+    "status": "PASS",
+    "read_only_mount": true,
+    "sqlite_mode": "ro",
+    "cases": 138,
+    "mail_count": 93
+  },
+  "statistics_recomputed": true,
+  "observed_behavior_asserted": true,
+  "transaction_calldata_verified": true,
+  "total_gas_used": 20965819,
+  "task_data_models_matched": true,
+  "real_llm": "NOT_MEASURED"
+}

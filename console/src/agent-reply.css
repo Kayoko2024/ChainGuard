@@ -1,0 +1,26 @@
+.agent-reply{min-width:0;white-space:normal;overflow-wrap:anywhere;color:var(--muted);font-size:13px;line-height:1.9}
+.agent-reply>:first-child{margin-top:0}
+.agent-reply>:last-child{margin-bottom:0}
+.agent-reply p{font-size:inherit;line-height:inherit;color:inherit;margin:0 0 12px}
+.agent-reply h1,.agent-reply h2,.agent-reply h3,.agent-reply h4,.agent-reply h5,.agent-reply h6{line-height:1.6;letter-spacing:0;color:var(--ink);font-weight:600;margin:20px 0 10px}
+.agent-reply h1{font-size:21px}
+.agent-reply h2{font-size:18px}
+.agent-reply h3{font-size:15px}
+.agent-reply h4,.agent-reply h5,.agent-reply h6{font-size:13px}
+.agent-reply strong{font-weight:650;color:var(--ink)}
+.agent-reply ul,.agent-reply ol{padding-left:24px;margin:10px 0 14px}
+.agent-reply li{padding-left:3px;margin:4px 0}
+.agent-reply li>p{margin:4px 0}
+.agent-reply blockquote{margin:14px 0;padding:6px 14px;border:1px dashed var(--line);background:var(--surface);color:var(--muted)}
+.agent-reply blockquote p:last-child{margin-bottom:0}
+.agent-reply code{font-size:12px;color:var(--muted);background:var(--paper);border-radius:4px;padding:2px 5px;word-break:normal;overflow-wrap:anywhere}
+.agent-reply pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);max-height:none;max-width:100%;white-space:pre;overflow:auto;overflow-wrap:normal;line-height:1.75}
+.agent-reply pre code{padding:0;background:none;border:0;white-space:pre;overflow-wrap:normal}
+.agent-reply a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.agent-reply a:hover{color:var(--ink)}
+.agent-reply hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.agent-reply .reply-table-scroll{overflow-x:auto;max-width:100%;margin:14px 0;border:1px solid var(--line);border-radius:8px}
+.agent-reply table{border-collapse:collapse;min-width:100%;font-size:12px;line-height:1.8}
+.agent-reply th,.agent-reply td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;min-width:100px}
+.agent-reply th{background:var(--paper);color:var(--muted);font-weight:600}
+.agent-reply tr:last-child td{border-bottom:0}

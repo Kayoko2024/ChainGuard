@@ -139,7 +139,8 @@ class Chain:
         return path
 
     def compose(self, *args, timeout=240):
-        return self.docker('compose', '--project-directory', self.path(ROOT / 'chain'), '--env-file', self.path(LOCAL / 'compose.env'), '-f', self.path(ROOT / 'chain/compose.yaml'), *args, timeout=timeout)
+        return self.docker('compose', '--project-directory', self.path(ROOT / 'chain'), '--env-file', self.path(LOCAL / 'compose.env'),
+            '-f', self.path(ROOT / 'chain/compose.yaml'), '-f', self.path(ROOT / 'chain/compose.audit-history.yaml'), *args, timeout=timeout)
 
     def preflight(self):
         info = json.loads(self.docker('info', '--format', '{{json .}}').stdout)

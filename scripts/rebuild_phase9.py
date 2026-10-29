@@ -40,7 +40,7 @@ def main():
     save()
     ignored=shutil.ignore_patterns('node_modules','__pycache__','.pytest_cache','dist','build','*.key','*.pem','*.sqlite3','*.egg-info')
     try:
-        for name in ['gateway','agent','sandbox_tools','evaluation','contracts','spec','config','scripts','tests','docs','dashboard','chain']:
+        for name in ['gateway','agent','sandbox_tools','evaluation','contracts','spec','config','scripts','shared','tests','docs','dashboard','chain']:
             shutil.copytree(ROOT/name,source/name,ignore=ignored)
         for name in ['AGENTS.md','README.md','.gitignore','.dockerignore','.gitattributes','.env.example','.env.local.example','.node-version','.python-version',
                      'compose.yaml','package.json','package-lock.json','hardhat.config.cjs','pyproject.toml','requirements-dev.lock','requirements-dev.txt']:

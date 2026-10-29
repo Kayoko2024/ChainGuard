@@ -8,7 +8,7 @@ from chainguard_sandbox.protocol import ToolError
 
 METHODS={'eth_chainId','eth_syncing','eth_blockNumber','eth_getBlockByNumber',
          'qbft_getValidatorsByBlockNumber','net_peerCount','eth_getCode',
-         'eth_getTransactionReceipt','eth_getTransactionByHash','eth_call'}
+         'eth_getTransactionReceipt','eth_getTransactionByHash','eth_call','eth_getLogs'}
 
 
 class AuditRPC(RPC):
@@ -49,6 +49,8 @@ def verify_action(chain, action):
     if action['group'] != 'C':
         return dict(result,status='HISTORICAL_ONLY',reason='A/B为已独立验证的中央历史证据，不声明链上确认')
     try:
+        from .mail_window import chain_for_action
+        chain=chain_for_action(chain,action)
         snapshot=chain.healthy()
         result['snapshot']=snapshot
         if not action['reservation_evidence']:

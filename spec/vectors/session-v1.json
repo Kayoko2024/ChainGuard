@@ -1,0 +1,30 @@
+{
+  "domain": {
+    "name": "ChainGuard ToolAdmissionRegistry",
+    "version": "1",
+    "chainId": 31337,
+    "verifyingContract": "0x2323232323232323232323232323232323232323"
+  },
+  "message": {
+    "requester": "0x19e7e376e7c213b7e7e7e46cc70a5dd086daff2a",
+    "agent": "0x1414141414141414141414141414141414141414",
+    "taskId": "0x1515151515151515151515151515151515151515151515151515151515151515",
+    "toolsHash": "0x908b7c66a7de26f1ab7bb68d4481fd46ab699071b60e7e28efc536c02112021c",
+    "nonce": 7,
+    "issuedAt": 1700000000,
+    "expiresAt": 1700086400,
+    "maxCalls": 50
+  },
+  "scopes": [
+    {
+      "name": "custom.weather",
+      "revision": "0x4444444444444444444444444444444444444444444444444444444444444444",
+      "allowed_keys": [
+        "city"
+      ],
+      "generation": 1
+    }
+  ],
+  "signature": "0xe6a1578621045b750180dd1c12b863f99ccd14ee679a573f7a9f72050f459fc54a7ee4bb5bd23ad8880e31789056c4f2514135a4e1b32cd08b7f15adf49ebd0d1c",
+  "digest": "0x40df2dd0de415860eb73b46fae30adffff2ad19e683703a2b222ab9e12afa3b6"
+}

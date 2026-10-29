@@ -1,0 +1,38 @@
+[
+  {
+    "id": "contacts",
+    "title": "联系人查询",
+    "task_example": "使用联系人查询工具查询 CONTACT-001 的姓名、部门和本地测试邮箱，不发送邮件。",
+    "registration": {
+      "name": "custom.contacts_lookup",
+      "label": "联系人查询（示例）",
+      "description": "按 contact_id 精确查询任务授权的合成联系人，query 示例为 CONTACT-001。返回姓名、部门和本地测试邮箱；仅供查询，不发送邮件。",
+      "adapter": "dataset.lookup",
+      "risk": 0,
+      "key_field": "contact_id",
+      "output_fields": ["contact_id", "name", "department", "email"],
+      "records": [
+        {"contact_id": "CONTACT-001", "name": "Alice（测试联系人）", "department": "项目组", "email": "alice@inbox.chainguard.invalid"},
+        {"contact_id": "CONTACT-002", "name": "Bob（测试联系人）", "department": "采购组", "email": "bob@inbox.chainguard.invalid"}
+      ]
+    }
+  },
+  {
+    "id": "inventory",
+    "title": "库存查询",
+    "task_example": "使用库存查询工具查询 SKU-001 的库存数量和预警线，判断是否需要补货；不调整库存、不采购、不发送邮件。",
+    "registration": {
+      "name": "custom.inventory_lookup",
+      "label": "库存查询（示例）",
+      "description": "按 sku 精确查询任务授权的合成库存，query 示例为 SKU-001。quantity 为当前数量，reorder_level 为补货预警线，数量低于预警线时可提示补货。仅查询，不修改库存、不下单。",
+      "adapter": "dataset.lookup",
+      "risk": 0,
+      "key_field": "sku",
+      "output_fields": ["sku", "name", "quantity", "reorder_level", "warehouse"],
+      "records": [
+        {"sku": "SKU-001", "name": "测试键盘", "quantity": 12, "reorder_level": 5, "warehouse": "沙箱 A 仓"},
+        {"sku": "SKU-002", "name": "测试鼠标", "quantity": 2, "reorder_level": 10, "warehouse": "沙箱 B 仓"}
+      ]
+    }
+  }
+]

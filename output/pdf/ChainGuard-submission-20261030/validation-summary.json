@@ -1,0 +1,172 @@
+{
+  "status": "PASS",
+  "evidence_inputs": 322,
+  "tracks": [
+    "results/phase8/abc-rerun-20261029-01/canonical/real-abc",
+    "results/phase8/abc-rerun-20261029-01/summary/real-abc",
+    "results/phase8/abc-rerun-20261029-01/directory-probe/real-abc",
+    "results/phase8/abc-rerun-20261029-01/canonical/protocol",
+    "results/phase8/bc-contribution-20261029-01/run-02"
+  ],
+  "public_synthetic_evidence_only": true,
+  "site_private_messages_included": false,
+  "original_artifact_bytes_preserved": true,
+  "original_model_or_tool_reexecuted": false,
+  "live_chain_read_only": true,
+  "full_cold_business_installation": "NOT_CERTIFIED",
+  "tests": {
+    "baseline_python": 590,
+    "package_checks": 12,
+    "extracted_source_python": 602,
+    "offline_image_python": 602,
+    "console": 48,
+    "dashboard": 3,
+    "hardhat": 89
+  },
+  "report_pages": {
+    "design": 21,
+    "test": 11
+  },
+  "failures_retained": [
+    "source scanner matched its own private-key test marker; fixture string split",
+    "runtime lacked developer validation dependencies; full wheelhouse added",
+    "native extension loading on noexec tmpfs failed; ephemeral workspace explicitly exec",
+    "poster initial module resolution failed; project-local Playwright resolved"
+  ],
+  "known_limits": [
+    "Current-session tool scope is immutable; changing settings requires a new session",
+    "Four validators and test organizations share one host",
+    "Only local R2 mail is a full high-risk business path",
+    "Independent tool databases can duplicate side effects under the same reservation",
+    "Prior node3 restart cause remains unresolved; current health is not a permanent repair",
+    "Originality declaration is unsigned and non-official"
+  ],
+  "runtime_final_selftest": "PASS: 602 tests",
+  "docker_image_load": "PASS",
+  "source_integrity": "PASS: 108 core inputs unchanged",
+  "report_visual_review": "All 21+11+1 pages reviewed; no final overflow/missing glyph warnings",
+  "poster": "1600x900, no overflow",
+  "combined_report_links": "Two top-level bookmarks; individual reports retain original internal links",
+  "validation_scope": "Exact delivery bytes, archive CRC/manifests, source snapshot and report checks",
+  "archives": [
+    {
+      "file": "作品执行文件+ChainGuard.zip",
+      "members": 428,
+      "crc_and_manifest_verified": true,
+      "sha256": "b16a4bf10273fb5206baf3ca5d68e3452913e68971c9ddfb7715741ca1f656d8"
+    },
+    {
+      "file": "作品报告+ChainGuard.zip",
+      "members": 2,
+      "crc_and_manifest_verified": true,
+      "sha256": "63a1fd0b960d291d7ba44d3034158eec784959097cec0f6db35a2a71597dbee3"
+    },
+    {
+      "file": "作品源码+ChainGuard.zip",
+      "members": 480,
+      "crc_and_manifest_verified": true,
+      "sha256": "4621eb460cf8bacf9ef5654ef42d96e4196263563ea994e8ed1efab9f7fe0486"
+    },
+    {
+      "file": "其他文件+ChainGuard.zip",
+      "members": 364,
+      "crc_and_manifest_verified": true,
+      "sha256": "4750a86d7e1f840bae2cecd736a59b4b8da9c45fd5205d45ac2eab244d770a70"
+    }
+  ],
+  "pdfs": [
+    {
+      "file": "设计报告+ChainGuard.pdf",
+      "pages": 21,
+      "author_empty": true,
+      "text_extractable": true
+    },
+    {
+      "file": "测试报告+ChainGuard.pdf",
+      "pages": 11,
+      "author_empty": true,
+      "text_extractable": true
+    },
+    {
+      "file": "作品报告+ChainGuard.pdf",
+      "pages": 32,
+      "author_empty": true,
+      "text_extractable": true
+    },
+    {
+      "file": "原创声明+ChainGuard_待签署.pdf",
+      "pages": 1,
+      "author_empty": true,
+      "text_extractable": true
+    }
+  ],
+  "payloads": {
+    "作品图片+ChainGuard.png": {
+      "bytes": 131869,
+      "sha256": "a158a3eff57069431edaa90f6427db06a4e393ea5b80fc5b2645e3f1d9208aab"
+    },
+    "作品执行文件+ChainGuard.zip": {
+      "bytes": 638547129,
+      "sha256": "b16a4bf10273fb5206baf3ca5d68e3452913e68971c9ddfb7715741ca1f656d8"
+    },
+    "作品报告+ChainGuard.pdf": {
+      "bytes": 1243206,
+      "sha256": "7f115e843504fdc47511bc27d1a0e0ab20a69b325edba7dbcfb876692b554b83"
+    },
+    "作品报告+ChainGuard.zip": {
+      "bytes": 1225829,
+      "sha256": "63a1fd0b960d291d7ba44d3034158eec784959097cec0f6db35a2a71597dbee3"
+    },
+    "作品源码+ChainGuard.zip": {
+      "bytes": 1626781,
+      "sha256": "4621eb460cf8bacf9ef5654ef42d96e4196263563ea994e8ed1efab9f7fe0486"
+    },
+    "作品简介+ChainGuard.txt": {
+      "bytes": 620,
+      "sha256": "c79bb9c7b7962e396b83d24c5ca939cb5800e628fbc2039b2bbefb4fe3168353"
+    },
+    "其他文件+ChainGuard.zip": {
+      "bytes": 3882669,
+      "sha256": "4750a86d7e1f840bae2cecd736a59b4b8da9c45fd5205d45ac2eab244d770a70"
+    },
+    "原创声明+ChainGuard_待签署.pdf": {
+      "bytes": 354315,
+      "sha256": "3fabf9166441ef0dbc291ad24c473cf420e2aefe8a2ba4b33d5c7cebd7a97d80"
+    },
+    "提交说明.html": {
+      "bytes": 3262,
+      "sha256": "19ff5b50aab722ed95c685b1ce753113ba02b00d5e1b0893db8e380cd4b4145b"
+    },
+    "测试报告+ChainGuard.pdf": {
+      "bytes": 478927,
+      "sha256": "7f44300d9aef78b3cb834b296828a626a31ff55c39c6878daa53cabc8fe8480b"
+    },
+    "设计报告+ChainGuard.pdf": {
+      "bytes": 819110,
+      "sha256": "f288a18a625bf983f074db0b4b17f688b74e9cb0444a9af92f8a469dbcfd6174"
+    }
+  },
+  "source_snapshot_matches_current_files": true,
+  "runtime_contains_same_source_archive": true,
+  "runtime_frontends_match_current_builds": true,
+  "runtime_image_tar_matches_scanned_export": true,
+  "final_closure_tests": 18,
+  "intro_characters": 240,
+  "originality_declaration": "UNSIGNED_NON_OFFICIAL_DRAFT",
+  "uploaded_to_competition": false,
+  "new_model_requests": 0,
+  "new_tool_side_effects": 0,
+  "new_blockchain_transactions": 0,
+  "retained_failures_note": "Earlier failed attempts remain in results/submission/20261030-01; final checks do not overwrite them.",
+  "commands": [
+    ".venv/Scripts/python.exe -m pytest -q",
+    "npm.cmd --prefix console test",
+    "npm.cmd --prefix dashboard test",
+    "npm.cmd test",
+    ".venv/Scripts/python.exe -m pytest -q tests/python/test_submission_bundle.py tests/python/test_repository_maintenance.py",
+    ".venv/Scripts/python.exe scripts/build_specs.py --check",
+    ".venv/Scripts/python.exe scripts/freeze_phase3_policy.py --check",
+    "powershell -ExecutionPolicy Bypass -File 01_载入镜像.ps1",
+    "powershell -ExecutionPolicy Bypass -File 02_离线自检.ps1"
+  ]
+}

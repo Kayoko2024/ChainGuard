@@ -1,0 +1,190 @@
+/* Tools are a searchable catalog; editing and sensitive review open on demand. */
+.tool-scope-notice{display:flex;align-items:flex-start;gap:9px;margin:12px 0;padding:12px 14px;border:1px solid #e4c779;border-radius:10px;background:#fff7df;color:#785b25;font-size:12px;line-height:1.6;min-width:0}
+.tool-scope-notice>.icon{flex-shrink:0;width:17px;height:17px;margin-top:2px}
+.tool-scope-notice>div{flex:1;min-width:0;overflow-wrap:anywhere}
+.tool-scope-notice strong{font-size:12px}.tool-scope-notice p{margin:3px 0 0;color:inherit}.tool-scope-notice small{color:inherit}
+.tool-scope-notice>button{flex-shrink:0;align-self:center;min-height:34px;padding:6px 10px;background:#fff;color:#785b25;border:1px solid #d4b56c}
+.composer-scope-notice{max-height:105px;overflow-y:auto;margin:6px 0 9px;padding:9px 11px;font-size:11px}
+.tool-settings{max-width:1180px;padding-top:30px}
+.settings-heading{margin-bottom:22px}
+.settings-heading h1{color:var(--ink)}
+.settings-heading p{color:var(--muted)}
+.catalog-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.catalog-search{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.catalog-search>.icon{width:15px;height:15px;flex-shrink:0}
+.catalog-search input{border:0!important;background:transparent!important;padding:9px 0!important;min-width:0}
+.catalog-toolbar>select{width:auto;max-width:160px;padding:8px 11px;font-size:12px}
+.catalog-count{white-space:nowrap}
+.catalog-categories{display:flex;margin:0 0 15px;overflow-x:auto;scrollbar-width:thin}
+.catalog-categories button{min-height:30px;white-space:nowrap}
+.catalog-categories button[aria-pressed=true]{font-weight:550}
+.tool-settings .tool-cards{display:flex;flex-direction:column;overflow:hidden;margin:0 0 22px}
+.tool-settings .tool-card{display:flex;align-items:center;min-width:0}
+.tool-settings .tool-card:last-child{border-bottom:0}
+.tool-settings .tool-card>input{margin:0;flex-shrink:0}
+.tool-settings .tool-card.disabled{opacity:.5}
+.catalog-icon{display:grid!important;place-items:center;flex-shrink:0}
+.catalog-icon .icon{width:17px;height:17px}
+.tool-card-copy{display:block;flex:1;min-width:0}
+.tool-settings .tool-card-copy strong{line-height:1.6}
+.tool-settings .tool-card-copy code{display:inline;word-break:normal}
+.tool-settings .tool-card-copy>span{line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool-settings .tool-card .tool-permission{flex:0 1 190px;text-align:right;line-height:1.6}
+.tool-settings .tool-library fieldset{border-color:var(--line)}
+.tool-settings .tool-library fieldset>code{font-size:10px}
+.tool-settings .tool-library>.buttons{border-top:1px solid var(--line);padding-top:16px}
+.tool-settings .tool-library>.buttons button{border-color:var(--line)}
+.catalog-empty{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;color:var(--muted);padding:35px 18px;text-align:center;font-size:12px}
+.catalog-empty>.icon{width:24px;height:24px}
+.catalog-empty strong{font-size:13px;font-weight:500;color:var(--muted)}
+.catalog-subtitle{margin:5px 0 0}
+.custom-library>.panel-head>.primary{gap:6px}
+.custom-library>.panel-head>.primary .icon{width:13px;height:13px}
+.custom-library .catalog-toolbar{margin-top:20px}
+.managed-tools.custom-versions{display:block;overflow:hidden;margin:0 0 16px}
+.managed-tool-row{min-width:0}
+.managed-tool-row:last-child{border:0}
+.custom-versions .tool-row-open{display:flex;align-items:center;width:100%;max-width:100%;min-width:0}
+.tool-row-copy{display:flex;flex:1;min-width:0;flex-direction:column}
+.tool-row-copy strong{line-height:1.5}
+.tool-row-copy code{word-break:normal}
+.tool-row-copy small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool-row-state{display:flex;align-items:flex-end;flex-direction:column;gap:6px;flex-shrink:0;font-size:10px}
+.tool-row-open>.icon{width:12px;height:12px;color:var(--muted);flex-shrink:0}
+.catalog-status{line-height:1.5}
+.tool-version-history{margin:0;border:0}
+.tool-version-list{padding:5px 0 0;max-height:230px;overflow-y:auto}
+.custom-versions .tool-version-list button{display:flex;align-items:center;gap:12px;width:100%;font-size:10px;min-height:32px;border:0;border-radius:5px;padding:5px 9px;overflow-wrap:normal;background:var(--surface);margin:4px 0}
+.tool-version-list code{font-size:9px;margin-left:auto}
+.tool-version-list .icon{width:10px;height:10px}
+.intake-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}
+.intake-heading h3{margin:0}
+.intake-heading button{font-size:10px;min-height:28px;background:transparent;border:0}
+.connection-intake{margin-top:18px;scroll-margin:20px}
+.connection-intake[hidden]{display:none}
+.connection-intake .custom-form>p{margin-top:0}
+.tool-detail-drawer{position:fixed;right:0;top:63px;bottom:0;width:440px;max-width:100%;z-index:20;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;outline:0}
+.tool-detail-heading{display:flex;align-items:center;justify-content:space-between;padding:14px 19px;position:sticky;top:0;z-index:1}
+.tool-detail-heading button{font-size:22px}
+.custom-library .tool-detail-drawer .review{margin:0;border-radius:0}
+.tool-detail-drawer .review h3{line-height:1.7}
+.tool-detail-drawer .review p{font-size:12px}
+.tool-detail-drawer .review>code{font-size:10px}
+.tool-detail-drawer .review fieldset label{font-size:11px}
+.tool-detail-drawer .review .buttons{gap:6px}
+.catalog-boundaries{margin:18px 0 0;padding:12px 0 0}
+.catalog-boundaries summary{display:flex;align-items:center;gap:5px}
+.catalog-boundaries .icon{width:12px;height:12px}
+.catalog-boundaries p{font-size:11px;line-height:1.9}
+@media(max-width:750px){
+ .tool-settings{padding:22px 14px 30px}
+.catalog-toolbar{gap:8px}
+.catalog-toolbar>select{max-width:110px;font-size:10px;padding:8px}
+.catalog-search input{font-size:11px!important}
+.catalog-categories button{font-size:10px;padding:5px 9px}
+.custom-library>.panel-head{padding:16px}
+.custom-library>.panel-body{padding:0 12px 15px}
+.custom-library>.panel-head h2{font-size:13px}
+.tool-settings .tool-card{gap:8px;padding:12px 10px;flex-wrap:wrap}
+.catalog-icon{width:30px;height:30px;border-radius:7px}
+.catalog-icon .icon{width:14px;height:14px}
+.tool-settings .tool-card .tool-permission{margin-left:60px;text-align:left;flex:1 1 100%;max-width:none;font-size:9px}
+.tool-settings .tool-card-copy strong{font-size:12px}
+.custom-versions .tool-row-open{gap:9px;padding:12px 10px}
+.tool-row-copy strong{font-size:11px}
+.tool-row-copy code{font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tool-row-copy small{font-size:10px}
+.tool-row-state{max-width:94px}
+.tool-row-state>small{font-size:8px}
+.catalog-status{font-size:9px;padding:2px 5px}
+.tool-version-history{padding-left:49px}
+.tool-version-history summary{font-size:9px}
+.tool-detail-drawer{top:110px;width:100%;border-left:0;box-shadow:var(--paper-shadow)}
+.tool-detail-drawer .review{padding:16px}
+.intake-heading{align-items:flex-start}
+.intake-heading h3{font-size:12px}
+.intake-heading button{font-size:10px}
+}
+/* The catalog is one white paper sheet; records stay compact and searchable. */
+.tool-settings .tool-library{padding:24px 25px}
+.tool-settings .tool-library h3{font-size:15px;color:#2d2d2d;font-weight:650}
+.tool-settings .tool-library .sectionhead>span{font-size:11px;color:#736d62}
+.catalog-toolbar{margin:20px 0 17px}
+.catalog-search{border:2px solid #e0d8cc;border-radius:11px;padding:0 12px;max-width:480px;box-shadow:inset 1px 2px 0 rgba(45,45,45,.03);background:white}
+.catalog-search:focus-within{border-color:#5cb8a5;outline:2px solid #327563;outline-offset:2px;box-shadow:inset 2px 3px 0 rgba(45,45,45,.1)}
+.catalog-search input{outline:none!important;box-shadow:none!important;font-size:12px!important}
+.catalog-search>.icon{color:#787269}
+.catalog-toolbar>select{border-radius:10px;background:#fff}
+.catalog-categories{gap:7px;padding:1px 2px 7px;margin-bottom:18px}
+.catalog-categories button{background:transparent;box-shadow:none;border:1px solid transparent;border-radius:9px;font-size:12px;padding:7px 11px;color:#6d675f;font-weight:500}
+.catalog-categories button[aria-pressed=true]{background:#fbe5e9;color:#91374b;border-color:#f0c6d0}
+.catalog-count{font-size:12px;color:#736d62}
+.tool-settings .tool-cards{border:0;border-radius:0;gap:0}
+.tool-settings .tool-card{border:0;border-bottom:1px solid #ece6dc;border-radius:0;background:#fff;gap:14px;padding:17px 10px}
+.tool-settings .tool-card.is-selected{background:#fdf9f1}
+.tool-settings .tool-card:hover{background:#fbf6ec}
+.catalog-icon{width:38px;height:40px;background:#fbe5e9;border:0;border-radius:10px;color:#a63d53;transform:rotate(-3deg);box-shadow:2px 2px 0 rgba(45,45,45,.05)}
+.tool-card:nth-child(3n+2) .catalog-icon,.managed-tool-row:nth-child(3n+2) .catalog-icon{background:#e0efe6;color:#2c6f59}
+.tool-card:nth-child(3n+3) .catalog-icon,.managed-tool-row:nth-child(3n+3) .catalog-icon{background:#f9eac5;color:#79591f}
+.tool-settings .tool-card-copy strong{font-size:13px;color:#302e29;font-weight:600}
+.tool-settings .tool-card-copy code{color:#776b57;font-size:10px}
+.tool-settings .tool-card-copy>span{color:#716a60;font-size:12px}
+.tool-settings .tool-card .tool-permission{font-size:11px;color:#6e675b;max-width:180px}
+.tool-settings .tool-library fieldset{border:1px solid #e4dccc;background:#fdfaf5;border-radius:11px;padding:16px 18px}
+.tool-settings .tool-library>.buttons button{background:#fff;border:1px solid #ded4c3;border-radius:10px;font-size:12px;box-shadow:2px 2px 0 rgba(45,45,45,.07)}
+.tool-settings .scope-picker{padding:22px 25px;background:#fff;border-top:1px solid #ece6dc}
+.scope-picker>label{font-size:13px}
+.scope-picker p{color:#716b63}
+.custom-library>.panel-head{padding:22px 25px;background:#fff;border-bottom:1px solid #ece6dc}
+.custom-library>.panel-head h2{font-size:16px;font-weight:650}
+.catalog-subtitle{font-size:12px;color:#716b63}
+.custom-library>.panel-head>.primary{font-size:12px;min-height:38px;border-radius:11px}
+.custom-library>.panel-body{padding:0 25px 25px}
+.managed-tools.custom-versions{border:0;border-radius:0;margin-bottom:16px}
+.managed-tool-row{background:#fff;border-bottom:1px solid #ece6dc}
+.custom-versions .tool-row-open{border:0;background:#fff;border-radius:0;padding:18px 10px;gap:14px;box-shadow:none;transition:background .2s ease-out}
+.custom-versions .tool-row-open:hover{background:#fcf7ed;transform:none;box-shadow:none}
+.tool-row-copy{gap:5px}
+.tool-row-copy strong{font-size:13px;font-weight:600;color:#302e29}
+.tool-row-copy code{font-size:10px;color:#776b57}
+.tool-row-copy small{font-size:12px;color:#716a60}
+.tool-row-state>small{font-size:10px;color:#716a60}
+.catalog-status{font-size:11px;padding:4px 8px;border-radius:7px;background:#eee9df;color:#645b4f}
+.catalog-status.state-ACTIVE{background:#e0efe6;color:#2c6f59}
+.catalog-status.state-DRAFT{background:#f9eac5;color:#79591f}
+.catalog-status.state-DISABLED{background:#eee9df;color:#645b4f}
+.tool-version-history{padding:0 15px 14px 62px}
+.tool-version-history summary{font-size:11px;color:#73634e}
+.tool-version-list button{background:#faf6ed;box-shadow:none}
+.connection-intake{background:#fdfaf5;border:1px dashed #d2c3ab;border-radius:12px;padding:20px;margin:22px 0}
+.intake-heading h3{color:#302e29;font-size:15px}
+.intake-heading button{box-shadow:none;color:#716a60}
+.tool-detail-drawer{background:#fff;border-left:2px solid #e0d8cc;box-shadow:-5px 0 0 rgba(45,45,45,.05)}
+.tool-detail-heading{background:#fdf6ee;border-bottom:1px solid #e0d8cc;color:#5d554a;font-size:12px}
+.custom-library .tool-detail-drawer .review{background:#fff;padding:24px;border:0}
+.tool-detail-drawer .review h3{color:#302e29;font-size:18px}
+.tool-detail-drawer .review>code{background:#f5efe4;border-radius:9px;padding:11px;color:#6b5b42}
+.tool-detail-drawer .review fieldset{background:#fdfaf5;border:1px solid #e0d8cc;border-radius:10px}
+.tool-detail-drawer .review button{font-size:12px}
+.catalog-boundaries summary{font-size:11px;color:#716b63}
+@media(max-width:750px){.tool-settings .tool-library{padding:18px}
+.tool-settings .tool-card{padding:14px 4px;gap:11px}
+.catalog-icon{width:32px;height:34px}
+.tool-settings .tool-card-copy strong{font-size:12px}
+.tool-settings .tool-card-copy>span{font-size:11px}
+.tool-settings .tool-card .tool-permission{font-size:10px;margin-left:60px;max-width:none}
+.catalog-categories button{font-size:11px;padding:6px 9px}
+.custom-library>.panel-head{padding:18px}
+.custom-library>.panel-head>.primary{font-size:11px;min-height:35px;padding:8px 10px}
+.custom-library>.panel-body{padding:0 14px 20px}
+.custom-versions .tool-row-open{padding:15px 3px;gap:10px}
+.tool-row-copy strong{font-size:12px}
+.tool-row-copy small{font-size:11px}
+.tool-row-state>small{font-size:9px}
+.catalog-status{font-size:10px;padding:3px 6px}
+.tool-version-history{padding-left:46px}
+.tool-settings .scope-picker{padding:18px}
+.tool-detail-drawer{top:90px}
+.custom-library .tool-detail-drawer .review{padding:19px}
+.catalog-toolbar>select{font-size:11px}
+.tool-version-history summary{font-size:10px}}

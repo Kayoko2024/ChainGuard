@@ -46,13 +46,15 @@ def build_context():
     return result.getvalue(),sorted(set(names)|extras)
 
 
-def tls_material(directory,distro):
+def tls_material(directory,distro,days=7,ca_days=365):
+    if not 7 <= days <= 365 or not days < ca_days <= 3650:
+        raise ValueError('Invalid local TLS validity period')
     directory.mkdir(parents=True)
     def wsl_path(path): return '/mnt/'+str(path)[0].lower()+'/'+str(path)[3:].replace('\\','/')
     def openssl(*args):
         result=subprocess.run(['wsl.exe','-d',distro,'-u','root','--exec','openssl',*args],capture_output=True,timeout=40)
         if result.returncode: raise RuntimeError('Local test TLS certificate generation failed')
-    openssl('req','-x509','-newkey','rsa:2048','-nodes','-keyout',wsl_path(directory/'ca.key'),'-out',wsl_path(directory/'ca.pem'),'-subj','/CN=ChainGuard Phase6 Test CA','-days','2',
+    openssl('req','-x509','-newkey','rsa:2048','-nodes','-keyout',wsl_path(directory/'ca.key'),'-out',wsl_path(directory/'ca.pem'),'-subj','/CN=ChainGuard Phase6 Test CA','-days',str(ca_days),
             '-addext','basicConstraints=critical,CA:TRUE','-addext','keyUsage=critical,keyCertSign,cRLSign')
     for name,san,usage in [('gateway-server','DNS:phase6-gateway','serverAuth'),('tool-server','DNS:phase6-tool,DNS:phase6-proxy','serverAuth'),
                            ('gateway-client','DNS:gateway-service','clientAuth'),('tool-client','DNS:tool-service','clientAuth'),('operator','DNS:local-operator','clientAuth')]:
@@ -60,7 +62,7 @@ def tls_material(directory,distro):
         extension.write_text('subjectAltName='+san+'\nextendedKeyUsage='+usage+'\nbasicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid,issuer\n',encoding='ascii')
         openssl('req','-new','-newkey','rsa:2048','-nodes','-keyout',wsl_path(directory/(name+'.key')),'-out',wsl_path(directory/(name+'.csr')),'-subj','/CN='+name)
         openssl('x509','-req','-in',wsl_path(directory/(name+'.csr')),'-CA',wsl_path(directory/'ca.pem'),'-CAkey',wsl_path(directory/'ca.key'),'-CAcreateserial',
-                '-out',wsl_path(directory/(name+'.pem')),'-days','2','-extfile',wsl_path(extension))
+                '-out',wsl_path(directory/(name+'.pem')),'-days',str(days),'-extfile',wsl_path(extension))
 
 
 def find_signers(report):

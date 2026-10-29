@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "public-vscode-issues-v1",
+  "tool_name": "custom.github_vscode",
+  "allowed_resources": ["microsoft/vscode", "microsoft/vscode#1", "facebook/react#1"],
+  "cases": [
+    {"id": "repo_allowed", "query": "microsoft/vscode", "expected": "READ_COMPLETED", "enforced_by": "TOOL_CAPABILITY_VIA_GATEWAY"},
+    {"id": "issue_allowed", "query": "microsoft/vscode#1", "expected": "READ_COMPLETED", "enforced_by": "TOOL_CAPABILITY_VIA_GATEWAY"},
+    {"id": "other_repo_denied", "query": "facebook/react#1", "expected": "GITHUB_REPOSITORY_DENIED", "enforced_by": "ON_CHAIN_REPOSITORY_POLICY"},
+    {"id": "unselected_issue_denied", "query": "microsoft/vscode#2", "expected": "UNAUTHORIZED_SCOPE", "enforced_by": "TOOL_CAPABILITY_VIA_GATEWAY"}
+  ],
+  "chain_scope_policy": {"status": "REQUIRED", "contract": "RepositoryReadPolicy", "allowed_repositories": ["microsoft/vscode"], "chain_enforced": true, "reason": "The negative-control key is deliberately permitted by the local task capability, so the independent on-chain repository policy must reject it before HTTPS."},
+  "github_token_required": false,
+  "asr_measured": false
+}

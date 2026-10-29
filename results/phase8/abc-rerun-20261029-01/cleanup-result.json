@@ -1,0 +1,19 @@
+{
+  "status": "ARCHIVED_DELETE_BLOCKED",
+  "archive": "results/archive/phase8-before-20261029-01.zip",
+  "archive_sha256": "eeb30f9163d684ff23150074f856f692974ddaa3c6b60333d804419c5baa3cd9",
+  "archive_bytes": 4647071,
+  "file_count": 1212,
+  "source_bytes": 23819846,
+  "kept": [
+    "abc-rerun-20261029-01",
+    "bc-live-20261028-01",
+    "complete-experiment-01",
+    "phase9"
+  ],
+  "active_key_scan": "PASS",
+  "originals_removed": false,
+  "automatic_review": "Deletion of verified old experiment output candidates rejected: blocked by policy; no more specific reason returned. No retry or alternative deletion attempted.",
+  "core_source_modified": false,
+  "docker_data_modified": false
+}

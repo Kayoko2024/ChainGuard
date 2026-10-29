@@ -1,5 +1,6 @@
 """Pinned Besu reads and ABI encoding. HTTP evidence never grants permission."""
 import json
+from functools import lru_cache
 from pathlib import Path
 import time
 import urllib.request
@@ -12,10 +13,20 @@ from .canonical import canonical, validate, ROOT
 from .chain_crypto import digest
 from .crypto import PROTOCOL, label, recover_intent
 from .approvals import inspect_approvals
+from .mail_window import mail_lifetime
 from chainguard_sandbox.protocol import ToolError
 
 ZERO = "0x" + "00" * 32
 STATES = ("NONE", "RESERVED", "UNKNOWN", "FINALIZED_OK", "FINALIZED_ERROR", "FINALIZED_REJECTED")
+
+
+@lru_cache(maxsize=1)
+def rpc_transport():
+    # build_opener also creates an HTTPSHandler/SSLContext for HTTP endpoints.
+    # Rebuilding it for each periodic policy snapshot retains native TLS memory
+    # in handler cycles until a full GC (not accounted for by Python's GC budget).
+    # The transport is stateless across requests; no RPC data or verdict is cached.
+    return urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 
 def abi_type(p):
@@ -45,7 +56,7 @@ def unpack(p, value):
 class RPC:
     def __init__(self, url):
         self.url = url
-        self.opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        self.opener = rpc_transport()
 
     def call(self, method, params=None):
         request = urllib.request.Request(self.url, canonical({"jsonrpc": "2.0", "id": 1, "method": method, "params": params or []}),
@@ -105,6 +116,7 @@ def pack_default(p):
 class Chain:
     def __init__(self, deployment, urls):
         self.config = deployment
+        self.mail_lifetime = mail_lifetime(deployment)
         self.nodes = [RPC(u) for u in urls]
         if len(self.nodes) < 2 or len(set(urls)) != len(urls): raise ValueError("Two independent node endpoints required")
         self.rpc = self.nodes[0]
@@ -135,6 +147,12 @@ class Chain:
                 code = node.call("eth_getCode", [item["address"], hex(height)])
                 if "0x" + keccak(bytes.fromhex(code[2:])).hex() != item["codeHash"]: raise ToolError("CHAIN_UNAVAILABLE")
         block = hex(height)
+        if self.mail_lifetime != 120:
+            window = Contract('PolicyRegistry', self.policy.address, self.rpc, abi=[
+                {'type':'function','name':name,'inputs':[],'outputs':[{'type':kind}]} for name,kind in [('sourcePolicy','address'),('mailLifetime','uint64')]])
+            if (window.call('sourcePolicy',block=block) != self.config['contracts']['SourcePolicyRegistry']['address'].lower() or
+                    window.call('mailLifetime',block=block) != self.mail_lifetime):
+                raise ToolError('CHAIN_UNAVAILABLE')
         if (self.execution.call("auditRegistry", block=block) != self.audit.address or
             self.execution.call("policyRegistry", block=block) != self.policy.address or
             self.audit.call("executionRegistry", block=block) != self.execution.address or
@@ -157,7 +175,7 @@ class Chain:
         rule = self.policy.call("getEffectiveRule",[intent["policy_id"]],block)
         if (self.policy.call("paused",block=block) or not rule["enabled"] or rule["policyEpoch"] != int(intent["policy_epoch"]) or
             rule["toolId"] != intent["tool_id"] or rule["resourceScope"] != intent["resource_scope"] or rule["risk"] != 2 or
-            not 0 < int(intent["expires_at"]) - int(intent["issued_at"]) <= min(rule["maxLifetime"],120)):
+            not 0 < int(intent["expires_at"]) - int(intent["issued_at"]) <= min(rule["maxLifetime"],self.mail_lifetime)):
             raise ToolError("POLICY_REVOKED")
         if not self.policy.call("isRequesterAuthorized",[intent["requester"],intent["resource_scope"]],block) or not self.policy.call("isAgentAuthorized",[intent["requester"],intent["agent"]],block):
             raise ToolError("FORBIDDEN")

@@ -1,0 +1,14 @@
+{
+  "version": "chainguard-interactive-3",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "parameters": {
+    "temperature": 0,
+    "top_p": 1,
+    "thinking": {"type": "disabled"},
+    "max_tokens": 4096,
+    "tool_choice": "auto"
+  },
+  "document_max_tokens": 8192
+}

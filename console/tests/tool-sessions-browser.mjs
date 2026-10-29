@@ -1,0 +1,35 @@
+// Actual browser/API/DeepSeek/tools/four-node proof; no mocked routes or fixture responses.
+import {chromium} from 'playwright';
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const [configFile,credentialsFile,out]=process.argv.slice(2),c=JSON.parse(fs.readFileSync(configFile,'utf8'));
+assert.ok(!fs.existsSync(out));fs.mkdirSync(out,{recursive:true});
+const base=`http://127.0.0.1:${c.port}`,passwords=Object.fromEntries(fs.readFileSync(path.join(path.dirname(credentialsFile),'access.local.txt'),'utf8').split(/\r?\n/).filter(x=>x.includes(' : ')).map(x=>x.split(' : ')));
+const report={status:'RUNNING',mocked_routes:false,real_llm:false,checks:[],javascript_errors:[]},save=()=>fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify(report,null,2));
+const browser=await chromium.launch({channel:'msedge',headless:true}),page=await browser.newPage({viewport:{width:1450,height:1000}});page.on('pageerror',e=>report.javascript_errors.push(e.message));
+async function login(role){if(await page.getByRole('button',{name:'退出',exact:true}).count())await page.getByRole('button',{name:'退出',exact:true}).click();await page.getByLabel('登录身份').selectOption(role);await page.getByLabel('登录密码').fill(passwords[role]);await page.getByRole('button',{name:'登录',exact:true}).click();await page.locator('.identity').waitFor();}
+async function settings(){await page.getByRole('navigation',{name:'工作空间导航'}).getByRole('link',{name:'工具与设置',exact:true}).click();await page.getByRole('tab',{name:'接入与管理',exact:true}).click();}
+const name='custom.ui_session_'+Date.now().toString(16);
+try{
+ await page.goto(base);await login('requester');await settings();await page.getByLabel('工具接入方式').selectOption('dataset');await page.getByText('注册新的查询工具',{exact:true}).click();
+ await page.getByLabel('自定义工具名称',{exact:true}).fill(name);await page.getByLabel('自定义工具显示名称').fill('网页会话测试联系人');await page.getByLabel('自定义工具描述').fill('Lookup the exact authorized synthetic contact with query=A. Return only the actual result.');await page.getByLabel('记录键字段',{exact:true}).fill('id');await page.getByLabel('返回字段',{exact:true}).fill('id, name');await page.getByLabel('自定义工具资料').fill('[{"id":"A","name":"Synthetic Web Alice"}]');
+ const registering=page.waitForResponse(r=>r.request().method()==='POST'&&r.url()===base+'/ops/v1/custom-tools');await page.getByRole('button',{name:'提交待审版本',exact:true}).click();const response=await registering;assert.equal(response.status(),201);assert.ok(!('risk' in response.request().postDataJSON()));report.revision=(await response.json()).revision;report.checks.push('submitter_no_risk');save();
+ await login('security');await settings();await page.locator('.custom-versions button').filter({hasText:name}).click();
+ assert.equal(await page.getByLabel('工具审核风险等级').inputValue(),'');assert.ok(await page.getByRole('button',{name:'核对本版本并启用',exact:true}).isDisabled());await page.getByLabel('工具审核风险等级').selectOption('LOW');
+ const reviewing=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/activation'));await page.getByRole('button',{name:'核对本版本并启用',exact:true}).click();const admitted=await reviewing;assert.equal(admitted.status(),200);report.admission=(await admitted.json()).admission;assert.ok(report.admission.evidence.tx_hash);report.checks.push('OrgB_LOW_real_chain');save();
+ await login('requester');await settings();await page.locator('.custom-versions button').filter({hasText:name}).click();await page.getByRole('checkbox',{name:'准备查询 A',exact:true}).check();await page.getByRole('button',{name:'用本版本准备 Agent 任务',exact:true}).click();
+ await page.getByLabel('任务内容').fill(`实际调用 ${name} 恰好一次，query 精确为 A，然后报告返回姓名。不要发送邮件，不要调用别的工具。`);await page.getByText(/LOW 工具会话预授权 ·/).click();await page.getByLabel('会话最大调用次数').fill('2');
+ const submitted=page.waitForResponse(r=>r.request().method()==='POST'&&r.url()===base+'/ops/v1/tasks');await page.getByRole('button',{name:'创建任务并运行真实 Agent',exact:true}).click();const created=await submitted;assert.equal(created.status(),202);report.job_id=(await created.json()).id;save();
+ let job;const end=Date.now()+100000;while(Date.now()<end){job=await(await page.request.get(base+`/ops/v1/tasks/${report.job_id}`)).json();if(!['QUEUED','AGENT_RUNNING'].includes(job.display_state))break;await page.waitForTimeout(1000);}
+ assert.equal(job.display_state,'READ_COMPLETED');assert.equal(job.record,null);assert.equal(job.session_envelope.message.maxCalls,2);assert.ok(job.events.some(e=>e.kind==='MODEL_EXCHANGE'));assert.ok(job.events.some(e=>e.kind==='AGENT_ATTEMPT'&&e.tool_executed===true&&e.result.data.record.name==='Synthetic Web Alice'));assert.ok(job.agent_output);report.real_llm=true;
+ await page.getByRole('button',{name:'审批与证据',exact:true}).click();await page.getByLabel('会话授权与批量审计').waitFor();await page.getByRole('button',{name:'立即提交待存证批次',exact:true}).click();
+ let observation;for(let i=0;i<50;i++){job=await(await page.request.get(base+`/ops/v1/tasks/${report.job_id}`)).json();observation=job.batch_observations?.find(o=>o.status==='ANCHORED');if(observation)break;await page.waitForTimeout(1000);}assert.ok(observation);report.batch=observation;report.checks.push('new_web_task_LOW_no_approval_batched');save();
+ await page.screenshot({path:path.join(out,'business.png'),fullPage:true});
+ const audit=await browser.newPage({viewport:{width:1450,height:1000}});audit.on('pageerror',e=>report.javascript_errors.push(e.message));await audit.goto('http://127.0.0.1:8093/');
+ const entry='batch-'+observation.log.call_id.slice(2);await audit.getByRole('button').filter({hasText:entry}).click();await audit.getByRole('button',{name:'实时核验',exact:true}).click();await audit.getByTestId('verification-status').filter({hasText:'Merkle 验证通过'}).waitFor({timeout:30000});
+ const verified=await(await audit.request.get(`http://127.0.0.1:8093/audit-api/v1/actions/${entry}/verify`)).json();assert.equal(verified.status,'BATCH_VERIFIED');assert.equal(verified.evidence.checked_nodes,4);assert.equal(verified.evidence.tx_hash,observation.tx_hash);report.verification=verified;report.checks.push('readonly_audit_four_node_verifies_new_record');
+ await audit.screenshot({path:path.join(out,'audit.png'),fullPage:true});await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));report.checks.push('mobile_no_overflow');await page.setViewportSize({width:1450,height:1000});
+ await login('security');await settings();await page.locator('.custom-versions button').filter({hasText:name}).click();await page.getByLabel('工具审核风险等级').selectOption('LOW');const disabling=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/activation'));await page.getByRole('button',{name:'停用本版本',exact:true}).click();assert.equal((await disabling).status(),200);report.tool_disabled=true;
+ assert.deepEqual(report.javascript_errors,[]);report.status='PASS';save();
+}catch(e){report.status='FAIL';report.error=e.message;save();throw e;}finally{await browser.close();}

@@ -2,8 +2,10 @@
   "name": "chainguard-monorepo",
   "version": "0.1.0",
   "private": true,
-  "description": "ChainGuard monorepo: phase 1 infrastructure and health checks",
-  "workspaces": ["contracts"],
+  "description": "ChainGuard local Agent authorization, controlled execution and verifiable audit prototype",
+  "workspaces": [
+    "contracts"
+  ],
   "scripts": {
     "test": "npm run test:contracts",
     "test:contracts": "npm run test --workspace @chainguard/contracts",
@@ -17,5 +19,7 @@
     "hardhat": "2.26.3",
     "solc": "0.8.28"
   },
-  "engines": { "node": ">=22.10.0 <23" }
+  "engines": {
+    "node": ">=22.10.0 <23"
+  }
 }

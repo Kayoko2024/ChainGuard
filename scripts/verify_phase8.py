@@ -139,7 +139,7 @@ print(json.dumps({'status':'PASS','read_only_mount':True,'sqlite_mode':'ro','cas
 '''
 
 
-def verify(directory, docker_prefix=None):
+def verify(directory, docker_prefix=None, observer_image=None):
     manifest = load(directory / 'run_manifest.json')
     assert manifest['status'] == 'PASS' and manifest['track'] == 'protocol_replay'
     for name, expected in manifest.get('artifacts', {}).items():
@@ -251,9 +251,15 @@ def verify(directory, docker_prefix=None):
     assert info['Id'] == manifest['isolation']['id']
     assert info['Image'] == manifest['image'] and info['Config']['Labels']['chainguard.phase'] == '8'
     assert len(info['Mounts']) == 1 and info['Mounts'][0]['Type'] == 'volume' and info['Mounts'][0]['Name'] == manifest['volume']
+    # Operator-selected observer is independent from the original execution image.
+    # Keep the recorded image/container identity intact and disclose the difference.
+    image = observer_image or manifest['image']
+    assert re.fullmatch(r'sha256:[0-9a-f]{64}', image)
+    observer = json.loads(subprocess.run(prefix + ['image', 'inspect', image], capture_output=True, check=True, timeout=20).stdout)[0]
+    assert observer['Id'] == image and observer['Config']['User'] == '10001:10001'
     check = subprocess.run(prefix + ['run', '--rm', '-i', '--network', 'none', '--read-only', '--cap-drop', 'ALL',
         '--security-opt', 'no-new-privileges:true', '--mount', 'type=volume,src=' + manifest['volume'] + ',dst=/sandbox,readonly',
-        manifest['image'], 'python', '-c', VOLUME_CODE], input=json.dumps(volume_cases).encode(), capture_output=True, timeout=90)
+        image, 'python', '-c', VOLUME_CODE], input=json.dumps(volume_cases).encode(), capture_output=True, timeout=90)
     if check.returncode:
         (directory / 'volume-verification-failure.txt').write_bytes(check.stderr)
         raise RuntimeError('Readonly volume evidence verification failed')
@@ -271,6 +277,8 @@ def verify(directory, docker_prefix=None):
             'mail_deliveries': delivered, 'volume': volume, 'statistics_recomputed': True,
             'observed_behavior_asserted': True, 'transaction_calldata_verified': True,
             'total_gas_used': sum(int(r[0]['gasUsed'], 16) for r in receipts.values()),
+            'original_execution_image': manifest['image'], 'observer_image': image,
+            'original_execution_image_recovered': False if observer_image else True,
             'task_data_models_matched': True, 'real_llm': 'NOT_MEASURED'}
 
 
@@ -278,10 +286,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', type=Path)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--observer-image', help='Explicit trusted local observer SHA-256; never changes the original execution manifest')
     args = parser.parse_args()
     output = args.out.resolve()
     if output.exists() or not output.is_relative_to(ROOT / 'results/phase8'):
         raise ValueError('Choose a new results/phase8 verification file')
-    result = verify(args.directory.resolve())
+    result = verify(args.directory.resolve(), observer_image=args.observer_image)
     output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf8')
     print(json.dumps(result))

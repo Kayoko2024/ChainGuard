@@ -35,4 +35,4 @@ Agent/操作员在agent internal网络；工具在独立tools网络；只有网�
 
 `agentdojo.lock.json`固定官方PyPI0.1.35、wheel哈希、v1.2.2 workspace和112份原文件摘要，MIT许可证随归档保留。73依赖wheel的完整哈希锁仅针对Windows x86_64 CPython3.14；其他平台需要另生成并审查锁。网关/工具Linux依赖仍沿用原阶段3锁，不混装。原版加载器/判定器自检只操作官方内存环境，无真实SMTP/OS删除；不要把其正负控制当真实工具结果。
 
-本轮无真实模型调用。后续模型进程通过环境变量读取`agent/.env.example`中的配置，Backend可替换，Proxy/原/v1网关保持一致。实际模型网络连通、工具schema/调用协议兼容、端到端正常任务与注入攻防以及原判定器整合都是阶段7后续必做；完成前不开展阶段8正式A/B/C统计。
+本文件对应固定trace运行，不计入真实模型统计。真实DeepSeek接入和实验现已另行实现，配置、API预检、C前置及A/B/C命令统一见[实验说明](../evaluation/README.md)；Backend可替换，Proxy/原/v1网关保持一致。

@@ -11,6 +11,7 @@ from .central_service import CentralService
 from .chain_crypto import digest, recover_receipt
 from .crypto import random_id, label, commit, recover_intent, PROTOCOL
 from .policy import evaluate, require_actor, check_policy_freeze
+from .mail_window import action_expiry
 from chainguard_sandbox.protocol import ToolError
 
 FINAL={0:'FINALIZED_OK',1:'FINALIZED_ERROR',2:'FINALIZED_REJECTED'}
@@ -23,6 +24,8 @@ class ChainService(CentralService):
         self.tool_signer=tool_signer.lower()
         self.executor_subject=executor_subject
         self.stop=threading.Event()
+        from .transaction_metrics import TransactionMetrics
+        self.performance=TransactionMetrics(store)
         # Dispatch is distinct from confirmed tool execution. Never redispatch after restart.
         with store.transaction() as db:
             for row in db.execute("SELECT * FROM actions WHERE state IN ('RESERVED','EXECUTING')").fetchall():
@@ -86,7 +89,7 @@ class ChainService(CentralService):
             intent={'schema_version':1,'action_id':action_id,'task_id':grant['task_id'],'requester':grant['requester'],'agent':grant['agent'],
                 'tool_id':label('tool','mail.send'),'resource_scope':label('scope','ORG_A_INTERNAL_MAIL'),'params_commit':commit('params',salt,body['params']),
                 'policy_id':label('policy','POLICY_R2_MAIL'),'policy_epoch':str(rule['policyEpoch']),'nonce':str(nonce),
-                'issued_at':str(issued),'expires_at':str(min(issued+min(rule['maxLifetime'],120),int(grant['expires_at']))),'risk':2}
+                'issued_at':str(issued),'expires_at':str(action_expiry(issued,grant['expires_at'],rule['maxLifetime'],self.chain.config)),'risk':2}
             validate('ActionIntent',intent)
             data={'intent':intent,'params':body['params'],'salt':salt,'scope':'ORG_A_INTERNAL_MAIL','approvals':{},'requester_signature':None,'charged':False}
             db.execute('INSERT INTO actions(action_id,task_id,tool_name,state,data) VALUES (?,?,?,?,?)',
@@ -175,6 +178,7 @@ class ChainService(CentralService):
             if consumed>row['nonce']: raise ToolError('STATE_CONFLICT')
             with self.store.transaction() as db:
                 db.execute("UPDATE chain_transactions SET state='SENDING' WHERE tx_hash=?",(row['tx_hash'],))
+            self.performance.submitted(row['tx_hash'],action_id,kind)
             returned=self.chain.rpc.call('eth_sendRawTransaction',[self.store.unseal('tx/'+row['tx_hash'],row['raw'])])
             if returned!=row['tx_hash']: raise ToolError('CHAIN_UNAVAILABLE')
             receipt=self.chain.rpc.call('eth_getTransactionReceipt',[row['tx_hash']])
@@ -239,6 +243,7 @@ class ChainService(CentralService):
             with self.store.transaction() as db:
                 self.store.save(db,action_id,'RESERVED',data)
                 db.execute("UPDATE chain_transactions SET state='CONFIRMED' WHERE tx_hash=?",(tx_hash,))
+                self.performance.confirmed(db,tx_hash)
             return
         if state=='RESERVED':
             # A gateway-side chain outage leaves an undispatched reservation waiting.
@@ -298,6 +303,7 @@ class ChainService(CentralService):
             with self.store.transaction() as db:
                 self.store.save(db,action_id,data['chain_state'],data)
                 db.execute("UPDATE chain_transactions SET state='CONFIRMED' WHERE tx_hash=?",(tx_hash,))
+                self.performance.confirmed(db,tx_hash)
 
     def worker(self):
         while not self.stop.wait(0.3):

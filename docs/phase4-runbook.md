@@ -1,6 +1,6 @@
 # 阶段4：本地四验证节点 Besu QBFT
 
-部署输入/验收边界见[实施前记录](phase4-design.md)。链与已有gateway分别使用`chainguard-chain`、`chainguard` Compose项目。RPC由4个独立Besu JVM提供；Hardhat只运行原有协议回归。
+部署输入/验收边界见[实施前记录](history.zip)。链与已有gateway分别使用`chainguard-chain`、`chainguard` Compose项目。RPC由4个独立Besu JVM提供；Hardhat只运行原有协议回归。
 
 ## 首次启动与复验
 

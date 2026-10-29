@@ -17,19 +17,34 @@ from chainguard_gateway.crypto import PROTOCOL, recover_intent
 from chainguard_gateway.audit import verify_log
 from evaluation.replay import verify_unsigned
 from evaluation.live_results import messages, observations, judged_rows, live_metrics
+from evaluation.live_plan import schedule as live_schedule, make_case, rule_for
 
 
 def load(path):
     return json.loads(path.read_text(encoding='utf8'))
 
 
-def verify(directory):
+def observer_for(prefix, execution_image, observer_image=None):
+    """An operator may explicitly pin a read-only observer; never fall back silently."""
+    image = execution_image if observer_image is None else observer_image
+    if not isinstance(image, str) or not re.fullmatch(r'sha256:[0-9a-f]{64}', image):
+        raise ValueError('Observer must be an explicit full SHA-256 image ID')
+    inspected = json.loads(subprocess.run(prefix + ['image', 'inspect', image],
+        capture_output=True, check=True, timeout=20).stdout)[0]
+    if inspected['Id'] != image or inspected['Config']['User'] != '10001:10001':
+        raise ValueError('Observer identity or non-root user mismatch')
+    return image
+
+
+def verify(directory, observer_image=None):
     manifest = load(directory / 'run_manifest.json')
     assert manifest['track'] == 'real_llm'
     for name, expected in manifest.get('artifacts', {}).items():
         assert Path(name).name == name and hashlib.sha256((directory/name).read_bytes()).hexdigest() == expected
     cases = [load(p) for p in sorted(directory.glob('live-case-*.json'))]
     assert len(cases) == len(manifest['schedule']) == manifest['case_count']
+    if manifest.get('schedule_version') == 2:
+        assert manifest['schedule'] == live_schedule(manifest['plan'], manifest['groups'])
     chain = Chain(manifest['deployment'], [f'http://127.0.0.1:{p}' for p in range(8545, 8549)])
     chain.nodes = [ReadOnlyRPC(node.url) for node in chain.nodes]
     chain.rpc = chain.nodes[0]
@@ -39,12 +54,18 @@ def verify(directory):
     receipts, volume_cases, delivered, reads, pairs = {}, [], 0, 0, {}
     for case, scheduled in zip(cases, manifest['schedule'], strict=True):
         row, evidence = case['row'], case['evidence']
-        assert [row['scenario'], row['group']] == scheduled and row['status'] == 'OBSERVED'
+        if manifest.get('schedule_version') == 2:
+            assert all(row[k] == scheduled[k] for k in ['scenario', 'group', 'sample_id'])
+            assert evidence['case'] == make_case(manifest['plan'], scheduled, load(ROOT / 'agent/fixtures/acceptance.json'))
+        else:
+            assert [row['scenario'], row['group']] == scheduled
+        assert row['status'] in ({'OBSERVED', 'ERROR'} if manifest.get('schedule_version') == 2 else {'OBSERVED'})
         semantic = {k: v for k, v in evidence['case'].items() if k != 'group'}
         assert hashlib.sha256(json.dumps(semantic, sort_keys=True).encode()).hexdigest() == row['input_sha256']
         key = row['sample_id']
         assert pairs.setdefault(key, row['input_sha256']) == row['input_sha256']
-        observed = observations(case['events'], case['model_exchanges'], evidence, manifest['plan']['authorized_mail'])
+        observed = observations(case['events'], case['model_exchanges'], evidence,
+                                rule_for(evidence['case']) or manifest['plan']['authorized_mail'])
         for name, value in observed.items():
             if name in row:
                 assert row[name] == value
@@ -56,7 +77,8 @@ def verify(directory):
         assert len(actual) == row['mailbox_count']
         delivered += len(actual)
         reads += observed['read_count']
-        assert observed['read_count'] >= 1, 'Model must actually observe the injected source'
+        if not row.get('error_code'):
+            assert observed['read_count'] >= 1, 'Model must actually observe the injected source'
         assert evidence['deletes'] == 0
         if row['group'] in {'A','B'}:
             audit = evidence['audit']
@@ -117,6 +139,7 @@ def verify(directory):
     assert info['Id'] == manifest['isolation']['id'] and info['Image'] == manifest['image']
     assert info['Config']['Labels']['chainguard.phase'] == '8-live' and info['Config']['User'] == '10001:10001'
     assert len(info['Mounts']) == 1 and info['Mounts'][0]['Name'] == manifest['volume'] and info['Mounts'][0]['Type'] == 'volume'
+    image = observer_for(prefix, manifest['image'], observer_image)
     code = VOLUME_CODE.replace("WHERE state='COMPLETED'", "WHERE state='COMPLETED' AND tool_name='mail.send'")
     extra = """
  with sqlite3.connect('file:'+str(root/'state.sqlite3')+'?mode=ro',uri=True) as reads_db:
@@ -131,7 +154,7 @@ def verify(directory):
 """
     code = 'import re\n' + code.replace(" checked.append(", extra + " checked.append(")
     result = subprocess.run(prefix + ['run','--rm','-i','--network','none','--read-only','--cap-drop','ALL','--security-opt','no-new-privileges:true',
-        '--mount','type=volume,src='+manifest['volume']+',dst=/sandbox,readonly',manifest['image'],'python','-c',code],input=json.dumps(volume_cases).encode(),capture_output=True,timeout=90)
+        '--mount','type=volume,src='+manifest['volume']+',dst=/sandbox,readonly',image,'python','-c',code],input=json.dumps(volume_cases).encode(),capture_output=True,timeout=90)
     if result.returncode:
         (directory/'volume-verification-failure.txt').write_bytes(result.stderr)
         raise RuntimeError('Readonly volume verification failed')
@@ -153,12 +176,17 @@ def verify(directory):
     else:
         (directory/'tx-receipts.json').write_text(json.dumps(receipts,indent=2)+'\n',encoding='utf8')
     return dict(status='PASS', cases=len(cases), mail_deliveries=delivered, real_reads=reads,
-        transactions=len(receipts), four_node_receipts=4*len(receipts), snapshot=snapshot, volume=volume, statistics_recomputed=statistics_verified)
+        transactions=len(receipts), four_node_receipts=4*len(receipts), snapshot=snapshot, volume=volume, statistics_recomputed=statistics_verified,
+        original_execution_image=manifest['image'], observer_image=image,
+        original_execution_image_recovered=image == manifest['image'])
 
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory',type=Path)
     parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--observer-image',help='Explicit trusted local observer SHA-256; leaves the original execution manifest unchanged')
     args=parser.parse_args()
-    args.out.write_text(json.dumps(verify(args.directory.resolve()),indent=2)+'\n',encoding='utf8')
+    if args.out.exists():
+        raise ValueError('Choose a new verification output file')
+    args.out.write_text(json.dumps(verify(args.directory.resolve(), observer_image=args.observer_image),indent=2)+'\n',encoding='utf8')

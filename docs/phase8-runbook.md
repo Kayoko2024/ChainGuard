@@ -1,6 +1,6 @@
 # 阶段8复现
 
-真实模型轨现已实现并通过首轮验收；一条命令 `& .\.venv\Scripts\python.exe scripts/run_phase8.py --track real_llm` 会先做API/C前置，再依次运行真实A/B/C及独立协议轨。完整说明见 [live-experiments.md](live-experiments.md)。下文仅对应原协议轨，末尾“real_llm拒绝/前置未完成”是历史状态，已由真实实现替代。
+真实模型轨已实现；`python scripts/run_phase8.py --track real_llm`会先做API/C前置，再依次运行真实A/B/C及独立协议轨。模型配置、摘要重复实验及统计边界见[实验说明](../evaluation/README.md)。下文是协议轨运维步骤，不计入模型ASR。
 
 在D:\CCF的PowerShell，一条命令生成新结果目录，实际执行A/B/C、读取四节点真实receipt、以无网络readonly挂载原工具卷重新验证，再导出报告：
 
@@ -23,4 +23,4 @@
 
 `execution.txt`保留逐案例实际状态。程序错误不丢弃样本：完整/部分trace与manifest FAIL保留，原始失败目录不可改写。某次失败后修复必须使用新目录。UNKNOWN可能有真实副作用，查看原邮箱/回执证据，不重发动作。
 
-`--track real_llm`目前明确拒绝运行；阶段7真实模型与适用官方判定器前置未完成。不能用本命令的固定协议trace填写ASR、官方基准攻击率或真实模型任务成功率。用户已指定DeepSeek，安全配置及最小预检见[deepseek-runbook.md](deepseek-runbook.md)。必须先通过真实API/ToolCalling，再完成真实正常任务/注入与判定器适配，保持三组模型及输入一致后才能正式验收模型轨。
+模型API不可用时明确失败，无模拟输出兜底。模型轨的C前置、正式A/B/C和本协议轨分别保留证据，不合并样本；不能用协议trace填写真实模型ASR或官方基准成绩。

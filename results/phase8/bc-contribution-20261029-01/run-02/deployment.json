@@ -1,0 +1,24 @@
+{
+  "chainId": 20261026,
+  "genesisHash": "0xcb4778cbcf96b2891907209e06448c518e82f7fa633c376efe4621761e072173",
+  "validators": [
+    "0x017055439600a355dfc7d2e1b263f320914c68a5",
+    "0x2105704a958dd2b1c022b1daaa56506f763d2028",
+    "0x34469f4f27e61bed15416eba9aff871a39614953",
+    "0x70e24dc35e5894a6c3b0f6a1ee45f5cbdafa7e3e"
+  ],
+  "contracts": {
+    "PolicyRegistry": {
+      "address": "0xa380cdfd8ba4b2c985dc54b19b9407e4021824bd",
+      "codeHash": "0x59ece4a63adb1be9f1c7735afdfdca0a0518718c52fd48ce9161fd5d97df3311"
+    },
+    "ExecutionRegistry": {
+      "address": "0x1b80c63ec84f2c6987b7bd86f4f11ac5abc06827",
+      "codeHash": "0x28f7de6abbfe2c2c37d85d102c8e708af5f7a691c4e45fadb30671d18dda5af8"
+    },
+    "AuditRegistry": {
+      "address": "0x9d26ef6b141c2526ba0790c073bba4553bcd1ef9",
+      "codeHash": "0x932a75a73f21ecfbb1b4c1f8788fa90cd2b7257b26aa61b4269d3f1fcbc2ae94"
+    }
+  }
+}

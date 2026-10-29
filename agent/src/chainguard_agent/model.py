@@ -19,6 +19,8 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise ValueError('Model endpoint redirects are disabled')
 
 ALIASES={'doc_read':'doc.read','mail_send':'mail.send','doc_delete':'doc.delete'}
+ALIASES.update({n.replace('.','_'):n for n in ('doc.list','doc.search','mail.list','mail.read')})
+ALIASES.update({n.replace('.','_'):n for n in ('attachment.read','document.create','document.revise')})
 
 
 @dataclass(frozen=True)
@@ -94,13 +96,21 @@ class HTTPModelBackend:
             if self.recorder:
                 from .local_config import redact
                 self.recorder(redact({'request':body,'response':value,'http_status':200,'elapsed_ms':(time.perf_counter()-started)*1000},self.config.api_key))
+            # A length-limited response may contain partial JSON, or even a
+            # complete first call followed by an incomplete second call. Reject
+            # the whole turn before returning any calls; never repair or retry
+            # a possibly effectful instruction. The original response is kept.
+            if value['choices'][0].get('finish_reason')=='length':
+                raise ToolError('MODEL_OUTPUT_TRUNCATED')
             if message['role']!='assistant': raise ValueError()
             calls=[]
             for raw in message.get('tool_calls') or []:
                 if raw['type']!='function': raise ValueError()
                 fn=raw['function']
                 args=parse_json(fn['arguments'].encode())
-                calls.append(ToolCall(raw['id'],ALIASES.get(fn['name'],fn['name']),args))
+                name=fn['name']
+                if name.startswith('custom_'): name='custom.'+name[len('custom_'):]
+                calls.append(ToolCall(raw['id'],ALIASES.get(name,name),args))
             return Turn(message.get('content') or '',tuple(calls))
         except (OSError,ValueError,KeyError,TypeError,IndexError) as error:
             if self.recorder:

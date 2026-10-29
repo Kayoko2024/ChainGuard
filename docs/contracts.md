@@ -1,10 +1,29 @@
 # ChainGuard 契约导航与冻结约束
 
+**2026-10-29期限调整（用户明确授权）：** 新业务邮件启用独立24小时策略部署，旧120秒部署/冻结文件/签名结构保留。新TaskGrant有效24小时；ActionIntent.expires_at仍受任务与当前链规则共同限制。精确自定义工具审批也改为新建时24小时；原审批不自动续期。新旧域选择、合约地址与完整约定见phase10-contracts末节“24小时审批与执行窗口”；下文120秒与旧地址只描述原部署。
+
+连续对话新增契约位于phase10-contracts.md末节；独立ConversationSessionRegistry与`spec/vectors/conversation-v2.json`不替换原task-bound SessionGrant、EIP-712域或邮件三Registry。LOW累计会话根只证明包含性；HIGH仍逐动作原预约/工具回执。测试身份仍同机受控服务签名，不声称浏览器托管私钥或生产机构隔离。
+
+会话增量见phase10-contracts.md末尾“工具风险、会话与批量存证”：独立ToolAdmissionRegistry域的ToolReview/SessionGrant/ToolUseApproval及LowRiskAuditAnchor；原ActionIntent/ExecutionReceipt、三个Registry、冻结21+8不变。`risk_level=LOW/HIGH`为OrgB版本审核标签，不替换原R0–R3数值风险；批量根只证明日志包含性，不能替代敏感动作的reserve/finalize。
+
+通用HTTP增量见phase10-contracts.md：`http.request`为已审核、版本与请求参数固定的R1查询／推理；沿原目录/任务capability/网关，独立服务强制公网HTTPS和DNS固定、禁跳转/凭据。EXTERNAL_TOOL_OBSERVATION只是外部调用观察，不能替代R2/R3链证据。原GitHub链准入仍独立强制，冻结协议不变。
+
+阶段10新增独立`/ops/v1`业务BFF和`phase10_audit`动态只读源，详见[phase10-contracts.md](phase10-contracts.md)。原`/v1`、TaskGrant、ActionIntent、ExecutionReceipt、EIP-712、120秒期限和安全状态机全部不变；业务调度状态及PENDING_ANCHOR只作展示/观察。双组织人工批准准确绑定原意图，浏览器不能选择签名角色、持有私钥或越过原网关。动态审计只有GET和公开DB，不能执行。真实模型与手动负例分开，不新增ASR统计。
+
+默认工具库扩展同见上述阶段10契约：新增任务工具/读取范围选择和独立R0读取capability；新增名称不写入原冻结链工具枚举。READ_COMPLETED为调度结果，READ_ONLY_OBSERVATION明确不是链上认证；原mail.send路径不变。
+
+自定义工具第二步沿同一增量契约：R0 dataset.lookup注册与安全身份准入、不可变版本/记录键任务capability。目录状态不加入链状态机，自定义名称不进入冻结高风险工具枚举；没有任意代码执行或自定义高风险适配器。
+
+GitHub增量同见phase10-contracts.md：github.read沿原注册/准入/capability读取公开仓库/精确Issue，并以独立RepositoryReadPolicy强制仓库链上准入。新治理签名域与原冻结结构分离；工具和读取服务分别核验真实双节点，不可用保持UNKNOWN、链拒绝DENIED，不允许任意URL或写入，不改高风险协议。
+
+对话附件增量亦见phase10-contracts.md：私有原件上传、任务document_scope、attachment.read及仅新副本的document.create/revise；不加入原链工具枚举或改写TaskGrant。DOCUMENT_COMPLETED与LOCAL_DOCUMENT_OBSERVATION分别为文档调度状态和本地观察，不是链终态；含原高风险证据仍由原验证器处理。文档读取与生成不能获得mail.send权限。
+
+
 更新：2026-10-26。本文索引已存在的接口，不建立第二套字段或状态机。发现与下列原规范不一致时先报告，禁止以新摘要覆盖冻结源。
 
 阶段9新增独立只读`/audit-api/v1`，契约见[phase9-contracts.md](phase9-contracts.md)。公开投影及当前链核验不增加执行授权；原`/v1`、EIP-712结构/域、状态机、ABI与审批门槛全部不变。VERIFIED/HISTORICAL_ONLY/NO_RESERVATION/PENDING_RECEIPT/UNAVAILABLE/INVALID为观察结论，不是新业务状态。
 
-**真实模型扩展更新：** 原字段/状态机全部保持；DeepSeek真实循环及A/B/C观测契约见 [live-experiments.md](live-experiments.md) 和 `evaluation/live_plan.json`。该轨的ASR来自实际模型与已核验副作用/原判定器；下文“真实LLM未完成/ASR未测”只描述此前固定trace及协议轨，不描述新模型轨。两轨永不混算。
+**真实模型扩展更新：** 原字段/状态机全部保持；DeepSeek真实循环及A/B/C观测契约见 [实验说明](../evaluation/README.md) 和 `evaluation/live_plan.json`。该轨的ASR来自实际模型与已核验副作用/原判定器；下文“真实LLM未完成/ASR未测”只描述此前固定trace及协议轨，不描述新模型轨。两轨永不混算。
 
 ## 唯一规范来源
 
@@ -50,9 +69,9 @@ ActionIntent域name为`ChainGuard ExecutionRegistry`；ExecutionReceipt为`Chain
 
 阶段6 C状态使用原状态机；网关dispatch_started为内部持久标记，不作为执行成功证明。工具真实回执确认后才记EXECUTING_CONFIRMED→EXECUTION_RECORDED；UNKNOWN只通过原回执恢复，链最终状态必须有真实audit证据。具体子集/字段依赖/未实现路径见phase6-contracts.md；原协议文件不修改。
 
-阶段7的ToolCall、加密Journal、独立R0读取capability、可信审阅/观察接口和四项分离日志字段见[phase7-contracts.md](phase7-contracts.md)、`spec/agent/interfaces.json`。这些扩展不替换原高风险协议或状态机。Agent只能经原propose/GET查询，未知副作用保持null；固定trace attack_success=null、LLM样本0。原版AgentDojo锁/判定器自检与真实LLM攻防属于不同验证范围，后者尚未完成。
+阶段7的ToolCall、加密Journal、独立R0读取capability、可信审阅/观察接口和四项分离日志字段见[phase7-contracts.md](phase7-contracts.md)、`spec/agent/interfaces.json`。这些扩展不替换原高风险协议或状态机。Agent只能经原propose/GET查询，未知副作用保持null；固定trace attack_success=null、LLM样本0。真实模型轨另见[实验说明](../evaluation/README.md)，不与固定trace混算。
 
-阶段8实验输出扩展见[phase8-contracts.md](phase8-contracts.md)，计划`evaluation/phase8_plan.json`；traces/cases/metrics/manifest不是第二套业务协议。共同输入SHA、逐样本语义配对、共同统计cohort、原签名审计与四节点/原卷独立复核，不改变任何冻结字段/状态。服务层协议驱动不运行Agent模型，真实LLM/ASR依旧未测。
+阶段8协议轨扩展见[phase8-contracts.md](phase8-contracts.md)，计划`evaluation/phase8_plan.json`；traces/cases/metrics/manifest不是第二套业务协议。真实模型计划/重复和目标评分见[实验说明](../evaluation/README.md)。协议轨LLM样本为0，真实轨从实际模型调用和已核验副作用计分，不改变冻结字段/状态。
 
 ```powershell
 & .\.venv\Scripts\python.exe scripts/build_specs.py --check

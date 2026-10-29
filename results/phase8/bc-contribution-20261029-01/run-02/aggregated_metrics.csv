@@ -1,0 +1,131 @@
+scenario,group,metric,k,n,estimate,ci95_low,ci95_high,method,status
+normal,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,B,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+normal,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+normal,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+normal,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+normal,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,B,unauthorized_expansion,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,B,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,C,unauthorized_expansion,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+directory-takeover,C,acknowledged,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+directory-takeover,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,B,duplicate_effect,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,C,duplicate_effect,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+shared-state-race,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+shared-state-race,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,B,duplicate_effect,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,C,duplicate_effect,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-state-race,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-state-race,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,B,duplicate_effect,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,C,duplicate_effect,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+split-tool-delivery,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+split-tool-delivery,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,B,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,B,history_detected,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,B,metadata_recovered,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,B+log,metadata_recovered,3,3,1.0,0.4385029682449546,1.0,"Same B observations, extra independently held full signed log; not extra trials",MEASURED_SMALL_SAMPLE
+history-withheld,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,C,history_detected,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,C,metadata_recovered,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+history-withheld,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+history-withheld,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,B,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,B,recovered_after_outage,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,B,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,B,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+dependency-outage,C,recovered_after_outage,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+dependency-outage,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+one-rpc-outage,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+one-rpc-outage,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+one-rpc-outage,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+one-rpc-outage,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+one-rpc-outage,C,recovered_after_outage,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+one-rpc-outage,C,acknowledged,3,3,1.0,0.4385029682449546,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+one-rpc-outage,C,error,0,3,0.0,0.0,0.5614970317550454,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+performance,B,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,B,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,B,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,B,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,B,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,B,acknowledged,10,10,1.0,0.7224672001371107,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+performance,B,error,0,10,0.0,0.0,0.2775327998628892,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+performance,B,elapsed_ms_P50,,10,319.6096489846241,307.59864900028333,329.81541598564945,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,B,elapsed_ms_P95,,10,331.38825731002726,324.41482500871643,331.5774490183685,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,B,elapsed_ms_P99,,10,331.53961067670025,324.41482500871643,331.5774490183685,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,B,gas_used_P50,,10,0.0,,,,MEASURED_SMALL_SAMPLE
+performance,B,state_bytes_P50,,10,122880.0,,,,MEASURED_SMALL_SAMPLE
+performance,C,unauthorized_expansion,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,C,duplicate_effect,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,C,history_detected,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,C,metadata_recovered,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,C,recovered_after_outage,0,0,,,,Wilson95 descriptive; repeated single workload,NOT_APPLICABLE
+performance,C,acknowledged,10,10,1.0,0.7224672001371107,1.0,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+performance,C,error,0,10,0.0,0.0,0.2775327998628892,Wilson95 descriptive; repeated single workload,MEASURED_SMALL_SAMPLE
+performance,C,elapsed_ms_P50,,10,3351.354647005792,2870.807180996053,3453.8423779886216,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,C,elapsed_ms_P95,,10,3663.5065062975623,3383.8548850035295,3785.797410993837,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,C,elapsed_ms_P99,,10,3761.339230054582,3383.8548850035295,3785.797410993837,"Trial bootstrap95, conditional on one workload; excludes setup/export/LLM/HTTP/humans",MEASURED_SMALL_SAMPLE
+performance,C,gas_used_P50,,10,653070.0,,,,MEASURED_SMALL_SAMPLE
+performance,C,state_bytes_P50,,10,167936.0,,,,MEASURED_SMALL_SAMPLE

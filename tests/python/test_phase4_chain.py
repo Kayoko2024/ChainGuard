@@ -50,6 +50,17 @@ def test_image_lock_is_content_pinned():
     assert lock['compose_image'] == lock['image_id']
 
 
+def test_normal_chain_operations_preserve_observer_history_configuration():
+    from types import SimpleNamespace
+    captured=[]
+    ops=chain.Chain(SimpleNamespace(wsl_distro='Ubuntu',wsl_user='root'))
+    ops.docker=lambda *args,**kwargs:captured.append(args)
+    ops.compose('config','--quiet')
+    arguments=captured[0]
+    assert arguments[arguments.index('-f')+1].endswith('/chain/compose.yaml')
+    assert arguments.count('-f')==2 and any(a.endswith('/chain/compose.audit-history.yaml') for a in arguments)
+
+
 def test_official_content_digest_rejects_tampering():
     import hashlib
     content = b'official-registry-encoding-test'

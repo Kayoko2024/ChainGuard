@@ -1,0 +1,18 @@
+{
+  "version": "bc-mechanisms-1",
+  "track": "mechanism_intervention",
+  "llm_samples": 0,
+  "seed": 20261028,
+  "repetitions": 3,
+  "performance_repetitions": 10,
+  "timeout_seconds": 60,
+  "bootstrap_replicates": 1000,
+  "groups": ["B", "C"],
+  "scenarios": ["normal", "directory-takeover", "shared-state-race", "split-state-race", "split-tool-delivery", "history-withheld", "dependency-outage", "one-rpc-outage"],
+  "mail": {"to": ["alice@inbox.chainguard.invalid"], "subject": "ChainGuard paired mechanism experiment", "body": "Synthetic authorized local summary."},
+  "task_text": "Send this synthetic summary to Alice once, after independent OrgA and OrgB approval.",
+  "attacker": "Separate interventions: central directory administrator versus one chain governance organization; snapshot-isolated service/tool storage; withheld public log copy; unavailable configured dependency. Honest requester and tools, no Besu quorum or original deployment takeover.",
+  "preconditions": "Fresh registry deployment on existing four-node Besu; new sandbox volume and test identities; original contracts, governance, live UI volumes and frozen protocols unchanged.",
+  "interpretation": "Exploratory local mechanism tests, not LLM ASR or population security estimates. B+log is only an independent full signed-log replica, not a new production B implementation. Single RPC loss is not validator failure. Split tool delivery tests the shared-tool-storage assumption in both groups.",
+  "latency_scope": "In-process trusted service layer, real signatures/disk/Besu/local MIME, excludes model, HTTP/mTLS and human approval wait. Normal performance excludes setup, evidence export and intervention checks."
+}

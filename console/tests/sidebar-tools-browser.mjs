@@ -1,0 +1,87 @@
+// Live UI regression; reads existing tasks and never creates tasks or invokes tools.
+import {chromium} from 'playwright';
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+const [configPath,out]=process.argv.slice(2),config=JSON.parse(fs.readFileSync(configPath,'utf8'));
+assert.ok(!fs.existsSync(out),'Use a new evidence directory');fs.mkdirSync(out,{recursive:true});
+const base=`http://127.0.0.1:${config.port}`;
+const passwords=Object.fromEntries(fs.readFileSync(path.join(path.dirname(configPath),'access.local.txt'),'utf8').split(/\r?\n/).filter(l=>l.includes(' : ')).map(l=>l.split(' : ')));
+const report={status:'RUNNING',mocked_routes:false,checks:[],layouts:[],writes:[],javascript_errors:[]};
+const save=()=>fs.writeFileSync(path.join(out,'browser.json'),JSON.stringify(report,null,2));
+const browser=await chromium.launch({channel:'msedge',headless:true});
+try{
+ const page=await browser.newPage({viewport:{width:1500,height:900}});
+ page.on('pageerror',e=>report.javascript_errors.push(e.message));
+ page.on('request',r=>{if(r.url().startsWith(base)&&r.method()!=='GET')report.writes.push({method:r.method(),path:new URL(r.url()).pathname});});
+ await page.goto(base);await page.getByLabel('登录密码').fill(passwords.requester);await page.getByRole('button',{name:'登录',exact:true}).click();await page.locator('.task').first().waitFor();
+ const tasks=async()=>(await(await page.request.get(base+'/ops/v1/tasks')).json()).tasks;
+ const fingerprint=rows=>rows.map(t=>({id:t.id,events:t.events.length,reserve:t.record?.reservation_evidence?.tx_hash,finalize:t.record?.finalization_evidence?.tx_hash})).sort((a,b)=>a.id.localeCompare(b.id));
+ const before=await tasks();assert.ok(before.length>8,'Needs existing history long enough to scroll');
+ for(const [width,height] of [[1500,900],[1024,768],[820,740],[768,740],[751,740],[750,740],[390,844],[320,740]]){
+  await page.setViewportSize({width,height});
+  const toggle=page.getByRole('button',{name:'历史任务',exact:true});
+  if(await toggle.isVisible()&&await toggle.getAttribute('aria-expanded')==='false')await toggle.click();
+  const list=page.locator('.task-items');
+  const dimensions=await list.evaluate(el=>({height:el.clientHeight,content:el.scrollHeight,overflow:getComputedStyle(el).overflowY}));
+  report.layouts.push({width,height,...dimensions});save();
+  assert.ok(['auto','scroll'].includes(dimensions.overflow),`History must scroll at ${width}px (was ${dimensions.overflow})`);
+  assert.ok(dimensions.height>70&&dimensions.content>dimensions.height,'History must have a usable bounded scroll area');
+  await list.evaluate(el=>{el.scrollTop=0;});
+  await list.focus();await page.keyboard.press('PageDown');await page.waitForFunction(()=>document.querySelector('.task-items').scrollTop>0);
+  await list.evaluate(el=>{el.scrollTop=0;});
+  await list.hover();await page.mouse.wheel(0,600);await page.waitForFunction(()=>document.querySelector('.task-items').scrollTop>0);
+  await list.evaluate(el=>{el.scrollTop=el.scrollHeight;});
+  const last=page.locator('.task').last();
+  assert.ok(await last.evaluate(el=>{const a=el.getBoundingClientRect(),b=el.closest('.task-items').getBoundingClientRect();return a.top>=b.top-1&&a.bottom<=b.bottom+1;}),'Oldest task must be reachable');
+  assert.ok(await page.getByLabel('退出',{exact:true}).evaluate(el=>{const b=el.getBoundingClientRect();return b.top>=0&&b.bottom<=innerHeight;}),'Identity must remain on screen');
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'No horizontal overflow');
+  if(width===1500||width===390)await page.screenshot({path:path.join(out,`history-${width}.png`)});
+  await last.click();
+  assert.ok(await page.getByLabel('任务对话').isVisible());
+  if(width<=750)assert.equal(await toggle.getAttribute('aria-expanded'),'false');
+ }
+ report.checks.push('wheel scroll and oldest task reachable at all eight widths; fixed navigation and identity; mobile history closes after selection');save();
+ await page.setViewportSize({width:1500,height:900});
+ await page.getByRole('navigation',{name:'工作空间导航'}).getByRole('link',{name:'工具与设置',exact:true}).click();
+ assert.equal(await page.getByRole('tab').count(),2,'No GitHub-specific top-level tab');
+ await page.getByRole('tab',{name:'接入与管理',exact:true}).click();
+ const mode=page.getByLabel('工具接入方式',{exact:true});assert.equal(await mode.inputValue(),'http');
+ assert.ok(await page.getByText('接入通用 API 工具',{exact:true}).isVisible());
+ assert.equal(await page.getByText('接入真实 GitHub 只读工具',{exact:true}).isVisible(),false);
+ await page.getByText('接入通用 API 工具',{exact:true}).click();await page.getByLabel('API 地址',{exact:true}).fill('https://example.com/query');
+ await mode.selectOption('github');await page.getByText('接入真实 GitHub 只读工具',{exact:true}).click();
+ assert.equal(await page.getByLabel('GitHub 授权资源').inputValue(),'microsoft/vscode\nmicrosoft/vscode#1');
+ await page.getByText('仓库策略与验证',{exact:true}).click();await page.getByLabel('GitHub 链上策略验收').waitFor();
+ await mode.selectOption('dataset');await page.getByText('注册新的查询工具',{exact:true}).click();await page.getByLabel('导入资料文件').waitFor();
+ await mode.selectOption('http');assert.equal(await page.getByLabel('API 地址',{exact:true}).inputValue(),'https://example.com/query','Switching modes preserves draft');
+ await page.screenshot({path:path.join(out,'connections.png')});
+ const versions=(await(await page.request.get(base+'/ops/v1/custom-tools')).json()).tools;
+ const github=versions.filter(t=>t.adapter==='github.read').sort((a,b)=>b.version-a.version)[0];assert.ok(github,'Existing GitHub version needed');
+ await page.locator('.custom-versions button').filter({has:page.getByText(`${github.name} · v${github.version}`,{exact:true})}).click();
+ await page.getByRole('button',{name:'以此版本修改资料',exact:true}).click();
+ assert.equal(await mode.inputValue(),'github');assert.equal(await page.getByLabel('GitHub 工具名称').inputValue(),github.name);
+ assert.ok(await page.getByLabel('GitHub 工具名称').evaluate(el=>el.readOnly));
+ const source=await(await page.request.get(base+`/ops/v1/custom-tools/${github.revision}`)).json();
+ assert.equal(await page.getByLabel('GitHub 授权资源').inputValue(),source.records.map(r=>r.resource).join('\n'));
+ assert.ok(await page.getByRole('button',{name:'提交 GitHub 新版本',exact:true}).isVisible());
+ await page.getByRole('button',{name:'取消版本修改',exact:true}).click();
+ await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ assert.deepEqual(fingerprint(await tasks()),fingerprint(before),'No task, model, approval or transaction changes');
+ const finalized=before.find(t=>t.display_state==='FINALIZED_OK');assert.ok(finalized);
+ const mailboxResponse=await page.request.get(base+`/ops/v1/tasks/${finalized.id}/mailbox`),mailbox=await mailboxResponse.json();
+ assert.equal(mailboxResponse.status(),200);assert.equal(mailbox.status,'VERIFIED');assert.equal(mailbox.mail_count,1);
+ report.existing_mailbox={status:mailbox.status,mail_count:mailbox.mail_count,action_id:finalized.record.action_id};
+ for(const role of ['biz','security']){
+  const context=await browser.newContext(),p=await context.newPage();
+  p.on('pageerror',e=>report.javascript_errors.push(e.message));p.on('request',r=>{if(r.url().startsWith(base)&&r.method()!=='GET')report.writes.push({method:r.method(),path:new URL(r.url()).pathname});});
+  await p.goto(base);await p.getByLabel('登录身份').selectOption(role);await p.getByLabel('登录密码').fill(passwords[role]);await p.getByRole('button',{name:'登录',exact:true}).click();await p.locator('.identity').waitFor();
+  await p.getByRole('navigation',{name:'工作空间导航'}).getByRole('link',{name:'工具与设置',exact:true}).click();await p.getByRole('tab',{name:'接入与管理',exact:true}).click();
+  await p.getByLabel('自定义工具管理').waitFor();assert.equal(await p.getByLabel('工具接入方式').count(),0);assert.equal(await p.getByLabel('任务内容').count(),0);
+  await p.getByRole('button',{name:'退出',exact:true}).click();await context.close();
+ }
+ assert.ok(report.writes.every(r=>['/ops/v1/login','/ops/v1/logout'].includes(r.path)));
+ assert.deepEqual(report.javascript_errors,[]);report.existing_tasks=before.length;report.new_business_writes=0;
+ report.checks.push('single tool import selector; generic API default; GitHub template keeps nested chain verification; CSV/JSON import; drafts preserved; GitHub version edit binds original name and resources; existing task/event/transaction identities unchanged; original MIME verified; separate approvers have no import or task input');
+ report.status='PASS';save();console.log('PASS: scrollable task history and unified tool connections; no business writes');
+}catch(error){report.status='FAIL';report.failure=error.message;save();throw error;}finally{await browser.close();}

@@ -9,6 +9,7 @@ import sys
 import time
 
 from evaluation.replay import Lab
+from evaluation.live_plan import permits_mail, rule_for
 from chainguard_gateway.canonical import validate
 from chainguard_gateway.crypto import random_id
 from chainguard_sandbox.protocol import ToolError
@@ -58,7 +59,7 @@ class Session:
             return action
         # Test-only trusted reviewer approves only exact pre-authorized synthetic
         # mail. Agent and model have no requester/approver/tool/relayer secrets.
-        if self.lab.group != 'A' and body['params'] != self.item['authorized_mail']:
+        if self.lab.group != 'A' and not permits_mail(body['params'], rule_for(self.item)):
             return action
         if self.lab.group != 'A':
             self.lab.approve(action)

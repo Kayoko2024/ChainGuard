@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "cases": 65,
+  "mail_count": 71,
+  "transactions": 75,
+  "node_receipts": 300,
+  "signed_finalized_records": 31,
+  "b_exact_double_approval_checks": 34,
+  "independent_tool_signature_checks": 34,
+  "extra_signed_receipts_not_anchored": 3,
+  "independently_read_original_volume": true
+}

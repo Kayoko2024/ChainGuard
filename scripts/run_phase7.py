@@ -79,7 +79,7 @@ def main():
             if result.returncode: raise RuntimeError('Agent test certificate generation failed')
         (tls/'agent.ext').write_text('extendedKeyUsage=clientAuth\nbasicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature\n',encoding='ascii')
         openssl('req','-new','-newkey','rsa:2048','-nodes','-keyout',wsl(tls/'agent.key'),'-out',wsl(tls/'agent.csr'),'-subj','/CN=untrusted-agent')
-        openssl('x509','-req','-in',wsl(tls/'agent.csr'),'-CA',wsl(tls/'ca.pem'),'-CAkey',wsl(tls/'ca.key'),'-CAcreateserial','-out',wsl(tls/'agent.pem'),'-days','2','-extfile',wsl(tls/'agent.ext'))
+        openssl('x509','-req','-in',wsl(tls/'agent.csr'),'-CA',wsl(tls/'ca.pem'),'-CAkey',wsl(tls/'ca.key'),'-CAcreateserial','-out',wsl(tls/'agent.pem'),'-days','7','-extfile',wsl(tls/'agent.ext'))
         fp=lambda name:hashlib.sha256(ssl.PEM_cert_to_DER_cert((tls/name).read_text())).hexdigest()
         def files(mapping): return {dst:base64.b64encode((tls/src).read_bytes()).decode() for dst,src in mapping.items()}
         signers={k:v.lower() for k,v in old['publicSigners'].items()}

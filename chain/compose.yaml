@@ -9,8 +9,9 @@ x-besu: &besu
   # Besu/RocksDB extract native libraries into java.io.tmpdir.
   tmpfs: ["/tmp:rw,exec,nosuid,nodev,size=128m,uid=1000,gid=1000"]
   environment:
-    JAVA_OPTS: "-Xms256m -Xmx768m -XX:MaxDirectMemorySize=256m"
-  mem_limit: 1536m
+    JAVA_OPTS: "${CHG_BESU_JAVA_OPTS:--Xms128m -Xmx512m -XX:MaxDirectMemorySize=128m}"
+  # RocksDB, JVM metadata and native buffers need space beyond the Java heap.
+  mem_limit: ${CHG_BESU_MEMORY:-1024m}
   pids_limit: 512
   restart: unless-stopped
   stop_grace_period: 40s

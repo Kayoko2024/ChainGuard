@@ -1,58 +1,51 @@
-# ChainGuard 架构与实现边界
+# ChainGuard 架构与边界
 
-更新：2026-10-26，Asia/Shanghai。当前阶段9只读审计控制台、一键部署、真实HTTP/浏览器/链验证、受控干净重建和匿名PDF报告技术验收PASS，等待用户验收。阶段8真实DeepSeek与协议轨分列保留，完整官方AgentDojo任务仍不兼容，小样本结果不外推。本文为导航，不替换冻结规范；新增审计层见phase9-contracts.md/phase9-acceptance.md。
+2026-10-29旧会话续接/续期：legacy job保持原件，仅新增稳定session映射；失败观察与实际role持久用于后续模型。消息进队前双门实时校验LOW凭证，过期返回AUTH_EXPIRED且不受理；OrgA显式续签经持久nonce/签名、CAS及两门激活后，前端在原窗口重提原未受理message_id。schema3日志绑定grant_digest，授权周期沿累计LOW根继续；HIGH双审/逐动作交易及UNKNOWN不重发规则不改。真实验收和运行版本见progress/handoff。
 
-## 已实现模块
+2026-10-29交互性能维护：hidden_items只控制请求者列表可见性，不删除会话/任务/签名/审计。网页控制请求进入持久队列，实时核验由独立只读线程池运行；业务投影与四节点事件补读分线程，本地SQLite缓存不授予执行权。事件及游标四节点一致后原子落库；新授权仍实时查链。现有QBFT为2秒，节点资源和实测见progress/handoff。
 
-| 层 | 实际入口与职责 | 当前边界 |
-|---|---|---|
-| 协议 | `spec/`、`contracts/interfaces/`；字段、EIP-712、权限、状态机、HTTP契约 | 原21份文件冻结；新治理规范单列spec/phase5 |
-| FastAPI | `gateway/src/chainguard_gateway/main.py` | 默认仅健康检查；显式注入central_service才提供中央接口 |
-| A/B执行网关 | `central_api.py`、`central_service.py`、`identity.py`、`policy.py`、`approvals.py` | `/central/v1`真实中央流程，与C共享冻结策略 |
-| 中央持久与审计 | `central_store.py`、`audit.py` | AES-GCM/SQLite、原子幂等和配额；B有真实签名追加日志及独立检查点验证 |
-| 工具沙箱 | `sandbox_tools/src/chainguard_sandbox/` | doc.read、mail.send、doc.delete真实本地工具；Linux受限容器、SQLite执行记录、路径/作用域保护 |
-| 工具中央适配 | `central_adapter.py` | 独立重验当前中央授权/签名/参数；不是C组链上核验 |
-| QBFT链 | `chain/compose.yaml`、`scripts/chain.py` | 四Besu验证者、真实转账/RPC/持久与故障验收；阶段5复用原链不重置 |
-| 业务合约 | `contracts/PolicyRegistry.sol`、`ExecutionRegistry.sol`、`AuditRegistry.sol` | 双组织治理、当前权限、R2/R3审批、一次预约/nonce、工具验签/UNKNOWN对账；真实部署证据results/phase5/besu-run-01 |
-| C网关 | `chain_api.py`、`chain_service.py`、`chain_rpc.py`、`chain_store.py` | 冻结/v1的R2邮件子集、真实确认、加密队列、原hash恢复，无Agent签名入口 |
-| C工具 | `sandbox_tools/src/chainguard_sandbox/chain_mail.py` | 独立节点2/4查链与当前签名人/参数/TaskGrant核验、原子本地MIME与签名回执 |
-| C传输/启动 | `chain_transport.py`、`phase6_server.py`、`scripts/run_phase6.py` | 真实mTLS+独立Bearer、分卷/网络；测试代理仅转发真实Besu并注入失联 |
-| Agent/模型边界 | `agent/src/chainguard_agent/` | Runner/Proxy/加密Journal；固定trace保留；真实DeepSeek独立配置、工具循环与脱敏请求记录已实测 |
-| 读取/可信审阅 | `phase7_server.py`、`read_broker.py` | 独立R0测试capability；原高风险/v1路径与冻结策略不变，Agent无审批/工具凭据 |
-| 基准适配 | `evaluation/workspace_adapter.py`、`check_agentdojo.py`、锁与vendor | 官方0.1.35/v1.2.2 workspace包/判定器原样；只映射邮件/按ID读取/删除，完整任务不兼容明确排除 |
-| 协议实验/统计 | `evaluation/replay.py`、`metrics.py`、`phase8_plan.json`、`scripts/run_phase8.py`/`verify_phase8.py` | 真实服务/工具/四Besu；语义输入配对、seed调度、故障/篡改/重放/性能、Wilson/Bootstrap；无真实模型/正式ASR |
-| 真实模型实验 | `live_plan.json`、`live_bridge.py`、`live_results.py`、`run_live_agent.py`、`verify_live_agent.py`、`run_real_experiments.py` | DeepSeek正常/注入/原判定器目标适配、同配置A/B/C；真实副作用和协议轨分开统计，不是全官方utility |
-| 只读审计控制台 | `audit_projection.py`、`audit_verify.py`、`audit_console.py`、`dashboard/` | 原卷/链验证后公开投影、独立只读四节点核验、React；不持签名凭据、不改变执行权 |
-| 交付与重建 | `deploy_phase9.py`、`rebuild_phase9.py`、`demo_phase9.py`、`docs/reports/` | 真实一键/冒烟、17步新目录重建、匿名PDF；复用OS/链，不称空白机器全重建 |
+2026-10-29可用性维护：RPC复用进程级无代理HTTP客户端，链状态与授权每次仍实时读取；网关资源有限并自动重启。业务桥失联与链核验失败分别为BACKEND_UNAVAILABLE/CHAIN_UNAVAILABLE，不改变原安全判定或UNKNOWN恢复规则。当前镜像与验证见progress/handoff。
 
-中央调用路径：登记身份/任务 → 确定性策略 → B组同一意图的请求者与独立批准签名 → 持久dispatch记录 → 工具再次核验 → 沙箱副作用/持久幂等结果 → 中央审计。A组执行常规账号授权，记录任务ABAC的shadow决策；B组强制任务ABAC和签名。B/C共享冻结策略，未来C在相同业务策略上增加真实预约及共同链历史。
+2026-10-29邮件期限增量：用户明确要求审批/执行24小时。原PolicyRegistry与LOW治理继续保留；新MailApprovalWindowPolicy经原两组织管理员绑定新域双签启用，只把R2邮件120秒上限提升为86400秒，实时委托原身份/角色/撤销/暂停。原ExecutionRegistry/AuditRegistry字节码新部署并固定链接；旧部署按原域只读核验，不延长旧签名。新TaskGrant为24小时，动作截止取链规则、24小时和任务截止的最小值。详见phase10-contracts末节及progress最新记录。
 
-## 链业务与待接入路径
+连续对话增量：业务session_id关联独立逐轮TaskGrant、加密role历史及Runner工具批次断点；HIGH完成原链/工具核验后自动续模型，UNKNOWN只查询。默认LOW与自定义查询通过独立ConversationGrant/两门持久配额，按会话累计前缀根存证；旧任务/旧Grant保持兼容。附件上下文可跨轮保留，原文档沙箱权限及本地观察不改，尚未纳入链LOW凭证。当前上线与真实验收进度见progress/handoff最新条目。
 
-目标路径：ActionIntent → 多组织审批 → ExecutionRegistry.reserve真实确认 → 工具独立查链/当前策略/承诺/时效 → 一次性副作用 → 工具签署ExecutionReceipt → AuditRegistry.finalize/reconcile。
+当前是阶段10本地R2邮件原型，并已增加默认沙箱工具库；技术证据与用户验收状态见progress.md。网页能选择工具/资源、创建任务，使用真实DeepSeek、原安全网关、独立测试审批身份和四Besu；不依赖历史证据导出。
 
-上述路径已通过阶段6真实R2邮件场景，阶段7Runner复用同一路径。ChainMailTool是强制C入口；旧`LocalTestTools.execute_reserved`保留拒绝。中央成功结果仍不产生RESERVED/FINALIZED。阶段5回执仍是合约测试夹具；阶段6/7/8/9邮件回执来自真实本地MIME。UNKNOWN只查询原记录，审计断链保留原回执和签名交易；详见phase6-contracts.md。阶段8真实LLM和阶段9React已验收；其他C工具及完整原proof/verify/metrics API仍TODO，独立audit-api不替换原接口。
+自定义查询新增OrgB链上LOW/HIGH审核、OrgA任务EIP-712会话、网关与工具各自持久nonce/配额。LOW每次只读链检查，不逐次发交易；HIGH或会话过期/超额需精确调用双组织审批。执行日志先持久化，每300秒/50条Merkle打包，由专用发布账户锚定；业务台显示待存证/真实交易，GET-only审计进程独立用四节点receipt和Merkle路径验证。敏感写行为仍只能走原R2/R3协议，现有通用HTTP并未获得任意写权限。
 
-## 部署与信任边界
+| 层 | 实际职责与入口 |
+|---|---|
+| 业务台8090 | 对话主界面 + 独立工具设置页；console + phase10_api/service/store；任务工具/资源授权、真实模型多轮读取、首个高风险动作暂停人审、确认执行；私有数据加密持久化 |
+| 模型与代理 | AgentRunner + ToolExecutionProxy；模型仅提出动作，不持审批/工具/relayer私钥 |
+| 任务与策略 | 原TaskGrant、policy/approvals；任务范围/风险/期限/配额；B/C共用冻结策略 |
+| 跨组织审批 | OrgA业务和OrgB安全签同一ActionIntent；服务端测试签名容器，当前角色/组织/范围必需 |
+| C执行 | chain_service/store；真实reserve确认、持久幂等与原交易恢复；工具端节点2/4独立核验 |
+| 沙箱工具 | ChainMailTool；重算参数承诺、核验当前链授权与TaskGrant，原子本地SQLite邮件和签名回执 |
+| 默认读取库 | DefaultLibrary + 原ReadBroker；doc.list/search/read、mail.list/read；工具端独立任务/Agent/资源/期限capability，真实文件与MIME，读取日志摘要持久化；无外部网络或主机路径 |
+| 对话附件与文档 | DocumentLibrary + 独立不可变镜像；DOC/DOCX/文字PDF/TXT/MD上传、定位读取、生成/精确替换为新docx/pdf副本；任务固定源ID/输出权限，容器复核范围/期限/摘要，无网络/主机挂载/凭据；原件及产物加密持久化、按任务下载，非链认证 |
+| 自定义读取库 | ToolRegistry + CustomLibrary；dataset.lookup版本快照、github.read与http.request实时请求；安全身份按revision准入，任务精确选键，工具独立复核启用/版本/范围/期限，资料和结果加密；不接收脚本或模型临时指定URL |
+| 通用HTTP服务 | 独立非root/只读根容器、专属卷/内部Bearer/无公开端口，无链/模型/邮件密钥；仅已审核R1 HTTPS GET/POST请求配置，DNS全部公网并固定IP/TLS主机、禁重定向/代理/GitHub治理绕行；持久STARTED及加密响应，UNKNOWN不重发；非链认证 |
+| GitHub读取服务 | 独立非root/只读根容器，专属卷与内部Bearer，无链/邮件/模型密钥、无公开端口；精确公开repo/Issue，固定HTTPS GET；工具node2/4和服务node1/3分别查独立RepositoryReadPolicy，HTTPS前及释放前强制核验，原始响应/策略证据持久保存 |
+| 合约 | PolicyRegistry、ExecutionRegistry、AuditRegistry；治理、nonce/预约、finalize/reconcile |
+| 动态审计8091 | phase10_audit + dashboard；只有GET和公开DB，只读四节点核验，无业务bridge或私有工具卷 |
+| A/B对照 | central_service/central_adapter；A账号授权及任务策略shadow，B强制任务授权、独立签名、工具二验和签名追加审计 |
+| 实验 | evaluation + run_live_agent/verify_live_agent；真实模型与协议轨分开，按计划重复，原卷/真实receipt与统计独立复验 |
 
-- gateway与链使用独立Compose项目；根`compose.yaml`只管原gateway，链使用`chain/compose.yaml`。默认健康API中的stage=1、显式中央服务stage=3表示该服务功能，不是整个项目进度。
-- 本地链chainId=20261026，RPC回环8545–8548。4个独立JVM/身份/数据卷同属一台WSL宿主，不能声称四家组织独立运维或生产级拜占庭安全。
-- 私有客户端账户在忽略目录`.local/phase4`；节点私钥在独立Docker数据卷。只读公开配置挂载不含私钥。Agent没有凭据或节点管理接口。
-- 阶段5测试角色密钥在忽略目录`.local/phase5/<run>`。双组织EIP-712治理、不可变合约引用、禁用直接角色变更，协议见docs/phase5-contracts.md；测试密钥同机管理不代表机构独立托管。
-- 阶段6工具密钥仅工具卷、relayer仅网关卷；原审批密钥的可信QA测试签名器与Agent权限分离。生成材料在忽略.local/phase6；三个新容器无宿主目录/公共端口，QA仅为验收代理而加入链网。节点1/3和2/4分别供网关/工具独立验证。
-- WSL systemd服务不能单独维持发行版会话。`chain.py up`维护隐藏的专属WSL会话，`down`释放该会话、保留所有链卷；不修改全局代理/防火墙。
-- RPC限本机可信操作员，尚无生产认证/mTLS/组织准入治理；host allowlist不是身份认证。文件副作用只允许容器内专用测试目录，邮件不访问外部邮箱。
+完整路径：任务授权 → 模型提议 → 精确意图双组织审批 → 请求者确认 → 链上预约 → 工具独立二验 → 一次性本地副作用 → 工具签名回执 → 链上审计确认。审批不自动发送；终态必须有真实链及原工具证据。UNKNOWN只查原记录/回执，不盲目重发。
 
-## 可检查来源
+自定义工具管理支持CSV/JSON私有预览、不可变父子版本/差异/事件历史，以及选精确版本和记录键准备只读任务。预览不持久化，新版本不继承准入或任务权限；dataset.lookup查询导入快照，github.read经原网关及工具二验访问真实GitHub公开API。返回内容固定为不可信tool-role，既不形成链认证也不提升执行权。
 
-- 原始目标：[需求矩阵](requirements-matrix.md)、[威胁模型](threat-model.md)。
-- 协议入口：[contracts.md](contracts.md)；中央实现契约：[phase3-api.md](phase3-api.md)。
-- 沙箱：[phase2-design.md](phase2-design.md)、[phase2-acceptance.md](phase2-acceptance.md)。
-- 共享策略/审计：[phase3-design.md](phase3-design.md)、[phase3-acceptance.md](phase3-acceptance.md)。
-- 链部署与真实证据：[phase4-runbook.md](phase4-runbook.md)、[phase4-acceptance.md](phase4-acceptance.md)。
-- 业务合约/字段/状态及真实部署：[phase5-contracts.md](phase5-contracts.md)、[phase5-acceptance.md](phase5-acceptance.md)。
-- R2闭环、恢复与实际副作用：[phase6-contracts.md](phase6-contracts.md)、[phase6-runbook.md](phase6-runbook.md)、[phase6-acceptance.md](phase6-acceptance.md)。
-- Runner/Proxy、LLM扩展点、基准兼容性和本轮真实证据：[phase7-contracts.md](phase7-contracts.md)、[phase7-runbook.md](phase7-runbook.md)、[phase7-acceptance.md](phase7-acceptance.md)。
-- 可重放协议实验、配对字段与统计边界：[phase8-contracts.md](phase8-contracts.md)、[phase8-runbook.md](phase8-runbook.md)。
-- 当前验证和接手步骤：[progress.md](progress.md)、[handoff.md](handoff.md)。
-- 阶段9只读接口/真实部署/匿名报告/干净重建：[phase9-contracts.md](phase9-contracts.md)、[phase9-acceptance.md](phase9-acceptance.md)、[demo-phase9.md](demo-phase9.md)。
+新增读取服务位于独立内部服务网和专属出口网，Agent不接入该网络、工具不接入新出口网。实际核验发现原工具所连chainguard_qbft网络Internal=false，因此不宣称网络层完全阻断工具外网；固定GitHub域名/GET属于读取服务实现约束，尚非域名防火墙。本轮没有扩展现有邮件执行权限或连接新的工具默认出口。
+
+链ID=20261026，四RPC8545–8548。节点为4个真实Besu25.10.0 JVM、不同身份及卷，同属一台WSL宿主；不声称四家机构独立运维。部署及链地址以原phase5公开report与接口文档为准。原8080是阶段9快照，现场新增记录使用8091。
+
+可信Windows BFF是本机Docker操作员控制面，两测试组织的密钥分卷但仍同机。浏览器只有会话，Agent只走提议/查询；模型Key在Git忽略的.env.local，私钥在忽略目录和私有卷。审计进程不能批准或执行。敏感副作用只在受限本地容器，不外发邮件、不操作真实主机文件。
+
+一次性工具副作用限定共享持久幂等存储。2026-10-28新对照已实测：同一有效预约被同时投递给两份独立工具数据库时，B/C均可各发一封，C只锚定其中一份回执；不能由单个FINALIZED_OK推定没有第二副作用。全局预约去重与工具执行去重是不同保证，原协议未因本轮实验修改，证据与适用拓扑见evaluation/README.md。
+
+冻结入口见 [contracts.md](contracts.md)。原21份协议与8份共享策略输入只检查，不重冻；原三合约及执行权限不因实验/页面而放宽。链上只保存元数据和承诺，不存邮件原文或盐。
+
+研究边界：真实模型越权尝试、网关拒绝、实际副作用和ASR分别统计。摘要和路由开发探测不混算；原AgentDojo判定器未改，完整官方任务仍不兼容。其他C工具/R3、外部SMTP、生产HSM/RPC准入、空白机器完整部署未完成。
+
+[现场操作](judge-walkthrough.md)、[当前进度](progress.md)、[交接](handoff.md)、[实验说明](../evaluation/README.md)是日常入口。阶段历史叙述收敛至history.zip，逐文件摘要在history-index.json；原测试数据和失败证据仍留在results中。

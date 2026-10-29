@@ -11,6 +11,10 @@ __pycache__/
 !.env.local.example
 secrets/
 results/local/
+# Generated experiment evidence and competition delivery bundles are kept outside
+# the source repository. Selected small reports may be force-added deliberately.
+results/
+output/
 *.key
 *.pem
 *.log

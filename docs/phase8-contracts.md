@@ -2,7 +2,7 @@
 
 本文件扩展实验输出，不修改阶段0/3冻结协议、ActionIntent、ExecutionReceipt、审批门槛或业务状态机。当前实现轨为`protocol_replay`，无真实模型调用；正式LLM轨依赖阶段7未完成的真实LLM/官方判定器验收。
 
-**真实模型扩展已经实测：** [live-experiments.md](live-experiments.md)定义`real_llm`的实际模型请求/副作用/原判定器与指标字段，前置与ABC均已通过首轮。以下`attack_success=null/ASR未测`只约束本文件的`protocol_replay`，真实轨在独立核验及判定后填实际值；同名四文件分目录，禁止池化。
+**真实模型扩展已经实测：** [实验说明](../evaluation/README.md)定义`real_llm`的实际模型请求/副作用/原判定器与指标字段，前置与ABC均已通过首轮。以下`attack_success=null/ASR未测`只约束本文件的`protocol_replay`，真实轨在独立核验及判定后填实际值；同名四文件分目录，禁止池化。
 
 实验输入为`evaluation/phase8_plan.json`。同一`sample_id=scenario/trial`在A/B/C各执行一次；固定seed生成完整顺序并轮换组序。三组共用任务文本、合成文档/邮件输入、工具参数、账号地址/角色/组织和TaskGrant约束。`input_sha256`只覆盖这些无秘密的语义输入，时间/随机actionId/nonce/盐不属于相同比较项。签名域仍为原B的chainId=0及C的真实20261026/部署地址，不重用签名。
 
